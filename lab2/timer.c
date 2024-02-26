@@ -5,43 +5,93 @@
 
 #include "i8254.h"
 
-int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+int hookId=0;
+int count=0;
 
-  return 1;
+int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
+  if (freq>TIMER_FREQ) return 1;
+  u_int8_t control;
+  if(timer_get_conf(timer, &control)!=0) return 1;
+
+  
 }
 
 int (timer_subscribe_int)(uint8_t *bit_no) {
-    /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
-
+  if(bit_no!=NULL){
+    if(sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hookId)==0){
+      *bit_no=BIT(hookId);
+      return 0;
+    }
+  }
+  printf("Erro ao estabelecer a interrupção\n");
   return 1;
 }
 
 int (timer_unsubscribe_int)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
-
+  if(sys_irqrmpolicy(&hookId)==0)return 0;
+  printf("Erro ao remover a interrupção\n");
   return 1;
 }
 
 void (timer_int_handler)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  count ++;
 }
 
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
-
-  return 1;
+  if(st==NULL || timer>2){
+    return 1;
+  }
+  uint8_t temp=BIT(timer + 1);
+  uint8_t rb_cmd= (TIMER_RB_CMD | TIMER_RB_COUNT_ | temp);
+  if(sys_outb(0x43,rb_cmd)!=0) return 1;
+  if( util_sys_inb(0x40 + timer,st)) return 1;
+  return 0;
 }
 
-int (timer_display_conf)(uint8_t timer, uint8_t st,
-                        enum timer_status_field field) {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+int (timer_display_conf)(uint8_t timer, uint8_t st, enum timer_status_field field) {
+  union timer_status_field_val result;
 
+  switch (field)
+  {
+
+  case tsf_base:
+    result.bcd= st & 0x01;
+    break;
+  
+  case tsf_mode:
+    uint8_t temp;
+    temp=st & 0x0E;
+    temp=temp>>1;
+    if(temp==7) result.count_mode =3;
+    else if(temp==6) result.count_mode=2;
+    else result.count_mode=temp;
+    break;
+  
+  case tsf_initial:
+    uint8_t temp;
+    temp= st & 0x30;
+    temp= temp>>4;
+    if(temp==3){
+      result.in_mode=MSB_after_LSB;
+    }
+    else if (temp==2)
+    {
+      result.in_mode=MSB_only;
+    }
+    else if(temp==1){
+      result.in_mode=LSB_only;
+    } 
+    else result.in_mode=INVAL_val;
+    break;
+
+  case tsf_all:
+    result.byte=st;
+    break;
+
+
+  default:
+    return 1;
+  }
+  if (timer_print_config(timer, field, result)==0) return 0;
   return 1;
 }
