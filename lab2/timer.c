@@ -9,11 +9,40 @@ int hookId=0;
 int count=0;
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
-  if (freq>TIMER_FREQ) return 1;
+  if (freq<19 || freq>TIMER_FREQ) return 1;
   u_int8_t control;
   if(timer_get_conf(timer, &control)!=0) return 1;
+  control=(control | 0x30) & 0x0F;
+  uint32_t option;
+  switch (timer) {
+    case 0:
+      option= 0x40;
+      control = control | TIMER_SEL0;
+      break;
+    
+    case 1:
+      option=0x41
+      control = control | TIMER_SEL1;
+      break;
 
-  
+    case 2:
+      option=0x42
+      control = control | TIMER_SEL2;
+      break;
+    default:
+      return 1;
+  }
+  uint32_t start= TIMER_FREQ/ freq;
+  // os 16 bits do meio são perdidos, mas não serão usados pela configuração do sistema
+  u_int8_t LSB, MSB;
+  util_get_LSB(start,&LSB);
+  util_get_MSB(start,&MSB);
+
+  if(sys_outb(0x43, control)==0){
+    if(sys_inb(option, LSB)!=1) return 1;
+    if(sys_inb(option, MSB)!=1) return 1;
+  }
+  return 1;
 }
 
 int (timer_subscribe_int)(uint8_t *bit_no) {
