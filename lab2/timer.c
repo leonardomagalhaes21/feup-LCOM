@@ -2,18 +2,17 @@
 #include <lcom/timer.h>
 
 #include <stdint.h>
-
 #include "i8254.h"
 
-int hookId=0;
 int count=0;
+int hookId=0;
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   if (freq<19 || freq>TIMER_FREQ/*1193182*/ || timer>2) return 1;
 
   //Write control word to configure Timer 0:
   u_int8_t control;
-  if(timer_get_conf(timer, &control)!=0) return 1;/
+  if(timer_get_conf(timer, &control)!=0) return 1;
   //ativa bits de LSB followed by MSB e retira os de read-back
   control=(control | 0x30) & 0x3F;
 
@@ -26,12 +25,12 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
       break;
     
     case 1:
-      option=0x41
+      option=0x41;
       control = control | TIMER_SEL1;
       break;
 
     case 2:
-      option=0x42
+      option=0x42;
       control = control | TIMER_SEL2;
       break;
     default:
@@ -48,8 +47,8 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   util_get_MSB(start,&MSB);
 
   if(sys_outb(0x43, control)==0){
-    if(sys_inb(option, LSB)!=1) return 1;
-    if(sys_inb(option, MSB)!=1) return 1;
+    if(sys_outb(option, LSB)!=1) return 1;
+    if(sys_outb(option, MSB)!=1) return 1;
   }
   return 1;
 }
@@ -95,7 +94,7 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 //dá display à config de acordo com a variável field
 int (timer_display_conf)(uint8_t timer, uint8_t st, enum timer_status_field field) {
   union timer_status_field_val result;
-
+  uint8_t temp;
   switch (field)
   {
 
@@ -104,7 +103,6 @@ int (timer_display_conf)(uint8_t timer, uint8_t st, enum timer_status_field fiel
     break;
   
   case tsf_mode:
-    uint8_t temp;
     temp=st & 0x0E;
     temp=temp>>1;
     if(temp==7) result.count_mode =3;
@@ -113,7 +111,6 @@ int (timer_display_conf)(uint8_t timer, uint8_t st, enum timer_status_field fiel
     break;
   
   case tsf_initial:
-    uint8_t temp;
     temp= st & 0x30;
     temp= temp>>4;
     if(temp==3){
