@@ -93,8 +93,10 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 
 //dá display à config de acordo com a variável field
 int (timer_display_conf)(uint8_t timer, uint8_t st, enum timer_status_field field) {
+  if (timer>2) return 1;
   union timer_status_field_val result;
   uint8_t temp;
+
   switch (field)
   {
 
