@@ -57,8 +57,8 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 //adiciona a subscrição à interrupção
 int (timer_subscribe_int)(uint8_t *bit_no) {
   if(bit_no!=NULL){
+    *bit_no=BIT(hookId); //guardo hoodId antes de o alterar
     if(sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hookId)==0){
-      *bit_no=BIT(hookId);
       return 0;
     }
   }

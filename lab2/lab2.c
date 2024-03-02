@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
+extern int count; //usado para contar ciclos
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -45,7 +45,40 @@ int(timer_test_time_base)(uint8_t timer, uint32_t freq) {
 }
 
 int(timer_test_int)(uint8_t time) {
-  
+  int ipc_status;
+  uint8_t irq_set;
+  int r;
+  message msg;
 
+  if(timer_subscribe_int(&irq_set)!=OK)return 1;
+  while( time >0) { 
+    
+    if( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { 
+      switch (_ENDPOINT_P(msg.m_source)) {
+      case HARDWARE: 
+        if (msg.m_notify.interrupts & irq_set) { 
+          //aumentar o count(+1ciclo)
+          timer_int_handler();
+          // freq do timer 0 é 60hz/s
+          if(count%60==0){
+             timer_print_elapsed_time();
+             time-=1;
+          }
+        }
+          break;
+      default:
+        break; 
+      }
+    } else {
+      
+    }
+  }
+
+  //preciso de libertar a subscrição (apaga pointer para o hood_id)
+  if(timer_unsubscribe_int() ==0) return 0;
   return 1;
 }
