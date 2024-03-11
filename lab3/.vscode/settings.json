@@ -9,6 +9,7 @@
   "files.associations": {
     "sysutil.h": "c",
     "kbd.h": "c",
-    "i8042.h": "c"
+    "i8042.h": "c",
+    "lcf.h": "c"
   },
 }
