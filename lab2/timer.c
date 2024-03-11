@@ -11,7 +11,7 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   if (freq<19 || freq>TIMER_FREQ/*1193182*/ || timer>2) return 1;
 
   //Write control word to configure Timer 0:
-  u_int8_t control;
+  uint8_t control;
   if(timer_get_conf(timer, &control)!=0) return 1;
   //ativa bits de LSB followed by MSB e retira os de read-back
   control=(control | 0x30) & 0x3F;
@@ -42,7 +42,7 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
     rate*/
   uint32_t start= TIMER_FREQ/ freq;
   // os 16 bits do meio são perdidos, mas não serão usados pela configuração do sistema
-  u_int8_t LSB, MSB;
+  uint8_t LSB, MSB;
   util_get_LSB(start,&LSB);
   util_get_MSB(start,&MSB);
 
