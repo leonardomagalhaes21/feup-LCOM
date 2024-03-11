@@ -34,10 +34,9 @@ int main(int argc, char *argv[]) {
 }
 
 extern uint8_t scancode;
-extern uint32_t counter_KBC;
+uint32_t KBC_counter =0;
 
 int(kbd_test_scan)() {
-  uint8_t attemps = 10;
   int ipc_status;
   uint8_t irq_set;
   message msg;
@@ -54,7 +53,7 @@ int(kbd_test_scan)() {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE: 
           if (msg.m_notify.interrupts & irq_set) { 
-            KBC_read_output(KBD_CMD_BUF,&scancode,attemps);
+            kbc_helper();
             kbd_print_scancode(!(scancode & MAKE_CODE), scancode == IS_TWO_BYTES ? 2 : 1, &scancode);
           }
           
@@ -62,8 +61,8 @@ int(kbd_test_scan)() {
     }
   }
   if (kbd_unsubscribe_int() != 0) return 1;
-  if(kbd_print_no_sysinb(counter_KBC)==0) return 0;
-  return 1;
+  if(kbd_print_no_sysinb(KBC_counter)!=0) return 1;
+  return 0;
 }
 
 int(kbd_test_poll)() {
