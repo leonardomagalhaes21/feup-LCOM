@@ -46,11 +46,11 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   util_get_LSB(start,&LSB);
   util_get_MSB(start,&MSB);
 
-  if(sys_outb(0x43, control)==0){
-    if(sys_outb(option, LSB)!=1) return 1;
-    if(sys_outb(option, MSB)!=1) return 1;
-  }
-  return 1;
+  if(sys_outb(0x43, control)!=0) return 1;
+  if(sys_outb(option, LSB)!=1) return 1;
+  if(sys_outb(option, MSB)!=1) return 1;
+  
+  return 0;
 }
 
 
