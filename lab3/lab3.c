@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
 
 extern uint8_t scancode;
 uint32_t KBC_counter =0;
+extern int count;
 
 int(kbd_test_scan)() {
   int ipc_status;
@@ -76,9 +77,44 @@ int(kbd_test_poll)() {
   return keyboard_restore();
 }
 
-int(kbd_test_timed_scan)(uint8_t n) {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+int(kbd_test_timed_scan)(uint8_t n) { 
+  int ipc_status;
+  uint8_t timer_irq_set, kbc_irq_set;
+  message msg;
+  int time=n;
 
-  return 1;
+  if(kbd_subscribe_int(&kbc_irq_set)!=0)return 1;
+  if(timer_subscribe_int(&timer_irq_set)!=0) return 1;
+  // fechar ciclo ao clicar no esc
+  while( scancode != CODE_ESC && time >0) { 
+    
+    if( (driver_receive(ANY, &msg, &ipc_status)) != 0 ) {
+      printf("driver_receive failed." );
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { 
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE: 
+          if (msg.m_notify.interrupts & kbc_irq_set) {
+            kbc_ih();
+            kbd_print_scancode(!(scancode & MAKE_CODE), scancode == IS_TWO_BYTES ? 2 : 1, &scancode);
+            time=n;
+            count=0;
+          }
+          if(msg.m_notify.interrupts & timer_irq_set){
+            timer_int_handler();
+            if(count%60==0){
+             time-=1;
+            }
+          }   
+      }
+    }
+  }
+  if(timer_unsubscribe_int()!=0)
+    return 1;
+  if (kbd_unsubscribe_int() != 0) 
+    return 1;
+  if(kbd_print_no_sysinb(KBC_counter)!=0) 
+    return 1;
+  return 0;
 }
