@@ -37,3 +37,23 @@ int (KBC_read_output)(uint8_t port, uint8_t *output,uint8_t aux){
   }
   return 1; // ultrapassou as tentativas
 }
+
+int (KBC_write_comm)(uint8_t comm,uint8_t port){
+  uint8_t tries=10;
+  uint8_t status;
+  while (tries>0){
+    if(KBC_read_status(&status)!=0)
+      return 1;
+    if ((status & INPT_BUF_FULL)==0){
+      if(sys_outb(port,comm)!=0)
+        return 1;
+      return 0;
+    }
+
+    tickdelay(micros_to_ticks(20000));
+    tries--; 
+  }
+
+return 1;
+  
+}

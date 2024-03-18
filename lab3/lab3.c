@@ -53,7 +53,7 @@ int(kbd_test_scan)() {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE: 
           if (msg.m_notify.interrupts & irq_set) { 
-            kbc_helper();
+            kbc_ih();
             kbd_print_scancode(!(scancode & MAKE_CODE), scancode == IS_TWO_BYTES ? 2 : 1, &scancode);
           }
           
@@ -66,10 +66,14 @@ int(kbd_test_scan)() {
 }
 
 int(kbd_test_poll)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
-
-  return 1;
+  while( scancode != CODE_ESC) { 
+    if(KBC_read_output(KBD_OUT_BUF,&scancode,0)==0){
+      kbd_print_scancode(!(scancode & MAKE_CODE), scancode == IS_TWO_BYTES ? 2 : 1, &scancode);
+    }
+    
+    
+  }
+  return keyboard_restore();
 }
 
 int(kbd_test_timed_scan)(uint8_t n) {

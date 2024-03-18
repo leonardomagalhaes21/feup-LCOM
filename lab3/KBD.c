@@ -11,8 +11,22 @@ int(kbd_subscribe_int)(uint8_t* bit_no){
 int (kbd_unsubscribe_int)(){
   return sys_irqrmpolicy(&kbd_hook_id);
 }
-void (kbc_helper)() {
+void (kbc_ih)() {
     if (KBC_read_output(KBD_DATA_BUF,&scancode,0)!=0) printf("Error: Could not read scancode!\n");
+}
+
+int (keyboard_restore)(){
+  uint8_t comm;
+  if(KBC_write_comm(KB_FE,KBD_CMD_BUF)!=0)
+    return 1;
+  if(KBC_read_output(KBD_OUT_BUF,&comm,0)!=0)
+    return 1;
+  comm= comm | BIT(0);
+  if(KBC_write_comm(KBD_OUT_BUF,KBD_CMD_BUF)!=0)
+    return 1;
+  if(KBC_write_comm(comm,KBD_OUT_BUF)!=0)
+    return 1;
+  return 0;
 }
 
 

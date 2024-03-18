@@ -15,8 +15,8 @@
 #define KBD_DATA_BUF 0x60
 
 
-#define OUT_BUF_FULL 0x1
-#define INPT_BUF_FULL 0x2
+#define OUT_BUF_FULL BIT(0)
+#define INPT_BUF_FULL BIT(1)
 #define SYS_FLAG 0x4
 #define CMD_DATA 0x8
 #define KEYBD_INH 0x10
