@@ -10,6 +10,7 @@
     "sysutil.h": "c",
     "kbd.h": "c",
     "i8042.h": "c",
-    "lcf.h": "c"
+    "lcf.h": "c",
+    "kbc.h": "c"
   },
 }
