@@ -1,13 +1,7 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
-struct game
-{
-    state state;
-    player player;
-    //board board;
-    int turn;
-};
+
 
 
 struct user
@@ -60,3 +54,4 @@ struct board
 */
 
 #endif
+

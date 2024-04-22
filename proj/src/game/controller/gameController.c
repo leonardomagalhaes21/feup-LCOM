@@ -1,3 +1,4 @@
+#include "gameController.h"
 
 updateMenuState();
 updateGameState();

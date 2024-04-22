@@ -5,11 +5,11 @@
 #include <lcom/lcf.h>
 #include <stdint.h>
 
-updateMenuState();
-updateGameState();
-updatePauseState();
-updateScoreboardState();
-updateLeaderboardState();
+void updateMenuState();
+void updateGameState();
+void updatePauseState();
+void updateScoreboardState();
+void updateLeaderboardState();
 
 
 #endif

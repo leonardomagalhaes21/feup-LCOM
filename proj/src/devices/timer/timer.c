@@ -6,7 +6,6 @@
 #include "i8254.h"
 
 int hook_id_timer = 0;
-
 int counter_timer = 0;
 
 
