@@ -69,6 +69,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   uint16_t mode = 0x14C;
 
+
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REPORTING) != 0)
     return 1;
 
@@ -76,6 +77,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     return 1;
   if (mouse_subscribe_int(&mouse_irq_set) != 0)
     return 1;
+
 
   if (timer_set_frequency(0, 30) != 0)
     return 1;

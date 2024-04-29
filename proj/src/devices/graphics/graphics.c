@@ -89,7 +89,6 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
     unsigned bpp = (info.BitsPerPixel + 7) / 8;
 
     unsigned int idx = (info.XResolution * y + x) * bpp;
-
     memcpy(&write_buffer[idx], &color, bpp);
 
     return 0;
