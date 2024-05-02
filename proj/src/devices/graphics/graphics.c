@@ -1,15 +1,13 @@
-#include <lcom/lcf.h>
 #include "graphics.h"
-#include <math.h>
 
 vbe_mode_info_t info;
 uint8_t *video_mem;
 
-int (set_graphic_mode)(uint16_t submode) {
+int (set_graphic_mode)(uint16_t mode) {
     reg86_t r;
     memset(&r, 0, sizeof(r));
-    r.ax = 0x4F02; // VBE call, function 02 -- set VBE mode
-    r.bx = 1<<14|submode; // set bit 14: linear framebuffer
+    r.ax = 0x4F02;
+    r.bx = BIT(14) | mode;
     r.intno = 0x10;
     if( sys_int86(&r) != OK ) {
         printf("set_vbe_mode: sys_int86() failed \n");
@@ -38,67 +36,102 @@ typedef struct {
 } vbe_mode_info_t;
 */
 
+int (set_buffer)(uint16_t mode) {
 
-// Função que inicializa o modo gráfico
-int (set_frame_buffer)(uint16_t mode){
-
-    //vou buscar a informação do modo
     memset(&info, 0, sizeof(info));
-    if(vbe_get_mode_info(mode, &info)) 
+    if(vbe_get_mode_info(mode, &info) != 0)
         return 1;
 
-    // cálculo do tamanho do frame buffer
-    unsigned int bytes_per_pixel = (info.BitsPerPixel + 7) / 8;
-    unsigned int vram_size = info.XResolution * info.YResolution * bytes_per_pixel;
-    
-    // endereços físicos
-    struct minix_mem_range mr;
-    mr.mr_base = info.PhysBasePtr; //inicio
-    mr.mr_limit = mr.mr_base + vram_size; // fim 
+
     int r;
-    
-    //mem fisica
-    if ((r=sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr))!=0) {
+    struct minix_mem_range mr;
+    unsigned int vram_base = info.PhysBasePtr;
+    unsigned int vram_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8; //adicinar 7 (arredondamento para int)       
+
+    mr.mr_base = (phys_bytes) vram_base;
+    mr.mr_limit = mr.mr_base + vram_size;
+    if( OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr))){
         panic("sys_privctl (ADD_MEM) failed: %d\n", r);
         return 1;
     }
-    //mem virtual
-    video_mem = vm_map_phys(SELF, (void*) mr.mr_base, vram_size);
+        
+
+    video_mem = vm_map_phys(SELF, (void *)mr.mr_base, vram_size);
+
     if(video_mem == MAP_FAILED){
         panic("couldn’t map video memory");
         return 1;
     }
+    
     return 0;
 }
 
-// Função que desenha um píxel de uma dada cor
-int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
-
+int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
+    if(x > info.XResolution || y > info.YResolution) 
+        return 1;
   
-  if(x > info.XResolution || y > info.YResolution) 
-    return 1;
-  
-  unsigned bpp = (info.BitsPerPixel + 7) / 8;
+    unsigned bpp = (info.BitsPerPixel + 7) / 8;
 
-  unsigned int idx = (info.XResolution * y + x) * bpp;
+    unsigned int idx = (info.XResolution * y + x) * bpp;
 
-  if (memcpy(&video_mem[idx], &color, bpp) == NULL) 
-    return 1;
+    memcpy(&video_mem[idx], &color, bpp);
 
-  return 0;
+    return 0;
+
 }
 
+int (vg_draw_hline)(uint16_t x, uint16_t y, uint16_t len, uint32_t color){
+    if(x > info.XResolution || y > info.YResolution) 
+        return 1;
 
+    for(int i = 0; i < len; i++){
+        if(vg_draw_pixel(x + i, y, color) != 0)
+            return 1;
+    }
 
-// Função que normaliza a cor
-int normalize_color(uint32_t color, uint32_t *new_color) {
+    return 0;
+
+}
+
+void (fix_color)(uint32_t color, uint32_t *new_color){
   if (info.BitsPerPixel == 32) {
     *new_color = color;
   } else {
     *new_color = color & (BIT(info.BitsPerPixel) - 1);
   }
-  return 0;
+  
 }
 
+int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color){
+    if(x > info.XResolution || y > info.YResolution) 
+        return 1;
 
+    for(int i = 0; i < height; i++){
+        if(vg_draw_hline(x, y + i, width, color) != 0)
+            return 1;
+    }
+
+    return 0;
+}
+
+int (draw_xpm)(xpm_map_t xmap, uint16_t x, uint16_t y){
+
+  xpm_image_t img;
+  uint8_t *map;
+
+  uint16_t 	width, height;
+  map = xpm_load(xmap, XPM_INDEXED, &img);
+
+  width = img.width;
+  height = img.height;
+
+  for(int i = 0; i < height; i++){
+    for(int j = 0; j < width; j++){
+      if(vg_draw_pixel(x + j, y + i, map[i * width + j]) != 0)
+        return 1;
+    }
+  }
+
+  return 0;
+}
 

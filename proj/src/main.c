@@ -6,6 +6,8 @@
 #include "devices/mouse/mouse.h"
 #include "lcom/timer.h"
 
+#include "xpm/square.xpm"
+
 
 typedef enum {
     MENU,
@@ -22,6 +24,7 @@ extern int hook_id_rtc;
 extern int hook_id_graphics;
 extern int counter_timer;
 extern uint8_t scancode;
+extern vbe_mode_info_t info;
 GameState currentState = MENU;
 
 void changeGameState(GameState newState) {
@@ -52,24 +55,28 @@ void initGameState() {
 int (proj_main_loop)(int argc, char *argv[]) {
 
 
-     int ipc_status;
+    int ipc_status;
     message msg;
 
     uint8_t kbd_irq_set;
     uint8_t mouse_irq_set;
     uint8_t timer_irq_set;
 
-    uint16_t submode = 0x105;
+    uint16_t mode = 0x14C;
     if(keyboard_subscribe_int(&kbd_irq_set) != 0) 
         return 1;
     if(mouse_subscribe_int(&mouse_irq_set) != 0)
         return 1;
     if(timer_subscribe_int(&timer_irq_set) != 0)
         return 1;
-    if(set_graphic_mode(submode) != 0)
+    if(set_buffer(mode)!=0)
         return 1;
-
-
+    if(set_graphic_mode(mode) != 0)
+        return 1;
+    /*
+     if(draw_xpm((xpm_map_t) square, 0, 0)!= 0)
+        return 1;   
+     */
 
     while (scancode != ESC_BREAKCODE){
         if (driver_receive(ANY, &msg, &ipc_status) != 0) { 
@@ -80,6 +87,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
         switch (_ENDPOINT_P(msg.m_source)) {
             case HARDWARE: 
             if (msg.m_notify.interrupts & kbd_irq_set) {
+               
                 kbc_ih();
                 break;
             }
