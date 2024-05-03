@@ -1,12 +1,12 @@
-#include "game/structs.h"
+#include "game/classes/structs.h"
+#include "game/classes/player.h"
 #include "game/viewer/gameViewer.h"
 #include "game/controller/gameController.h"
 #include "devices/graphics/graphics.h"
 #include "devices/keyboard/keyboard.h"
 #include "devices/mouse/mouse.h"
 #include "lcom/timer.h"
-
-#include "xpm/square.xpm"
+#include "game/sprite/sprite.h"
 
 
 typedef enum {
@@ -54,7 +54,7 @@ void initGameState() {
 
 int (proj_main_loop)(int argc, char *argv[]) {
 
-
+    loadAllSprites();
     int ipc_status;
     message msg;
 
@@ -69,15 +69,21 @@ int (proj_main_loop)(int argc, char *argv[]) {
         return 1;
     if(timer_subscribe_int(&timer_irq_set) != 0)
         return 1;
+
     if(set_buffer(mode)!=0)
         return 1;
+    
     if(set_graphic_mode(mode) != 0)
         return 1;
+    
     /*
      if(draw_xpm((xpm_map_t) square, 0, 0)!= 0)
         return 1;   
-     */
-
+    */
+    
+    struct player *player;
+    player=createPlayer(5,5,200,200,main_char);
+    draw_sprite(player->sprite,200 ,200);
     while (scancode != ESC_BREAKCODE){
         if (driver_receive(ANY, &msg, &ipc_status) != 0) { 
         printf("driver_receive failed");
@@ -87,7 +93,34 @@ int (proj_main_loop)(int argc, char *argv[]) {
         switch (_ENDPOINT_P(msg.m_source)) {
             case HARDWARE: 
             if (msg.m_notify.interrupts & kbd_irq_set) {
-               
+                if(scancode == 0x1E ) { //A
+                    
+                    clean_img(player->x ,player->y, 500);
+                    player->x-=10;
+                    draw_sprite(player->sprite,player->x, player->y);
+                }
+                else if(scancode == 0x11){ //w
+                    
+                    clean_img(player->x ,player->y, 500);
+                    player->y-=10;
+                    draw_sprite(player->sprite,player->x, player->y);
+                }
+                else if(scancode == 0x1F ){//S
+                    
+                    clean_img(player->x ,player->y, 500);
+                    player->y+=10;
+                    draw_sprite(player->sprite,player->x, player->y);
+                }
+                else if(scancode == 0x20 ) {//D
+                    clean_img(player->x ,player->y, 500);
+                    player->x+=10;
+                    draw_sprite(player->sprite,player->x, player->y);
+                }
+                
+                kbc_ih();
+                break;
+            }
+            if(msg.m_notify.interrupts & mouse_irq_set){
                 kbc_ih();
                 break;
             }
@@ -134,4 +167,5 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
+
 

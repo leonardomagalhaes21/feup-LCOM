@@ -1,7 +1,8 @@
 #include "graphics.h"
 
 vbe_mode_info_t info;
-uint8_t *video_mem;
+uint8_t *video_buffer;
+uint8_t *second_buffer;
 
 int (set_graphic_mode)(uint16_t mode) {
     reg86_t r;
@@ -56,14 +57,29 @@ int (set_buffer)(uint16_t mode) {
     }
         
 
-    video_mem = vm_map_phys(SELF, (void *)mr.mr_base, vram_size);
+    video_buffer = vm_map_phys(SELF, (void *)mr.mr_base, vram_size);
 
-    if(video_mem == MAP_FAILED){
+    if(video_buffer == MAP_FAILED){
         panic("couldn’t map video memory");
         return 1;
     }
     
     return 0;
+}
+
+int(allocate_second_buffer)(){
+    uint32_t buffer_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8;
+    second_buffer = (uint8_t*) malloc(buffer_size);
+    if(second_buffer == NULL){
+        return 1;
+    }
+    memset(second_buffer, 0, buffer_size);
+    return 0;
+}
+
+void (switch_buffers)(){
+    uint32_t buffer_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8;
+    memcpy(video_buffer, second_buffer, buffer_size);
 }
 
 int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
@@ -74,7 +90,7 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
 
     unsigned int idx = (info.XResolution * y + x) * bpp;
 
-    memcpy(&video_mem[idx], &color, bpp);
+    memcpy(&video_buffer[idx], &color, bpp);
 
     return 0;
 
@@ -120,7 +136,7 @@ int (draw_xpm)(xpm_map_t xmap, uint16_t x, uint16_t y){
   uint8_t *map;
 
   uint16_t 	width, height;
-  map = xpm_load(xmap, XPM_INDEXED, &img);
+  map = xpm_load(xmap, XPM_8_8_8, &img);
 
   width = img.width;
   height = img.height;

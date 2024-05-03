@@ -13,5 +13,8 @@ int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
 int (draw_xpm)(xpm_map_t xmap, uint16_t x, uint16_t y);
 void (fix_color)(uint32_t color, uint32_t *new_color);
 
+int(allocate_second_buffer)();
+void(switch_buffers)();
+
 
 #endif

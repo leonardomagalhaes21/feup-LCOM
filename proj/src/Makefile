@@ -9,9 +9,11 @@ PROG=proj
 .PATH: ${.CURDIR}/controllers/serialPort
 .PATH: ${.CURDIR}/game
 .PATH: ${.CURDIR}/game/modes
-.PATH: ${.CURDIR}/sprites
+.PATH: ${.CURDIR}/game/sprite
+.PATH: ${.CURDIR}/game/classes
 
-SRCS = 	main.c timer.c utils.c graphics.c keyboard.c mouse.c 
+
+SRCS = 	main.c timer.c utils.c graphics.c keyboard.c mouse.c sprite.c player.c
 
 # ./controllers/keyboardMouse/KBC.c
 
