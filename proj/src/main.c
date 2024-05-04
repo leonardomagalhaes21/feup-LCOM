@@ -162,11 +162,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
               idx = 0;
             mouse_generate_packet();
             
-             //if (!((mouse_packet.delta_x +mouse->x) < 0 || (mouse_packet.delta_x +mouse->x) > (info.XResolution) || (mouse_packet.delta_y + mouse->y) < 0 || (mouse_packet.delta_y + mouse->y) > (info.YResolution))){
+             if (!((mouse_packet.delta_x +mouse->x) <= 0 || (mouse_packet.delta_x +mouse->x+7) >= (info.XResolution) || (-mouse_packet.delta_y + mouse->y) <=0 || (-mouse_packet.delta_y + mouse->y) > (info.YResolution))){
                 clean_img(mouse->x,mouse->y,100);
                 mouse->x += mouse_packet.delta_x;
                 mouse->y-=mouse_packet.delta_y;
-            //}
+            }
 
         
             }
