@@ -1,0 +1,7 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "i8254.h": "c",
+        "keyboard.h": "c"
+    }
+}
