@@ -2,7 +2,7 @@
 
 vbe_mode_info_t info;
 uint8_t *video_buffer;
-uint8_t *second_buffer;
+uint8_t *write_buffer;
 
 int (set_graphic_mode)(uint16_t mode) {
     reg86_t r;
@@ -67,19 +67,19 @@ int (set_buffer)(uint16_t mode) {
     return 0;
 }
 
-int(allocate_second_buffer)(){
+int(allocate_write_buffer)(){
     uint32_t buffer_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8;
-    second_buffer = (uint8_t*) malloc(buffer_size);
-    if(second_buffer == NULL){
+    write_buffer = (uint8_t*) malloc(buffer_size);
+    if(write_buffer == NULL){
         return 1;
     }
-    memset(second_buffer, 0, buffer_size);
+    memset(write_buffer, 0, buffer_size);
     return 0;
 }
 
 void (switch_buffers)(){
     uint32_t buffer_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8;
-    memcpy(video_buffer, second_buffer, buffer_size);
+    memcpy(video_buffer, write_buffer, buffer_size);
 }
 
 int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
@@ -90,24 +90,13 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
 
     unsigned int idx = (info.XResolution * y + x) * bpp;
 
-    memcpy(&video_buffer[idx], &color, bpp);
+    memcpy(&write_buffer[idx], &color, bpp);
 
     return 0;
 
 }
 
-int (vg_draw_hline)(uint16_t x, uint16_t y, uint16_t len, uint32_t color){
-    if(x > info.XResolution || y > info.YResolution) 
-        return 1;
 
-    for(int i = 0; i < len; i++){
-        if(vg_draw_pixel(x + i, y, color) != 0)
-            return 1;
-    }
-
-    return 0;
-
-}
 
 void (fix_color)(uint32_t color, uint32_t *new_color){
   if (info.BitsPerPixel == 32) {
@@ -118,17 +107,7 @@ void (fix_color)(uint32_t color, uint32_t *new_color){
   
 }
 
-int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color){
-    if(x > info.XResolution || y > info.YResolution) 
-        return 1;
 
-    for(int i = 0; i < height; i++){
-        if(vg_draw_hline(x, y + i, width, color) != 0)
-            return 1;
-    }
-
-    return 0;
-}
 
 int (draw_xpm)(xpm_map_t xmap, uint16_t x, uint16_t y){
 

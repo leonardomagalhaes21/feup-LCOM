@@ -4,16 +4,16 @@
 #include <lcom/lcf.h>
 #include <stdint.h>
 #include "game/sprite/sprite.h"
-struct player
+typedef struct
 {
     int life;
     int damage;
     int x;
     int y;
     Sprite *sprite;
-};
+} player;
 
-struct player *(createPlayer)(int life,int damage,int x,int y, Sprite *sp);
+player *(createPlayer)(int life,int damage,int x,int y, Sprite *sp);
 
 
 

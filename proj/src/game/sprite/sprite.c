@@ -8,7 +8,6 @@
 #include "sprite.h"
 
 
-Sprite *main_char;
 
 
 
@@ -56,6 +55,7 @@ int draw_sprite(Sprite *sp, int x, int y) {
 }
 void loadAllSprites(){
     main_char = create_sprite((xpm_map_t) Cuphead_running);
+    mouse_cursor= create_sprite((xpm_map_t) square);
 }
 
 int clean_img(uint16_t x, uint16_t y, uint16_t width) {

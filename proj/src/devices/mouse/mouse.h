@@ -4,8 +4,9 @@
 #include <lcom/lcf.h>
 #include <stdint.h>
 #include "i8042.h"
-
-
+#include "game/sprite/sprite.h"
+#include "game/classes/mouse_cursor.h"
+#include "devices/graphics/graphics.h"
 
 
 int (mouse_subscribe_int)(uint8_t *bit_no);
@@ -25,5 +26,4 @@ int (mouse_write_cmd)(uint8_t cmd);
 void (mouse_generate_packet)();
 
 void (mouse_bytes_sync)();
-
 #endif

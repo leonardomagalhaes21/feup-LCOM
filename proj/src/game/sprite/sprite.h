@@ -2,6 +2,9 @@
 #define SPRITE_H_
 
 #include "xpm/Cuphead_running.xpm"
+
+#include "xpm/mouse.xpm"
+#include "xpm/square.xpm"
 #include "devices/graphics/graphics.h"
 
 
@@ -11,7 +14,8 @@ typedef struct {
     uint32_t *map;
 } Sprite;
 
-Sprite* main_char;
+Sprite *main_char;
+Sprite *mouse_cursor;
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);

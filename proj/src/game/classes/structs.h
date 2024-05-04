@@ -28,13 +28,6 @@ struct enemy
     int y;
 };
 
-struct mouseLocation
-{
-    int x;
-    int y;
-    int weight;
-    int height;
-};
 
 
 /*

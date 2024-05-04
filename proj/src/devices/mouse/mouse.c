@@ -1,10 +1,12 @@
 #include "mouse.h"
 
 int hook_id_mouse = 3;
-uint8_t scancode;
+uint8_t scancode_mouse;
 struct packet mouse_packet;
 uint8_t mouse_bytes[3];
 int idx = 0;
+extern vbe_mode_info_t info;
+
 
 int (mouse_subscribe_int)(uint8_t *bit_no){
   if (bit_no == NULL) return 1;
@@ -51,7 +53,7 @@ int (mouse_read_output)(uint8_t* output){
 }
 
 void (mouse_ih)(){
-  if(mouse_read_output(&scancode)) //pode ser só sys_inb?
+  if(mouse_read_output(&scancode_mouse)) //pode ser só sys_inb?
     return;
 }
 
@@ -121,13 +123,15 @@ void (mouse_generate_packet)(){
 }
 
 void (mouse_bytes_sync)(){
-  if (idx == 0 && (scancode & BIT(3)) != 0){ // primeiro byte (bit 3 ativado)
-    mouse_bytes[0] = scancode;
+  if (idx == 0 && (scancode_mouse & BIT(3)) != 0){ 
+    mouse_bytes[0] = scancode_mouse;
     idx++;
   }
   else if (idx != 0){
-    mouse_bytes[idx] = scancode;
+    mouse_bytes[idx] = scancode_mouse;
     idx++;
   }
 }
+
+
 
