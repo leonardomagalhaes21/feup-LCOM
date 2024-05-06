@@ -5,6 +5,7 @@
 
 #include "xpm/mouse.xpm"
 #include "xpm/square.xpm"
+#include "xpm/full_Menu.xpm"
 #include "devices/graphics/graphics.h"
 
 
@@ -16,6 +17,7 @@ typedef struct {
 
 Sprite *main_char;
 Sprite *mouse_cursor;
+Sprite *menu_full;
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);

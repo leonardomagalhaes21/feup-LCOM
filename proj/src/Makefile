@@ -11,9 +11,11 @@ PROG=proj
 .PATH: ${.CURDIR}/game/modes
 .PATH: ${.CURDIR}/game/sprite
 .PATH: ${.CURDIR}/game/classes
+.PATH: ${.CURDIR}/game/modes
 
 
-SRCS = 	main.c timer.c utils.c graphics.c keyboard.c mouse.c sprite.c player.c mouse_cursor.c
+
+SRCS = 	main.c timer.c utils.c graphics.c keyboard.c mouse.c sprite.c player.c mouse_cursor.c menu.c
 
 # ./controllers/keyboardMouse/KBC.c
 

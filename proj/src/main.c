@@ -8,6 +8,7 @@
 #include "game/sprite/sprite.h"
 #include "game/viewer/gameViewer.h"
 #include "lcom/timer.h"
+//#include "game/modes/menu.h"
 
 typedef enum {
   MENU,
@@ -29,7 +30,6 @@ extern struct packet mouse_packet;
 extern int idx;
 extern vbe_mode_info_t info;
 GameState currentState = MENU;
-
 void changeGameState(GameState newState) {
   currentState = newState;
 }
@@ -101,10 +101,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
   player = createPlayer(5, 5, 200, 0, main_char);
   MouseCursor *mouse;
   mouse = createMouseCursor(400,200, mouse_cursor);
-
+  draw_sprite(menu_full,0,0);
   bool is_falling = true;
 
-  draw_sprite(player->sprite, player->x, player->y);
+  //draw_sprite(player->sprite, player->x, player->y);
   draw_sprite(mouse->sprite, mouse->x, mouse->y);
 
   while (scancode != ESC_BREAKCODE) {
@@ -116,6 +116,26 @@ int(proj_main_loop)(int argc, char *argv[]) {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:
           if (msg.m_notify.interrupts & timer_irq_set) {
+            timer_int_handler();
+            draw_sprite(menu_full,0,0);
+            draw_sprite(player->sprite, player->x, player->y);
+            //if(currentState==MENU){
+              //draw_sprite(menu_button, 400, 400);
+            //}
+            /*else if(currentState==GAME){
+              draw_game();
+            }
+            else if(currentState==PAUSE){
+              draw_pause();
+            }
+            else if(currentState==SCOREBOARD){
+              draw_scoreboard();
+            }
+            else if(currentState==LEADERBOARD){
+              draw_leaderboard();
+            }*/
+
+
             if (is_falling) {
               speed_y += 1;
             }
@@ -126,7 +146,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
               is_falling = false;
             }
             player->x += speed_x;
-            draw_sprite(player->sprite, player->x, player->y);
+            //draw_sprite(player->sprite, player->x, player->y);
             draw_sprite(mouse->sprite, mouse->x, mouse->y);
 
             switch_buffers();
