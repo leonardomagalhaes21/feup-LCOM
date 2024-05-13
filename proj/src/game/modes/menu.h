@@ -16,12 +16,14 @@ typedef enum {
   PAUSE,
   SCOREBOARD,
   LEADERBOARD,
+  EXIT,
 } GameState;
 extern GameState currentState;
 
 void setMenuState();
 int playButton(int x, int y);
 int leaderboardButton(int x, int y);
+int exitButton(int x, int y);
 int drawMenu();
 int drawGame();
 #endif

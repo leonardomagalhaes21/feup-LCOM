@@ -1,8 +1,6 @@
 #include "menu.h"
 
-bool menu = true;
-bool game = false;
-bool leaderboard = false;
+
 extern struct packet mouse_packet;
 GameState currentState = MENU; 
 void setMenuState(){
@@ -11,39 +9,24 @@ void setMenuState(){
 }
 int playButton(int x, int y){
     if(440 < x && 710> x && 360 < y && 430 > y){
-        if(!game){
-            if(mouse_packet.lb)
-                game = true;
-                menu = false;
-                leaderboard = false;
-        }
-        if(game){    
+        if(mouse_packet.lb){
             currentState = GAME;
-            game=false;
-            
         }
     }
-    else 
-        game=false;
     return 0;
 }
 int leaderboardButton(int x, int y){
     if(440 < x && 710> x && 450 < y && 520 > y){
-        if(!leaderboard){
-            if(mouse_packet.lb)
-                leaderboard = true;
-                menu = false;
-                game = false;
-        }
-        if(leaderboard){    
+        if(mouse_packet.lb)
             currentState = LEADERBOARD;
-            leaderboard=false;
-            
         }
-    }
-    else {
-        leaderboard=false;
-    }
+    return 0;
+}
+int exitButton(int x, int y){
+    if(440 < x && 710> x && 540 < y && 610 > y){
+        if(mouse_packet.lb)
+            currentState = EXIT;
+        }
     return 0;
 }
 

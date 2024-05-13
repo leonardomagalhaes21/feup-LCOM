@@ -10,6 +10,7 @@
 #include "lcom/timer.h"
 #include "game/modes/menu.h"
 #include "game/logic/game_logic.h"
+#include "game/classes/enemy.h"
 
 extern int hook_id_kbd;
 extern int hook_id_mouse;
@@ -27,24 +28,12 @@ extern GameState currentState;
 //  GameState currentState = newState;
 //}
 
+uint8_t kbd_irq_set;
+uint8_t mouse_irq_set;
+uint8_t timer_irq_set;
+uint16_t mode = 0x14C;
 
-
-int(proj_main_loop)(int argc, char *argv[]) {
-
-  loadAllSprites();
-  int ipc_status;
-  message msg;
-
-  int8_t speed_x = 0;
-  int8_t speed_y = 0;
-
-  uint8_t kbd_irq_set;
-  uint8_t mouse_irq_set;
-  uint8_t timer_irq_set;
-
-  uint16_t mode = 0x14C;
-
-
+int open_devices(){
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REPORTING) != 0)
     return 1;
 
@@ -67,41 +56,56 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
   if (set_graphic_mode(mode) != 0)
     return 1;
+  return 0;
+}
+
+
+int close_devices() {
+  if (keyboard_unsubscribe_int() != 0)
+    return 1;
+  if (mouse_unsubscribe_int() != 0)
+    return 1;
+  if (mouse_write_cmd(0xF5) != 0)
+    return 1;
+  if (timer_unsubscribe_int() != 0)
+    return 1;
+
+  /*
+  if(rtc_unsubscribe_int() != 0)
+      return;
+  */
+  if (vg_exit() != 0)
+    return 1;
+
+  return 0;
+}
+
+
+int(proj_main_loop)(int argc, char *argv[]) {
+
+  loadAllSprites();
+  int ipc_status;
+  message msg;
+
+  int8_t speed_x = 0;
+  int8_t speed_y = 0;
+
   
 
+
+  if(open_devices()!=0)
+    return 1;
+  
   player *player;
-  player = createPlayer(5, 5, 200, 0, main_char);
+  player = createPlayer(5, 5, 400, 571, main_char);
   MouseCursor *mouse;
   mouse = createMouseCursor(400,350, mouse_cursor);
-  //draw_sprite(menu_full,0,0);
-
+  enemy monsters[10];
   
-  /* botão de play  
-  for(int width =440; width < 710; width++){
-    for(int height = 360; height < 430; height++){
-      vg_draw_pixel(width,height,0x000000);
-    }
-  }
-  */
-  /*botão de Leaderboard
-  for(int width =440; width < 710; width++){
-    for(int height = 450; height < 520; height++){
-      vg_draw_pixel(width,height,0x000000);
-    }
-  }
-  */
-  /*Botão de exit
-  for(int width =440; width < 710; width++){
-    for(int height = 540; height < 610; height++){
-      vg_draw_pixel(width,height,0x000000);
-    }
-  }
-  */
 bool key_a_pressed = false;
 bool key_d_pressed = false; 
 bool key_w_pressed = false;
-//bool is_falling=true;
-
+bool create_enemy=false;
 while (scancode != ESC_BREAKCODE) {
     if (driver_receive(ANY, &msg, &ipc_status) != 0) {
         printf("driver_receive failed");
@@ -117,48 +121,22 @@ while (scancode != ESC_BREAKCODE) {
                         drawMenu();
                     }
                     else if (currentState == GAME) {
-                        update_game_logic(player, mouse, key_a_pressed, key_d_pressed, key_w_pressed,&speed_x,&speed_y);
                         drawGame();
-                        draw_sprite(player->sprite, player->x, player->y);
+                        update_player_logic(player, mouse, key_a_pressed, key_d_pressed, key_w_pressed,&speed_x,&speed_y);
+                        if(counter_timer % 300 == 0){
+                          create_enemy=true;
+                        }
+                      update_enemy_logic(mouse,monsters,create_enemy);
+                      create_enemy=false;
                     }
                     else if(currentState ==LEADERBOARD){
                       drawGame();
-                      draw_sprite(monster1,5,5);
                     }
-                    
-                    /*
-                    int8_t speed_x = 0;
-                    int8_t speed_y = 0;
-
-                    if (is_falling) {
-                        speed_y += 1;
+                    else if(currentState ==EXIT){
+                      if(close_devices()!=0)
+                        return 1;
+                      return 0;
                     }
-
-                    player->y += speed_y;
-
-                    if (player->y > 570) {
-                        player->y = 570;
-                        speed_y = 0;
-                        is_falling = false;
-                    }
-
-                    if (key_a_pressed) {
-                        speed_x = -3; 
-                    } else if (key_d_pressed) {
-                        speed_x = 3; 
-                    } else {
-                        speed_x = 0; 
-                    }
-                    player->x += speed_x;
-
-                    if (key_w_pressed && !is_falling) {
-                        is_falling = true;
-                        speed_y = -20;
-                    }
-
-                    */
-                    
-                    
                     draw_sprite(mouse->sprite, mouse->x, mouse->y);
                     
                     switch_buffers();
@@ -196,6 +174,7 @@ while (scancode != ESC_BREAKCODE) {
                         if (currentState == MENU) {
                             playButton(mouse->x, mouse->y);
                             leaderboardButton(mouse->x, mouse->y);
+                            exitButton(mouse->x, mouse->y);
                         }
                     }
                 }
@@ -207,27 +186,10 @@ while (scancode != ESC_BREAKCODE) {
     }
 }
 
-
-
-
-
-  if (keyboard_unsubscribe_int() != 0)
+  if(close_devices()!=0)
     return 1;
-  if (mouse_unsubscribe_int() != 0)
-    return 1;
-  if (mouse_write_cmd(0xF5) != 0)
-    return 1;
-  if (timer_unsubscribe_int() != 0)
-    return 1;
-
-  /*
-  if(rtc_unsubscribe_int() != 0)
-      return;
-  */
-  if (vg_exit() != 0)
-    return 1;
-
   return 0;
+
 }
 
 int main(int argc, char *argv[]) {

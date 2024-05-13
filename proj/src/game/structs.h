@@ -11,13 +11,7 @@ struct user
     int score;
 };
 
-struct player
-{
-    int life;
-    int damage;
-    int x;
-    int y;
-};
+
 struct bullet
 {
     int x;
@@ -27,21 +21,8 @@ struct bullet
     float yDirection;
 };
 
-struct enemy
-{
-    int life;
-    int damage;
-    int x;
-    int y;
-};
 
-struct mouseLocation
-{
-    int x;
-    int y;
-    int weight;
-    int height;
-};
+
 
 
 /*

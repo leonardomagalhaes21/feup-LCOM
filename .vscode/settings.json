@@ -2,6 +2,8 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "i8254.h": "c",
-        "keyboard.h": "c"
+        "keyboard.h": "c",
+        "sprite.h": "c",
+        "*.xpm": "c"
     }
 }
