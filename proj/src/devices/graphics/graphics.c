@@ -83,8 +83,10 @@ void (switch_buffers)(){
 }
 
 int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
-    if(x > info.XResolution || y > info.YResolution) 
-        return 1;
+    if(x > info.XResolution || y > info.YResolution ||y<0 ||x <0) 
+        return 0;
+    if(color==0xAFFFFF)
+        return 0;
   
     unsigned bpp = (info.BitsPerPixel + 7) / 8;
 
@@ -114,7 +116,7 @@ int (draw_xpm)(xpm_map_t xmap, uint16_t x, uint16_t y){
   uint8_t *map;
 
   uint16_t 	width, height;
-  map = xpm_load(xmap, XPM_8_8_8, &img);
+  map = xpm_load(xmap, XPM_8_8_8_8, &img);
 
   width = img.width;
   height = img.height;
