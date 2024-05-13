@@ -57,6 +57,8 @@ void loadAllSprites(){
     main_char = create_sprite((xpm_map_t) result);
     mouse_cursor= create_sprite((xpm_map_t) square);
     menu_full = create_sprite((xpm_map_t) full_Menu);
+    background = create_sprite((xpm_map_t) back_ground);
+    monster1 = create_sprite((xpm_map_t) monster_1);
 }
 
 int clean_img(uint16_t x, uint16_t y, uint16_t width) {

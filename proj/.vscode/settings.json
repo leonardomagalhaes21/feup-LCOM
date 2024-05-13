@@ -4,6 +4,13 @@
         "gamecontroller.h": "c",
         "stdint.h": "c",
         "graphics.h": "c",
-        "*.xpm": "c"
+        "*.xpm": "c",
+        "keyboard.h": "c",
+        "mouse.h": "c",
+        "menu.h": "c",
+        "gameviewer.h": "c",
+        "sprite.h": "c",
+        "structs.h": "c",
+        "game_logic.h": "c"
     }
 }
