@@ -90,6 +90,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
   int8_t speed_x = 0;
   int8_t speed_y = 0;
 
+
+  int cuphead_offset = 1;
   
 
 
@@ -97,10 +99,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
     return 1;
   
   player *player;
-  player = createPlayer(5, 5, 400, 571, main_char);
+  player = createPlayer(5, 5, 400, 571, cuphead1);
   MouseCursor *mouse;
   mouse = createMouseCursor(400,350, mouse_cursor);
-  enemy monsters[10];
+  //enemy monsters[10];
   
 bool key_a_pressed = false;
 bool key_d_pressed = false; 
@@ -122,11 +124,76 @@ while (scancode != ESC_BREAKCODE) {
                     }
                     else if (currentState == GAME) {
                         drawGame();
+                        if (cuphead_offset == 0){
+                          player->sprite = cuphead1;
+                          cuphead_offset++;
+                        }
+                        
+                        else if (cuphead_offset == 1){
+                          player->sprite = cuphead2;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 2){
+                          player->sprite = cuphead3;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 3){
+                          player->sprite = cuphead4;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 4){
+                          player->sprite = cuphead5;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 5){
+                          player->sprite = cuphead6;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 6){
+                          player->sprite = cuphead7;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 7){
+                          player->sprite = cuphead8;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 8){
+                          player->sprite = cuphead9;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 9){
+                          player->sprite = cuphead10;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 10){
+                          player->sprite = cuphead11;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 11){
+                          player->sprite = cuphead12;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 12){
+                          player->sprite = cuphead13;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 13){
+                          player->sprite = cuphead14;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 14){
+                          player->sprite = cuphead15;
+                          cuphead_offset++;
+                        }
+                        else if (cuphead_offset == 15){
+                          player->sprite = cuphead16;
+                          cuphead_offset = 0;
+                        }
                         update_player_logic(player, mouse, key_a_pressed, key_d_pressed, key_w_pressed,&speed_x,&speed_y);
                         if(counter_timer % 300 == 0){
                           create_enemy=true;
                         }
-                      update_enemy_logic(mouse,monsters,create_enemy);
+                      //update_enemy_logic(mouse,monsters,create_enemy);
                       create_enemy=false;
                     }
                     else if(currentState ==LEADERBOARD){

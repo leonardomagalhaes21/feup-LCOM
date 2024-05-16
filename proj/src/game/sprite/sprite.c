@@ -54,7 +54,23 @@ int draw_sprite(Sprite *sp, int x, int y) {
     return 0; 
 }
 void loadAllSprites(){
-    main_char = create_sprite((xpm_map_t) result);
+    cuphead1 = create_sprite((xpm_map_t) cuphead_1);
+    cuphead2 = create_sprite((xpm_map_t) cuphead_2);
+    cuphead3 = create_sprite((xpm_map_t) cuphead_3);
+    cuphead4 = create_sprite((xpm_map_t) cuphead_4);
+    cuphead5 = create_sprite((xpm_map_t) cuphead_5);
+    cuphead6 = create_sprite((xpm_map_t) cuphead_6);
+    cuphead7 = create_sprite((xpm_map_t) cuphead_7);
+    cuphead8 = create_sprite((xpm_map_t) cuphead_8);
+    cuphead9 = create_sprite((xpm_map_t) cuphead_9);
+    cuphead10 = create_sprite((xpm_map_t) cuphead_10);
+    cuphead11 = create_sprite((xpm_map_t) cuphead_11);
+    cuphead12 = create_sprite((xpm_map_t) cuphead_12);
+    cuphead13 = create_sprite((xpm_map_t) cuphead_13);
+    cuphead14 = create_sprite((xpm_map_t) cuphead_14);
+    cuphead15 = create_sprite((xpm_map_t) cuphead_15);
+    cuphead16 = create_sprite((xpm_map_t) cuphead_16);
+
     mouse_cursor= create_sprite((xpm_map_t) square);
     menu_full = create_sprite((xpm_map_t) full_Menu);
     background = create_sprite((xpm_map_t) back_ground);

@@ -2,6 +2,22 @@
 #define SPRITE_H_
 
 #include "xpm/Cuphead_running.xpm"
+#include "xpm/cuphead/cuphead1.xpm"
+#include "xpm/cuphead/cuphead2.xpm"
+#include "xpm/cuphead/cuphead3.xpm"
+#include "xpm/cuphead/cuphead4.xpm"
+#include "xpm/cuphead/cuphead5.xpm"
+#include "xpm/cuphead/cuphead6.xpm"
+#include "xpm/cuphead/cuphead7.xpm"
+#include "xpm/cuphead/cuphead8.xpm"
+#include "xpm/cuphead/cuphead9.xpm"
+#include "xpm/cuphead/cuphead10.xpm"
+#include "xpm/cuphead/cuphead11.xpm"
+#include "xpm/cuphead/cuphead12.xpm"
+#include "xpm/cuphead/cuphead13.xpm"
+#include "xpm/cuphead/cuphead14.xpm"
+#include "xpm/cuphead/cuphead15.xpm"
+#include "xpm/cuphead/cuphead16.xpm"
 
 #include "xpm/mouse.xpm"
 #include "xpm/square.xpm"
@@ -17,7 +33,22 @@ typedef struct {
     uint32_t *map;
 } Sprite;
 
-Sprite *main_char;
+Sprite *cuphead1;
+Sprite *cuphead2;
+Sprite *cuphead3;
+Sprite *cuphead4;
+Sprite *cuphead5;
+Sprite *cuphead6;
+Sprite *cuphead7;
+Sprite *cuphead8;
+Sprite *cuphead9;
+Sprite *cuphead10;
+Sprite *cuphead11;
+Sprite *cuphead12;
+Sprite *cuphead13;
+Sprite *cuphead14;
+Sprite *cuphead15;
+Sprite *cuphead16;
 Sprite *mouse_cursor;
 Sprite *menu_full;
 Sprite *background;

@@ -36,7 +36,9 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
     if(player->x > 1045){
         player->x = 1045;
     }
-    draw_sprite(player->sprite, player->x, player->y); 
+    
+    draw_sprite(player->sprite, player->x, player->y);
+
 }
 
 
