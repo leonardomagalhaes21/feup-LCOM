@@ -1,6 +1,5 @@
 #include "menu.h"
 
-
 extern struct packet mouse_packet;
 GameState currentState = MENU; 
 void setMenuState(){
@@ -34,7 +33,8 @@ int drawMenu(){
     draw_sprite(menu_full, 0, 0);
     return 0;
 }
-int drawGame(){
+int drawGame(player *player){
+    draw_sprite(hearthLife, 5,5);
     draw_sprite(background, 0, 0);
     return 0;
 }

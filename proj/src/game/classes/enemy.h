@@ -14,8 +14,11 @@ typedef struct
     int speed_x;
     int speed_y;
     Sprite *sprite;
+    bool alive;
 } enemy;
 
-enemy *createEnemy(int life,int damage,int x,int y,int speed_x,int speed_y, Sprite *sp);
+enemy *createEnemy(int life,int damage,int x,int y,int speed_x,int speed_y, Sprite *sp,bool alive);
+
+void reviveEnemy(enemy *p,int x,int y);
 
 #endif

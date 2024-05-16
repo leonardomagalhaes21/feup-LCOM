@@ -7,7 +7,7 @@
 #include "game/sprite/sprite.h"
 
 void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y);
-void update_enemy_logic(MouseCursor *mouse, enemy *monsters, bool create_enemy);
+void update_enemy_logic(MouseCursor *mouse, bool create_enemy);
 
 
 

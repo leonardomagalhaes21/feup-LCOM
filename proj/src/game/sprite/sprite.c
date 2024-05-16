@@ -9,8 +9,6 @@
 
 
 
-
-
 Sprite *create_sprite(xpm_map_t pic) {
     //allocate space for the "object"
     Sprite *sp = (Sprite *) malloc ( sizeof(Sprite));
@@ -35,10 +33,8 @@ void destroy_sprite(Sprite *sp) {
     if( sp ->map )
     free(sp->map);
     free(sp);
-    sp = NULL; // XXX: pointer is passed by value
-    // should do this @ the caller
+    sp = NULL; 
 }
-// XXX: move_sprite would be a more appropriate name
 int move_sprite(Sprite *sp) {
     return 1;
 }
@@ -53,6 +49,18 @@ int draw_sprite(Sprite *sp, int x, int y) {
     }
     return 0; 
 }
+
+int draw_reverse_sprite(Sprite *sp, int x, int y) {
+    uint16_t width = sp->width;
+    uint16_t height = sp->height;
+    for (int w = 0 ; w < width ; w++) {
+        for (int h = 0 ; h < height ; h++) {
+            if (vg_draw_pixel(x + (width - w), y + h, sp->map[w + h*width])) return 1;
+        }
+    }
+    return 0; 
+}
+
 void loadAllSprites(){
     cuphead1 = create_sprite((xpm_map_t) cuphead_1);
     cuphead2 = create_sprite((xpm_map_t) cuphead_2);
@@ -70,11 +78,14 @@ void loadAllSprites(){
     cuphead14 = create_sprite((xpm_map_t) cuphead_14);
     cuphead15 = create_sprite((xpm_map_t) cuphead_15);
     cuphead16 = create_sprite((xpm_map_t) cuphead_16);
+    cupheadstand = create_sprite((xpm_map_t) cuphead_stand);
+    hearthLife = create_sprite((xpm_map_t) hearth);
 
     mouse_cursor= create_sprite((xpm_map_t) square);
     menu_full = create_sprite((xpm_map_t) full_Menu);
     background = create_sprite((xpm_map_t) back_ground);
     monster1 = create_sprite((xpm_map_t) monster_1);
+    bala = create_sprite((xpm_map_t) bala1);
 }
 
 int clean_img(uint16_t x, uint16_t y, uint16_t width) {
@@ -89,8 +100,19 @@ int clean_img(uint16_t x, uint16_t y, uint16_t width) {
 void freeAllSprites(){
 
 }
+*/
 
-static int check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2, int y2)
-{
-    return 1;
-}*/
+bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2,  int y2) {
+    if (sp1 == NULL || sp2 == NULL) return false;
+
+    int sp1_x_end = x1 + sp1->width;
+    int sp1_y_end = y1 + sp1->height;
+    int sp2_x_end = x2 + sp2->width;
+    int sp2_y_end = y2 + sp2->height;
+    
+    if ((x1 < sp2_x_end && sp1_x_end > x2) && (y1 < sp2_y_end && sp1_y_end > y2)) {
+        return true;
+    }
+    return false;
+    
+}

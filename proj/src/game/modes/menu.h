@@ -9,6 +9,7 @@
 #include "../../devices/graphics/graphics.h"
 
 #include "../sprite/sprite.h"
+#include "../classes/player.h"
 
 typedef enum {
   MENU,
@@ -25,6 +26,6 @@ int playButton(int x, int y);
 int leaderboardButton(int x, int y);
 int exitButton(int x, int y);
 int drawMenu();
-int drawGame();
+int drawGame(player *player);
 #endif
 

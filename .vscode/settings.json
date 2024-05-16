@@ -4,6 +4,9 @@
         "i8254.h": "c",
         "keyboard.h": "c",
         "sprite.h": "c",
-        "*.xpm": "c"
+        "*.xpm": "c",
+        "lcf.h": "c",
+        "bullet.h": "c",
+        "complex": "c"
     }
 }

@@ -18,7 +18,10 @@
 #include "xpm/cuphead/cuphead14.xpm"
 #include "xpm/cuphead/cuphead15.xpm"
 #include "xpm/cuphead/cuphead16.xpm"
+#include "xpm/cuphead/cupheadstand.xpm"
+#include "xpm/bala.xpm"
 
+#include "xpm/hearth.xpm"
 #include "xpm/mouse.xpm"
 #include "xpm/square.xpm"
 #include "xpm/full_Menu.xpm"
@@ -49,21 +52,25 @@ Sprite *cuphead13;
 Sprite *cuphead14;
 Sprite *cuphead15;
 Sprite *cuphead16;
+Sprite *cupheadstand;
 Sprite *mouse_cursor;
 Sprite *menu_full;
 Sprite *background;
 Sprite *monster1;
+Sprite *hearthLife;
+Sprite *bala;
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);
 int move_sprite(Sprite *sp);
 int draw_sprite(Sprite *sp, int x, int y);
+int draw_reverse_sprite(Sprite *sp, int x, int y);
 void loadAllSprites();
 int clean_img(uint16_t x, uint16_t y, uint16_t width);
-/*
-static int check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2, int y2);
-void freeAllSprites();
-*/
+
+bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2, int y2);
+
+//void freeAllSprites();
 
 #endif
 
