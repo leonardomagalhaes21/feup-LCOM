@@ -132,6 +132,27 @@ void (mouse_bytes_sync)(){
     idx++;
   }
 }
+void nova_posicoes(int *x, int *y){
+  if(*x+mouse_packet.delta_x < 0 && !mouse_packet.x_ov){
+    *x = 0;
+  }
+  else if(*x+mouse_packet.delta_x > 800 && !mouse_packet.x_ov){
+    *x = 800;
+  }
+  else if(!mouse_packet.x_ov){
+    *x+=mouse_packet.delta_x;
+  }
+
+  if(*y-mouse_packet.delta_y < 0 && !mouse_packet.y_ov){
+    *y = 0;
+  }
+  else if(*y-mouse_packet.delta_y > 600 && !mouse_packet.y_ov){
+    *y = 600;
+  }
+  else if(!mouse_packet.y_ov){
+    *y-=mouse_packet.delta_y;
+  }
+}
 
 
 

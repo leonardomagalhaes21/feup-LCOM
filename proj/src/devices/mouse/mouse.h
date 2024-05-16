@@ -26,4 +26,5 @@ int (mouse_write_cmd)(uint8_t cmd);
 void (mouse_generate_packet)();
 
 void (mouse_bytes_sync)();
+void nova_posicoes(int *x, int *y);
 #endif

@@ -34,6 +34,8 @@ uint8_t timer_irq_set;
 uint16_t mode = 0x14C;
 
 int open_devices(){
+  if(mouse_write_cmd(0xEA) != 0)
+    return 1;
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REPORTING) != 0)
     return 1;
 
@@ -87,8 +89,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
   int ipc_status;
   message msg;
 
-  int8_t speed_x = 0;
-  int8_t speed_y = 0;
+  //int8_t speed_x = 0;
+  //int8_t speed_y = 0;
 
 
   int cuphead_offset = 1;
@@ -189,7 +191,9 @@ while (scancode != ESC_BREAKCODE) {
                           player->sprite = cuphead16;
                           cuphead_offset = 0;
                         }
-                        update_player_logic(player, mouse, key_a_pressed, key_d_pressed, key_w_pressed,&speed_x,&speed_y);
+
+                        //update_player_logic(player, mouse, key_a_pressed, key_d_pressed, key_w_pressed,&speed_x,&speed_y);
+
                         if(counter_timer % 300 == 0){
                           create_enemy=true;
                         }
@@ -234,10 +238,11 @@ while (scancode != ESC_BREAKCODE) {
                     if (idx == 3) {
                         idx = 0;
                         mouse_generate_packet();
-                        if (!((mouse_packet.delta_x + mouse->x) <= 0 || (mouse_packet.delta_x + mouse->x + 7) >= (info.XResolution) || (-mouse_packet.delta_y + mouse->y) <= 0 || (-mouse_packet.delta_y + mouse->y) > (info.YResolution))) {
-                            mouse->x += mouse_packet.delta_x;
-                            mouse->y -= mouse_packet.delta_y;
-                        }
+                        nova_posicoes(&mouse->x, &mouse->y);
+                        //if (!((mouse_packet.delta_x + mouse->x) <= 0 || (mouse_packet.delta_x + mouse->x + 7) >= (info.XResolution) || (-mouse_packet.delta_y + mouse->y) <= 0 || (-mouse_packet.delta_y + mouse->y) > (info.YResolution))) {
+                        //    mouse->x += mouse_packet.delta_x;
+                        //    mouse->y -= mouse_packet.delta_y;
+                        //}
                         if (currentState == MENU) {
                             playButton(mouse->x, mouse->y);
                             leaderboardButton(mouse->x, mouse->y);
