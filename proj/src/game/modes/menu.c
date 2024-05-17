@@ -34,7 +34,14 @@ int drawMenu(){
     return 0;
 }
 int drawGame(player *player){
-    draw_sprite(hearthLife, 5,5);
-    draw_sprite(background, 0, 0);
+    
+   draw_sprite(background, 0, 0);
+    uint16_t xpos=5;
+    for(uint8_t i = 0; i<player->life;i++) {
+        draw_sprite(hearthLife, xpos,5);
+        xpos+=25;
+    }
+    
+    
     return 0;
 }

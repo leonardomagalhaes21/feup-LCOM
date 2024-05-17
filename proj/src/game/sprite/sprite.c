@@ -79,7 +79,7 @@ void loadAllSprites(){
     cuphead15 = create_sprite((xpm_map_t) cuphead_15);
     cuphead16 = create_sprite((xpm_map_t) cuphead_16);
     cupheadstand = create_sprite((xpm_map_t) cuphead_stand);
-    hearthLife = create_sprite((xpm_map_t) hearth);
+    hearthLife = create_sprite((xpm_map_t) hearth2);
 
     mouse_cursor= create_sprite((xpm_map_t) square);
     menu_full = create_sprite((xpm_map_t) full_Menu);

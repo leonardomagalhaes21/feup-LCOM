@@ -21,7 +21,7 @@
 #include "xpm/cuphead/cupheadstand.xpm"
 #include "xpm/bala.xpm"
 
-#include "xpm/hearth.xpm"
+#include "xpm/hearth2.xpm"
 #include "xpm/mouse.xpm"
 #include "xpm/square.xpm"
 #include "xpm/full_Menu.xpm"
