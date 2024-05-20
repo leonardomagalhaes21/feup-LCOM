@@ -11,6 +11,7 @@
 #include "game/viewer/gameViewer.h"
 #include "lcom/timer.h"
 #include "game/classes/bullet.h"
+#include "game/classes/bullet_node.h"
 
 extern int hook_id_kbd;
 extern int hook_id_mouse;
@@ -24,10 +25,6 @@ extern struct packet mouse_packet;
 extern int idx;
 extern vbe_mode_info_t info;
 extern GameState currentState;
-
-// void changeGameState(GameState newState) {
-//   GameState currentState = newState;
-// }
 
 uint8_t kbd_irq_set;
 uint8_t mouse_irq_set;
@@ -97,14 +94,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
   player = createPlayer(5, 5, 400, 571, cuphead1);
   MouseCursor *mouse;
   mouse = createMouseCursor(400, 350, mouse_cursor);
-  bullet *shot;
-  //bullet_node *bullets = NULL;
+  bullet_node *bullets = NULL;
   extern enemy monsters[10];
   int v = 10;
   for (int i = 0; i < 10; i++) {
     monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 1, 1, monster1, false);
   }
-
+  int bullet_cooldown=0;
   bool key_a_pressed = false;
   bool key_d_pressed = false;
   bool key_w_pressed = false;
@@ -120,58 +116,23 @@ int(proj_main_loop)(int argc, char *argv[]) {
         case HARDWARE:
           if (msg.m_notify.interrupts & timer_irq_set) {
             timer_int_handler();
-            unvulnerability++;
             if (currentState == MENU) {
               drawMenu();
 
             }
             else if (currentState == GAME) {
+              unvulnerability++;
+              bullet_cooldown++;
               drawGame(player);
-              moveBullet(shot);
-              draw_sprite(shot->sprite, shot->x,shot->y);
+              
 
-              destroyBullets(shot);
-              /*
-              bullet_node *current = bullets;
-              bullet_node *prev = NULL;
-              while (current != NULL) {
-                  moveBullet(current->shot);
-                  draw_sprite(current->shot->sprite, current->shot->x, current->shot->y);
-                  if (current->shot->x < 0 || current->shot->x >= info.XResolution || current->shot->y < 0 || current->shot->y >= info.YResolution) {
-                      bullet_node *to_remove = current;
-                      if (prev == NULL) {
-                          bullets = current->next;
-                      } else {
-                          prev->next = current->next;
-                      }
-                      current = current->next;
-                      destroyBulletNode(to_remove);
-                  } else {
-                      prev = current;
-                      current = current->next;
-                  }
-                }
-                */
+              
+
+              update_bullet_logic(&bullets);
 
 
-              update_player_logic(player, mouse, key_a_pressed, key_d_pressed, key_w_pressed, &speed_x, &speed_y);
-              for (int i = 0; i < 10; i++) {
-                if (monsters[i].alive) {  
-          
-                  bool flag = check_collision(player->sprite, player->x, player->y, monsters[i].sprite, monsters[i].x, monsters[i].y);
-                  if (flag && unvulnerability > 60) {
-                    player->life--;
-                    printf("lives: %d\n", player->life);
-                    unvulnerability = 0;
-                    if(player->life == 0){
-                      currentState = MENU;
-                      player->life = 5;
-                      player->x = 400;
-                      player->y = 571;
-                    }
-                  }
-                }
-              }
+              update_player_logic(player, mouse, key_a_pressed, key_d_pressed, key_w_pressed, &speed_x, &speed_y, &unvulnerability);
+              
               if (counter_timer % 60 == 0) {
                 create_enemy = true;
               }
@@ -179,7 +140,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
               create_enemy = false;
             }
             else if (currentState == LEADERBOARD) {
-              // drawGame();
+              //drawGame();
             }
             else if (currentState == EXIT) {
               if (close_devices() != 0)
@@ -222,7 +183,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
             if (idx == 3) {
               idx = 0;
               mouse_generate_packet();
-              // nova_posicoes(&mouse->x, &mouse->y);
               if (!((mouse_packet.delta_x + mouse->x) <= 0 || (mouse_packet.delta_x + mouse->x + 7) >= (info.XResolution) || (-mouse_packet.delta_y + mouse->y) <= 0 || (-mouse_packet.delta_y + mouse->y) > (info.YResolution))) {
                 mouse->x += mouse_packet.delta_x;
                 mouse->y -= mouse_packet.delta_y;
@@ -232,13 +192,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 leaderboardButton(mouse->x, mouse->y);
                 exitButton(mouse->x, mouse->y);
               }
-              if(currentState == GAME){
+              else if(currentState == GAME){
                 if (mouse_packet.lb) {
-                  shot = createBullet(player->x, player->y, mouse->x, mouse->y, 3, bala);
-                  
-
-                  //bullet *new_shot = createBullet(player->x, player->y, mouse->x, mouse->y, 3, bala);
-                  //addBullet(&bullets, new_shot);
+                  if(bullet_cooldown > 30){
+                    bullet_cooldown = 0;
+                
+                    bullet *new_shot = createBullet(player->x, player->y, mouse->x, mouse->y, 3, bala);
+                    addBullet(&bullets, new_shot);
+                  }
                 }
               }
             }
@@ -262,8 +223,8 @@ int main(int argc, char *argv[]) {
 
   // enables to log function invocations that are being "wrapped" by LCF
   // [comment this out if you don't want/need/ it]
-  lcf_trace_calls("/home/lcom/labs/proj/src/trace.txt");
-  lcf_log_output("/home/lcom/labs/proj/src/output.txt");
+  //lcf_trace_calls("/home/lcom/labs/proj/src/trace.txt");
+  //lcf_log_output("/home/lcom/labs/proj/src/output.txt");
   // handles control over to LCF
   // [LCF handles command line arguments and invokes the right function]
   if (lcf_start(argc, argv))

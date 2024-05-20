@@ -3,8 +3,12 @@
 bool is_falling = true;
 float cuphead_offset = 0;
 enemy monsters[10];
+extern vbe_mode_info_t info;
+extern GameState currentState;
 
-void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y) {
+
+
+void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y, int *unvulnerability) {
 
     if (key_d_pressed || key_a_pressed) {
         if (cuphead_offset == 0){
@@ -120,6 +124,23 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
     else {
         draw_sprite(player->sprite, player->x, player->y);
     }
+
+    for (int i = 0; i < 10; i++) {
+        if (monsters[i].alive) {  
+
+            bool flag = check_collision(player->sprite, player->x, player->y, monsters[i].sprite, monsters[i].x, monsters[i].y);
+            if (flag && *unvulnerability > 60) {
+            player->life--;
+            *unvulnerability = 0;
+            if(player->life == 0){
+                currentState = MENU;
+                player->life = 5;
+                player->x = 400;
+                player->y = 571;
+            }
+            }
+        }
+    }
     
 }
 
@@ -162,6 +183,57 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
 }
 
 
+void update_bullet_logic(bullet_node **head) {
+    bullet_node *prev = NULL;
+    bullet_node *current = *head;
+    
+    while (current != NULL) {
+        moveBullet(current->shot);
+        draw_sprite(current->shot->sprite, current->shot->x, current->shot->y);
 
+        // Verifica se a bala saiu dos limites da tela
+        if (current->shot->x < 0 || current->shot->x >= info.XResolution || current->shot->y < 0 || current->shot->y >= info.YResolution) {
+            bullet_node *to_remove = current;
+            current = current->next;
 
+            // Atualiza a cabeça da lista, se necessário
+            if (prev == NULL) {
+                *head = current;
+            } else {
+                prev->next = current;
+            }
 
+            destroyBulletNode(to_remove);
+        } else {
+            prev = current;
+            current = current->next;
+        }
+    }
+
+    for (int i = 0; i < 10; i++) {
+        if (monsters[i].alive) {
+            current = *head;
+            prev = NULL; 
+            while (current != NULL) {
+                bool flag = check_collision(current->shot->sprite, current->shot->x, current->shot->y, monsters[i].sprite, monsters[i].x, monsters[i].y);
+                if (flag) {
+                    monsters[i].alive = false;
+                    bullet_node *to_remove = current;
+
+                    if (prev == NULL) {
+                        *head = current->next;
+                    } else {
+                        prev->next = current->next;
+                    }
+
+                    current = current->next;
+                    destroyBulletNode(to_remove);
+                    break;
+                } else {
+                    prev = current;
+                    current = current->next;
+                }
+            }
+        }
+    }
+}

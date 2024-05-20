@@ -1,5 +1,4 @@
-/* #include "bullet_node.h"
-
+#include "bullet_node.h"
 
 bullet_node *createBulletNode(bullet *shot) {
     bullet_node *node = (bullet_node *)malloc(sizeof(bullet_node));
@@ -13,7 +12,7 @@ bullet_node *createBulletNode(bullet *shot) {
 
 void destroyBulletNode(bullet_node *node) {
     if (node != NULL) {
-        destroyBullet(node->shot);
+        destroyBullets(node->shot); 
         free(node);
     }
 }
@@ -27,6 +26,7 @@ void destroyAllBullets(bullet_node *head) {
         current = next;
     }
 }
+
 void addBullet(bullet_node **head, bullet *shot) {
     bullet_node *new_node = createBulletNode(shot);
     new_node->next = *head;
@@ -46,4 +46,4 @@ void removeBullet(bullet_node **head, bullet_node *node_to_remove) {
         }
     }
     destroyBulletNode(node_to_remove);
-} */
+}

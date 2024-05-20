@@ -7,6 +7,10 @@
         "*.xpm": "c",
         "lcf.h": "c",
         "bullet.h": "c",
-        "complex": "c"
+        "complex": "c",
+        "random": "c",
+        "iterator": "c",
+        "gameviewer.h": "c",
+        "mouse.h": "c"
     }
 }
