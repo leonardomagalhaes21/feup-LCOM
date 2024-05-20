@@ -98,7 +98,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   extern enemy monsters[10];
   int v = 10;
   for (int i = 0; i < 10; i++) {
-    monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 1, 1, monster1, false);
+    monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
   }
   int bullet_cooldown=0;
   bool key_a_pressed = false;

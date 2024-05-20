@@ -1,4 +1,5 @@
 #include "game_logic.h"
+#include <stdlib.h>
 
 bool is_falling = true;
 float cuphead_offset = 0;
@@ -130,7 +131,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 
             bool flag = check_collision(player->sprite, player->x, player->y, monsters[i].sprite, monsters[i].x, monsters[i].y);
             if (flag && *unvulnerability > 60) {
-            player->life--;
+            //player->life--;
             *unvulnerability = 0;
             if(player->life == 0){
                 currentState = MENU;
@@ -145,42 +146,78 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 }
 
 
+
+
 void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
     if (create_enemy) {
         for (int i = 0; i < 10; i++) {
-            if (monsters[i].alive == false) {
-                reviveEnemy(&monsters[i],5,5);
+            if (!monsters[i].alive) {
+                int spawn_side = rand() % 2; 
+                int spawn_x;
+                if (spawn_side == 0) {
+                    spawn_x = -monsters[i].sprite->width; 
+                    monsters[i].speed_x = 2; 
+                } else {
+                    spawn_x = info.XResolution;
+                    monsters[i].speed_x = -2;
+                }
+                reviveEnemy(&monsters[i], spawn_x, 650);
+                monsters[i].speed_y = 0; 
                 break;
             }
         }
     }
 
     int8_t gravity = 4;
-    
+
     for (int i = 0; i < 10; i++) {
-        if (monsters[i].alive ==true) {
+        if (monsters[i].alive) {
             monsters[i].y += monsters[i].speed_y;
             monsters[i].speed_y += gravity;
 
-            if (monsters[i].y >= 500) {
-                monsters[i].y = 550;
+            if (monsters[i].y >= 600) {
+                monsters[i].y = 600;
                 monsters[i].speed_y = 0;
             }
+
             monsters[i].x += monsters[i].speed_x;
-            if (monsters[i].x < -30) {
-                monsters[i].x = -30;    
-                monsters[i].speed_x = -monsters[i].speed_x;
+            if (monsters[i].x < -monsters[i].sprite->width || monsters[i].x >= info.XResolution) {
+                monsters[i].alive = false; 
             }
         }
     }
 
-    for(int i = 0; i < 10; i++){
-        if (monsters[i].alive == true) {
+    for (int i = 0; i < 10; i++) {
+    if (monsters[i].alive) {
+        monsters[i].y += monsters[i].speed_y;
+        monsters[i].speed_y += gravity;
+
+        if (monsters[i].y >= 600) {
+            monsters[i].y = 600;
+            monsters[i].speed_y = 0;
+        }
+
+        monsters[i].x += monsters[i].speed_x;
+        if (monsters[i].x < -monsters[i].sprite->width) {
+            monsters[i].x = -monsters[i].sprite->width;
+            monsters[i].speed_x = abs(monsters[i].speed_x); 
+        } else if (monsters[i].x >= info.XResolution) {
+            monsters[i].x = info.XResolution - 1; 
+            monsters[i].speed_x = -abs(monsters[i].speed_x); 
+        }
+
+        
+       
+    }
+}
+ for (int i = 0; i < 10; i++) {
+        if (monsters[i].alive) {
             draw_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
-            
         }
     }
 }
+
+
 
 
 void update_bullet_logic(bullet_node **head) {
@@ -191,12 +228,10 @@ void update_bullet_logic(bullet_node **head) {
         moveBullet(current->shot);
         draw_sprite(current->shot->sprite, current->shot->x, current->shot->y);
 
-        // Verifica se a bala saiu dos limites da tela
         if (current->shot->x < 0 || current->shot->x >= info.XResolution || current->shot->y < 0 || current->shot->y >= info.YResolution) {
             bullet_node *to_remove = current;
             current = current->next;
 
-            // Atualiza a cabeça da lista, se necessário
             if (prev == NULL) {
                 *head = current;
             } else {
