@@ -197,7 +197,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                   if(bullet_cooldown > 30){
                     bullet_cooldown = 0;
                 
-                    bullet *new_shot = createBullet(player->x, player->y, mouse->x, mouse->y, 3, bala);
+                    bullet *new_shot = createBullet(player->x+75, player->y+50, mouse->x, mouse->y, 3, bala);
                     addBullet(&bullets, new_shot);
                   }
                 }

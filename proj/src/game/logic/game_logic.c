@@ -131,7 +131,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 
             bool flag = check_collision(player->sprite, player->x, player->y, monsters[i].sprite, monsters[i].x, monsters[i].y);
             if (flag && *unvulnerability > 60) {
-            //player->life--;
+            player->life--;
             *unvulnerability = 0;
             if(player->life == 0){
                 currentState = MENU;

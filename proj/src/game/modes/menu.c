@@ -33,6 +33,7 @@ int drawMenu(){
     draw_sprite(menu_full, 0, 0);
     return 0;
 }
+
 int drawGame(player *player){
     
    draw_sprite(background, 0, 0);
