@@ -25,6 +25,8 @@ extern struct packet mouse_packet;
 extern int idx;
 extern vbe_mode_info_t info;
 extern GameState currentState;
+int score=0;
+double multiplier = 1.0;
 
 uint8_t kbd_irq_set;
 uint8_t mouse_irq_set;
@@ -121,12 +123,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
             }
             else if (currentState == GAME) {
+
               unvulnerability++;
               bullet_cooldown++;
-              drawGame(player);
-              
 
-              
+              drawGame(player, score);
 
               update_bullet_logic(&bullets);
 
@@ -136,6 +137,15 @@ int(proj_main_loop)(int argc, char *argv[]) {
               if (counter_timer % 60 == 0) {
                 create_enemy = true;
               }
+              if (currentState == GAME) {
+                if (counter_timer % 60 == 0) {
+                  multiplier+=0.1;
+                }
+                if(counter_timer%20 == 0) {
+                  score+=10*multiplier;
+                }
+              }
+              
               update_enemy_logic(mouse, create_enemy);
               create_enemy = false;
             }

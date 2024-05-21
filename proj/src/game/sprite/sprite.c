@@ -80,6 +80,7 @@ void loadAllSprites(){
     cuphead16 = create_sprite((xpm_map_t) cuphead_16);
     cupheadstand = create_sprite((xpm_map_t) cuphead_stand);
     hearthLife = create_sprite((xpm_map_t) hearth2);
+    font = create_sprite((xpm_map_t) startFont);
 
     mouse_cursor= create_sprite((xpm_map_t) square);
     menu_full = create_sprite((xpm_map_t) full_Menu);
@@ -116,3 +117,180 @@ bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2,  int y2) 
     return false;
     
 }
+
+int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16
+    uint16_t xMap, yMap;
+    switch (c)
+    {
+    case 'a':
+        xMap =9; 
+        yMap =1;
+        break;
+    case 'b':
+        xMap =9+18; 
+        yMap =1;
+        break;
+    case 'c':
+        xMap =9+2*18; 
+        yMap =1;
+        break;
+    case 'd':
+        xMap =9+3*18; 
+        yMap =1;
+        break;
+    case 'e':
+        xMap =9+4*18; 
+        yMap =1;
+        break;
+    case 'f':
+        xMap =9+5*18; 
+        yMap =1;
+        break;
+    case 'g':
+        xMap =9+6*18; 
+        yMap =1;
+        break;
+    case 'h':
+        xMap =9+7*18; 
+        yMap =1;
+        break;
+    case 'i':
+        xMap =9+8*18; 
+        yMap =1;
+        break;
+    case 'j':
+        xMap =9+9*18; 
+        yMap =1;
+        break;
+    case 'k':
+        xMap =9+10*18; 
+        yMap =1;
+        break;
+    case 'l':
+        xMap =9+11*18; 
+        yMap =1;
+        break;
+    case 'm':
+        xMap =9+12*18; 
+        yMap =1;
+        break;
+    case 'n':
+        xMap =9+13*18; 
+        yMap =1;
+        break;
+    case 'o':
+        xMap =9+14*18; 
+        yMap =1;
+        break;
+    case 'p':
+        xMap =9+15*18; 
+        yMap =1;
+        break;
+    case 'q':
+        xMap =9+16*18; 
+        yMap =1;
+        break;
+    case 'r':
+        xMap =9+17*18; 
+        yMap =1;
+        break;
+    case 's':
+        xMap =9+18*18; 
+        yMap =1;
+        break;
+    case 't':
+        xMap =9+19*18; 
+        yMap =1;
+        break;
+    case 'u':
+        xMap =9+20*18; 
+        yMap =1;
+        break;
+    case 'v':
+        xMap =9+21*18; 
+        yMap =1;
+        break;
+    case 'w':
+        xMap =9+22*18; 
+        yMap =1;
+        break;
+    case 'x':
+        xMap =9+23*18; 
+        yMap =1;
+        break;
+    case 'y':
+        xMap =9+24*18; 
+        yMap =1;
+        break;
+    case 'z':
+        xMap =9+25*18; 
+        yMap =1;
+        break;
+    default:
+        break;
+    }
+    for (int h = 0 ; h < 18; h++) {
+        for (int w = 0 ; w < 18; w++) {
+            if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*800])) return 1;
+        }
+    }
+    return 0;
+}
+
+int drawNum(int c, uint16_t x, uint16_t y) { //height = 17, width = 16
+    uint16_t xMap, yMap;
+    switch (c)
+    {
+    case 0:
+        xMap =9; 
+        yMap =36;
+        break;
+    case 1:
+        xMap =9+18; 
+        yMap =36;
+        break;
+    case 2:
+        xMap =9+2*18; 
+        yMap =36;
+        break;
+    case 3:
+        xMap =9+3*18; 
+        yMap =36;
+        break;
+    case 4:
+        xMap =9+4*18; 
+        yMap =36;
+        break;
+    case 5:
+        xMap =9+5*18; 
+        yMap =36;
+        break;
+    case 6:
+        xMap =9+6*18; 
+        yMap =36;
+        break;
+    case 7:
+        xMap =9+7*18; 
+        yMap =36;
+        break;
+    case 8:
+        xMap =9+8*18; 
+        yMap =36;
+        break;
+    case 9:
+        xMap =9+9*18; 
+        yMap =36;
+        break;
+    
+    default:
+        return 1;
+    }
+    for (int h = 0 ; h < 18; h++) {
+        for (int w = 0 ; w < 18; w++) {
+            if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*800])) return 1;
+        }
+    }
+    return 0;
+}
+
+

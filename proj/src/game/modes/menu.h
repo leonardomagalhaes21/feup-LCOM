@@ -26,6 +26,7 @@ int playButton(int x, int y);
 int leaderboardButton(int x, int y);
 int exitButton(int x, int y);
 int drawMenu();
-int drawGame(player *player);
+int drawGame(player *player, int score);
+int drawScore(int score);
 #endif
 
