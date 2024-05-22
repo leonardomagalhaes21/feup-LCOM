@@ -25,8 +25,10 @@ extern struct packet mouse_packet;
 extern int idx;
 extern vbe_mode_info_t info;
 extern GameState currentState;
+
 int score=0;
 double multiplier = 1.0;
+
 
 uint8_t kbd_irq_set;
 uint8_t mouse_irq_set;
@@ -152,6 +154,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
             else if (currentState == LEADERBOARD) {
               //drawGame();
             }
+            else if (currentState == SCOREBOARD) {
+              drawScoreBoard(score);
+            }
             else if (currentState == EXIT) {
               if (close_devices() != 0)
                 return 1;
@@ -165,7 +170,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
           if (msg.m_notify.interrupts & kbd_irq_set) {
             kbc_ih();
-
+            if (currentState == SCOREBOARD) {
+              processScanCode(scancode);
+            }
             if (scancode == 0x1E) {
               key_a_pressed = true;
             }
@@ -201,6 +208,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 playButton(mouse->x, mouse->y);
                 leaderboardButton(mouse->x, mouse->y);
                 exitButton(mouse->x, mouse->y);
+              }
+              if (currentState == SCOREBOARD) {
+                menuButton(mouse->x, mouse->y, &score);
+                
               }
               else if(currentState == GAME){
                 if (mouse_packet.lb) {

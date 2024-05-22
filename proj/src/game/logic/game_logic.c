@@ -6,12 +6,18 @@ float cuphead_offset = 0;
 enemy monsters[10];
 extern vbe_mode_info_t info;
 extern GameState currentState;
-
+bool facingLeft=false;
 
 
 void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y, int *unvulnerability) {
 
     if (key_d_pressed || key_a_pressed) {
+        if (key_a_pressed) {
+            facingLeft = true;
+        }
+        else if (key_d_pressed) {
+            facingLeft = false;
+        }
         if (cuphead_offset == 0){
             player->sprite = cuphead1;
             cuphead_offset += 0.5;
@@ -119,7 +125,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
         player->x = 1045;
     }
     
-    if (key_a_pressed) {
+    if (key_a_pressed || facingLeft) {
         draw_reverse_sprite(player->sprite, player->x, player->y);
     }
     else {
@@ -134,7 +140,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
             player->life--;
             *unvulnerability = 0;
             if(player->life == 0){
-                currentState = MENU;
+                currentState = SCOREBOARD;
                 player->life = 5;
                 player->x = 400;
                 player->y = 571;

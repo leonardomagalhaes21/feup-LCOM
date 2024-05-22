@@ -25,8 +25,12 @@ void setMenuState();
 int playButton(int x, int y);
 int leaderboardButton(int x, int y);
 int exitButton(int x, int y);
+int menuButton(int x, int y, int *score);
 int drawMenu();
 int drawGame(player *player, int score);
-int drawScore(int score);
+int drawScoreBoard(int score);
+int drawScore(int score, uint16_t x, uint16_t y);
+int processScanCode(uint8_t scancodewrite);
+
 #endif
 

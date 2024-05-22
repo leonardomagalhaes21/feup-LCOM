@@ -81,6 +81,7 @@ void loadAllSprites(){
     cupheadstand = create_sprite((xpm_map_t) cuphead_stand);
     hearthLife = create_sprite((xpm_map_t) hearth2);
     font = create_sprite((xpm_map_t) startFont);
+    ScoreBackGrnd = create_sprite((xpm_map_t) ScoreBrdBackgrnd);
 
     mouse_cursor= create_sprite((xpm_map_t) square);
     menu_full = create_sprite((xpm_map_t) full_Menu);
@@ -226,6 +227,10 @@ int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16
         xMap =9+25*18; 
         yMap =1;
         break;
+    case ':':
+        xMap =9+11*18; 
+        yMap =36; 
+        break;
     default:
         break;
     }
@@ -293,4 +298,17 @@ int drawNum(int c, uint16_t x, uint16_t y) { //height = 17, width = 16
     return 0;
 }
 
+int drawTxt(char txt[], uint16_t x, uint16_t y) {
+    uint8_t i=0;
+    while(txt[i]) {
+        if(txt[i]==' ') {
+            i++;
+        }
+        else {
+            if(drawChar(txt[i],x+18*i,y)) {return 1;}
+            i++;
+        }   
+    }
+    return 0;
+}
 

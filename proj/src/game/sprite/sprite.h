@@ -27,6 +27,7 @@
 #include "xpm/square.xpm"
 #include "xpm/full_Menu.xpm"
 #include "xpm/background.xpm"
+#include "xpm/ScoreBoardBackgrd.xpm"
 #include "xpm/monster1.xpm"
 #include "devices/graphics/graphics.h"
 
@@ -60,7 +61,8 @@ Sprite *background;
 Sprite *monster1;
 Sprite *hearthLife;
 Sprite *bala;
-Sprite *font; 
+Sprite *font;
+Sprite *ScoreBackGrnd; 
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);
@@ -71,6 +73,7 @@ void loadAllSprites();
 int clean_img(uint16_t x, uint16_t y, uint16_t width);
 int drawChar(char c, uint16_t x, uint16_t y);
 int drawNum(int c, uint16_t x, uint16_t y);
+int drawTxt(char txt[], uint16_t x, uint16_t y);
 
 bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2, int y2);
 
