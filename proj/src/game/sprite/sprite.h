@@ -29,6 +29,7 @@
 #include "xpm/background.xpm"
 #include "xpm/ScoreBoardBackgrd.xpm"
 #include "xpm/monster1.xpm"
+#include "xpm/monster2.xpm"
 #include "devices/graphics/graphics.h"
 
 
@@ -59,6 +60,7 @@ Sprite *mouse_cursor;
 Sprite *menu_full;
 Sprite *background;
 Sprite *monster1;
+Sprite *monster2;
 Sprite *hearthLife;
 Sprite *bala;
 Sprite *font;

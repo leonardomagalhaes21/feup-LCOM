@@ -104,6 +104,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
   for (int i = 0; i < 10; i++) {
     monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
   }
+
+  extern enemy monster_fly;
+  monster_fly = *createEnemy(6, 5, 800, 100, 3, 3, monster2, true);
+
   int bullet_cooldown=0;
   bool key_a_pressed = false;
   bool key_d_pressed = false;

@@ -4,6 +4,7 @@
 bool is_falling = true;
 float cuphead_offset = 0;
 enemy monsters[10];
+enemy monster_fly;
 extern vbe_mode_info_t info;
 extern GameState currentState;
 bool facingLeft=false;
@@ -194,33 +195,37 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
     }
 
     for (int i = 0; i < 10; i++) {
-    if (monsters[i].alive) {
-        monsters[i].y += monsters[i].speed_y;
-        monsters[i].speed_y += gravity;
+        if (monsters[i].alive) {
+            monsters[i].y += monsters[i].speed_y;
+            monsters[i].speed_y += gravity;
 
-        if (monsters[i].y >= 600) {
-            monsters[i].y = 600;
-            monsters[i].speed_y = 0;
-        }
+            if (monsters[i].y >= 600) {
+                monsters[i].y = 600;
+                monsters[i].speed_y = 0;
+            }
 
-        monsters[i].x += monsters[i].speed_x;
-        if (monsters[i].x < -monsters[i].sprite->width) {
-            monsters[i].x = -monsters[i].sprite->width;
-            monsters[i].speed_x = abs(monsters[i].speed_x); 
-        } else if (monsters[i].x >= info.XResolution) {
-            monsters[i].x = info.XResolution - 1; 
-            monsters[i].speed_x = -abs(monsters[i].speed_x); 
-        }
+            monsters[i].x += monsters[i].speed_x;
+            if (monsters[i].x < -monsters[i].sprite->width) {
+                monsters[i].x = -monsters[i].sprite->width;
+                monsters[i].speed_x = abs(monsters[i].speed_x); 
+            } else if (monsters[i].x >= info.XResolution) {
+                monsters[i].x = info.XResolution - 1; 
+                monsters[i].speed_x = -abs(monsters[i].speed_x); 
+            }
 
+            
         
-       
+        }
     }
-}
- for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
         if (monsters[i].alive) {
             draw_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
         }
     }
+
+    if (monster_fly.alive && monster_fly.life > 0)
+        draw_reverse_sprite(monster_fly.sprite, monster_fly.x, monster_fly.y);
+    
 }
 
 
@@ -274,6 +279,34 @@ void update_bullet_logic(bullet_node **head) {
                     prev = current;
                     current = current->next;
                 }
+            }
+        }
+    }
+
+    if (monster_fly.alive) {
+        current = *head;
+        prev = NULL;
+        while (current != NULL) {
+            bool flag = check_collision(current->shot->sprite, current->shot->x, current->shot->y, monster_fly.sprite, monster_fly.x, monster_fly.y);
+            if (flag) {
+                monster_fly.life -= 3;
+                if (monster_fly.life <= 0) {
+                    monster_fly.alive = false;
+                }
+                bullet_node *to_remove = current;
+
+                if (prev == NULL) {
+                    *head = current->next;
+                } else {
+                    prev->next = current->next;
+                }
+
+                current = current->next;
+                destroyBulletNode(to_remove);
+                break;
+            } else {
+                prev = current;
+                current = current->next;
             }
         }
     }

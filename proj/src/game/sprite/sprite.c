@@ -87,6 +87,7 @@ void loadAllSprites(){
     menu_full = create_sprite((xpm_map_t) full_Menu);
     background = create_sprite((xpm_map_t) back_ground);
     monster1 = create_sprite((xpm_map_t) monster_1);
+    monster2 = create_sprite((xpm_map_t) monster_2);
     bala = create_sprite((xpm_map_t) bala1);
 }
 
