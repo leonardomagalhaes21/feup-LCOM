@@ -8,6 +8,7 @@ enemy monster_fly;
 extern vbe_mode_info_t info;
 extern GameState currentState;
 bool facingLeft=false;
+extern int score;
 
 
 void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y, int *unvulnerability) {
@@ -142,6 +143,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
             *unvulnerability = 0;
             if(player->life == 0){
                 currentState = SCOREBOARD;
+                save_score(score);
                 player->life = 5;
                 player->x = 400;
                 player->y = 571;

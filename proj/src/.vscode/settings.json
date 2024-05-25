@@ -8,6 +8,8 @@
   "editor.wordWrapColumn": 100,
   "files.associations": {
     "stdint.h": "c",
-    "sprite.h": "c"
+    "sprite.h": "c",
+    "save_score.h": "c",
+    "game_logic.h": "c"
   },
 }
