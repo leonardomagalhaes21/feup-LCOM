@@ -28,6 +28,7 @@
 #include "xpm/full_Menu.xpm"
 #include "xpm/background.xpm"
 #include "xpm/ScoreBoardBackgrd.xpm"
+#include "xpm/LeaderboardMenu.xpm"
 #include "xpm/monster1.xpm"
 #include "xpm/monster2.xpm"
 #include "devices/graphics/graphics.h"
@@ -65,6 +66,7 @@ Sprite *hearthLife;
 Sprite *bala;
 Sprite *font;
 Sprite *ScoreBackGrnd; 
+Sprite *LeaderBackGrnd; 
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);

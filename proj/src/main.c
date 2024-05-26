@@ -156,7 +156,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
               create_enemy = false;
             }
             else if (currentState == LEADERBOARD) {
-              //drawGame();
+              drawLeaderBoard();
             }
             else if (currentState == SCOREBOARD) {
               drawScoreBoard(score);
@@ -212,6 +212,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 playButton(mouse->x, mouse->y);
                 leaderboardButton(mouse->x, mouse->y);
                 exitButton(mouse->x, mouse->y);
+              }
+              if (currentState == LEADERBOARD) {
+                menuButtonLeader(mouse->x, mouse->y);
+                
               }
               if (currentState == SCOREBOARD) {
                 menuButton(mouse->x, mouse->y, &score);

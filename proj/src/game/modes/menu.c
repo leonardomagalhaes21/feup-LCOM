@@ -2,7 +2,7 @@
 
 extern uint8_t scancode;
 extern struct packet mouse_packet;
-GameState currentState = SCOREBOARD; 
+GameState currentState = MENU; 
 
 char name[10];
 uint8_t indexName=0;
@@ -160,6 +160,7 @@ int menuButton(int x, int y, int *score){
     if(335 < x && 800> x && 455 < y && 600 > y){
         if(mouse_packet.lb)
             currentState = MENU;
+            save_name_score(name, *score);
             *score=0;
         }
     
@@ -168,6 +169,30 @@ int menuButton(int x, int y, int *score){
 
 int drawMenu(){
     draw_sprite(menu_full, 0, 0);
+    return 0;
+}
+
+int drawLeaderBoard(){
+    draw_sprite(LeaderBackGrnd, 0, 0);
+    int numberOfScores = 3;
+    char names[numberOfScores][10];
+    int scores[numberOfScores];
+    read_scores(names,scores,numberOfScores);
+    for(int i = 0; i< numberOfScores;i++) {
+      drawTxt(names[i],335,220+30*i);
+      drawScore(scores[i],720,220+30*i);
+    }
+    
+    return 0;
+}
+
+int menuButtonLeader(int x, int y) {
+  if(335 < x && 800> x &&  520 < y && 585 > y){
+        if(mouse_packet.lb)
+            currentState = MENU;
+            
+        }
+    
     return 0;
 }
 

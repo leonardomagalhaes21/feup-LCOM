@@ -82,6 +82,7 @@ void loadAllSprites(){
     hearthLife = create_sprite((xpm_map_t) hearth2);
     font = create_sprite((xpm_map_t) startFont);
     ScoreBackGrnd = create_sprite((xpm_map_t) ScoreBrdBackgrnd);
+    LeaderBackGrnd = create_sprite((xpm_map_t) LeaderbrdBckgrnd);
 
     mouse_cursor= create_sprite((xpm_map_t) square);
     menu_full = create_sprite((xpm_map_t) full_Menu);

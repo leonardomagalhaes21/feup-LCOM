@@ -143,7 +143,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
             *unvulnerability = 0;
             if(player->life == 0){
                 currentState = SCOREBOARD;
-                save_score(score);
+                //save_score(score);
                 player->life = 5;
                 player->x = 400;
                 player->y = 571;
