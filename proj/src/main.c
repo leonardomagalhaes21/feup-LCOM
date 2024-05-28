@@ -218,7 +218,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 
               }
               if (currentState == SCOREBOARD) {
-                menuButton(mouse->x, mouse->y, &score);
+                menuButton(mouse->x, mouse->y, &score, &multiplier);
                 
               }
               else if(currentState == GAME){

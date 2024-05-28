@@ -25,7 +25,7 @@ void setMenuState();
 int playButton(int x, int y);
 int leaderboardButton(int x, int y);
 int exitButton(int x, int y);
-int menuButton(int x, int y, int *score);
+int menuButton(int x, int y, int *score, double *multiplier);
 int menuButtonLeader(int x, int y);
 int drawMenu();
 int drawGame(player *player, int score);

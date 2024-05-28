@@ -156,12 +156,13 @@ int exitButton(int x, int y){
         }
     return 0;
 }
-int menuButton(int x, int y, int *score){
+int menuButton(int x, int y, int *score, double *multiplier){
     if(335 < x && 800> x && 455 < y && 600 > y){
         if(mouse_packet.lb) {
           currentState = MENU;
             save_name_score(name, *score);
             *score=0;
+            *multiplier=1.1;
         }
             
         }
