@@ -158,10 +158,12 @@ int exitButton(int x, int y){
 }
 int menuButton(int x, int y, int *score){
     if(335 < x && 800> x && 455 < y && 600 > y){
-        if(mouse_packet.lb)
-            currentState = MENU;
+        if(mouse_packet.lb) {
+          currentState = MENU;
             save_name_score(name, *score);
             *score=0;
+        }
+            
         }
     
     return 0;
@@ -174,23 +176,31 @@ int drawMenu(){
 
 int drawLeaderBoard(){
     draw_sprite(LeaderBackGrnd, 0, 0);
-    int numberOfScores = 3;
+    int numberOfScores = 7;
     char names[numberOfScores][10];
+    char dates[numberOfScores][18];
     int scores[numberOfScores];
-    read_scores(names,scores,numberOfScores);
+    
+    for (int i = 0; i < numberOfScores; i++) {
+        strcpy(names[i], "default");
+    }
+    read_scores(names,scores, dates,numberOfScores);
     for(int i = 0; i< numberOfScores;i++) {
-      drawTxt(names[i],335,220+30*i);
-      drawScore(scores[i],720,220+30*i);
+      if (strcmp(names[i], "default") == 0) {
+          return 0;
+      }
+      drawTxt(names[i],270,260+30*i);
+      drawTxt(dates[i],270+18*10,260+30*i);
+      drawScore(scores[i],850,260+30*i);
     }
     
     return 0;
 }
 
 int menuButtonLeader(int x, int y) {
-  if(335 < x && 800> x &&  520 < y && 585 > y){
+  if(270 < x && 890> x &&  600 < y && 740 > y){
         if(mouse_packet.lb)
             currentState = MENU;
-            
         }
     
     return 0;

@@ -233,6 +233,57 @@ int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16
         xMap =9+11*18; 
         yMap =36; 
         break;
+
+    case '0':
+        xMap =9; 
+        yMap =36;
+        break;
+    case '1':
+        xMap =9+18; 
+        yMap =36;
+        break;
+    case '2':
+        xMap =9+2*18; 
+        yMap =36;
+        break;
+    case '3':
+        xMap =9+3*18; 
+        yMap =36;
+        break;
+    case '4':
+        xMap =9+4*18; 
+        yMap =36;
+        break;
+    case '5':
+        xMap =9+5*18; 
+        yMap =36;
+        break;
+    case '6':
+        xMap =9+6*18; 
+        yMap =36;
+        break;
+    case '7':
+        xMap =9+7*18; 
+        yMap =36;
+        break;
+    case '8':
+        xMap =9+8*18; 
+        yMap =36;
+        break;
+    case '9':
+        xMap =9+9*18; 
+        yMap =36;
+        break;
+    case '/':
+        xMap =9+30*18; 
+        yMap =36;
+        break;
+    case '-':
+        xMap =9+27*18; 
+        yMap =36;
+        break;
+    
+   
     default:
         break;
     }
