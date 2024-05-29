@@ -11,6 +11,7 @@ extern GameState currentState;
 bool facingLeft=false;
 extern int score;
 extern int counter_timer;
+int renew=0;
 
 
 
@@ -314,6 +315,7 @@ void update_bullet_logic(bullet_node **head) {
                     monsters_fly[i].life -= 3;
                     if (monsters_fly[i].life <= 0) {
                         monsters_fly[i].alive = false;
+                        renew=0;
                     }
                     bullet_node *to_remove = current;
 
@@ -354,3 +356,26 @@ void check_enemy_bullet_collisions(player *player) {
         }
     }
 }
+
+
+void spawn_dead_enemies(){
+    int spawn= rand() % 2; 
+    if(monsters_fly[spawn].alive==false){
+        monsters_fly[spawn].alive=true;
+        monsters_fly[spawn].life=6;
+    }
+    else{
+        if(spawn==0 || monsters_fly[1].alive==false){
+            monsters_fly[1].alive=true;
+            monsters_fly[1].life = 6;
+        }
+        else if(spawn==1 || monsters_fly[0].alive==false){
+            monsters_fly[0].alive=true;
+            monsters_fly[0].life = 6;
+        }
+            
+    }
+
+    
+}
+

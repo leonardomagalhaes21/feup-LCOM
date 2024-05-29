@@ -29,7 +29,7 @@ extern struct packet mouse_packet;
 extern int idx;
 extern vbe_mode_info_t info;
 extern GameState currentState;
-
+extern int renew;
 int score=0;
 double multiplier = 1.0;
 
@@ -138,6 +138,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
               unvulnerability++;
               bullet_cooldown++;
+              
 
               drawGame(player, score);
 
@@ -148,6 +149,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
               
               if (counter_timer % 60 == 0) {
                 create_enemy = true;
+                renew+=1;
+              }
+              if(renew>=5){
+                spawn_dead_enemies();
+                renew=0;
               }
               if (currentState == GAME) {
                 if (counter_timer % 60 == 0) {
