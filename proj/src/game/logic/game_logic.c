@@ -4,7 +4,7 @@
 bool is_falling = true;
 float cuphead_offset = 0;
 enemy monsters[10];
-enemy monster_fly;
+enemy monsters_fly[2];
 extern vbe_mode_info_t info;
 extern GameState currentState;
 bool facingLeft=false;
@@ -92,7 +92,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
         cuphead_offset = 0;
     }
     
-    int8_t gravity = 4;
+    int8_t gravity = 4 ;
     int8_t jump_force = -40; 
 
     if (is_falling) {
@@ -108,9 +108,9 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
     }
 
     if (key_a_pressed) {
-        *speed_x = -6; 
+        *speed_x = -8; 
     } else if (key_d_pressed) {
-        *speed_x = 6; 
+        *speed_x = 8; 
     } else {
         *speed_x = 0; 
     }
@@ -156,79 +156,67 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 
 
 
-
 void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
     if (create_enemy) {
         for (int i = 0; i < 10; i++) {
             if (!monsters[i].alive) {
                 int spawn_side = rand() % 2; 
+                int spawn_line = rand() % 2; 
                 int spawn_x;
+                int spawn_y = (spawn_line == 0) ? 650 : 470;
+                
                 if (spawn_side == 0) {
                     spawn_x = -monsters[i].sprite->width; 
-                    monsters[i].speed_x = 2; 
+                    monsters[i].speed_x = 4; 
                 } else {
                     spawn_x = info.XResolution;
-                    monsters[i].speed_x = -2;
+                    monsters[i].speed_x = -4;
                 }
-                reviveEnemy(&monsters[i], spawn_x, 650);
+                
+                reviveEnemy(&monsters[i], spawn_x, spawn_y);
                 monsters[i].speed_y = 0; 
                 break;
             }
         }
     }
 
-    int8_t gravity = 4;
-
     for (int i = 0; i < 10; i++) {
         if (monsters[i].alive) {
-            monsters[i].y += monsters[i].speed_y;
-            monsters[i].speed_y += gravity;
+           
 
             if (monsters[i].y >= 600) {
                 monsters[i].y = 600;
-                monsters[i].speed_y = 0;
             }
 
             monsters[i].x += monsters[i].speed_x;
-            if (monsters[i].x < -monsters[i].sprite->width || monsters[i].x >= info.XResolution) {
-                monsters[i].alive = false; 
+
+            if (monsters[i].x < 0) {
+                monsters[i].x = 0;
+                monsters[i].speed_x = abs(monsters[i].speed_x); 
+            } else if (monsters[i].x + monsters[i].sprite->width >= info.XResolution) {
+                monsters[i].x = info.XResolution - monsters[i].sprite->width; 
+                monsters[i].speed_x = -abs(monsters[i].speed_x); 
             }
         }
     }
 
     for (int i = 0; i < 10; i++) {
         if (monsters[i].alive) {
-            monsters[i].y += monsters[i].speed_y;
-            monsters[i].speed_y += gravity;
-
-            if (monsters[i].y >= 600) {
-                monsters[i].y = 600;
-                monsters[i].speed_y = 0;
+            if( monsters[i].speed_x <= 0) {
+                draw_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
             }
-
-            monsters[i].x += monsters[i].speed_x;
-            if (monsters[i].x < -monsters[i].sprite->width) {
-                monsters[i].x = -monsters[i].sprite->width;
-                monsters[i].speed_x = abs(monsters[i].speed_x); 
-            } else if (monsters[i].x >= info.XResolution) {
-                monsters[i].x = info.XResolution - 1; 
-                monsters[i].speed_x = -abs(monsters[i].speed_x); 
+            else {
+                draw_reverse_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
             }
-
-            
         
         }
     }
-    for (int i = 0; i < 10; i++) {
-        if (monsters[i].alive) {
-            draw_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
-        }
+    for(int i=0; i<2;i++){
+        if (monsters_fly[i].alive && monsters_fly[i].life > 0)
+            draw_reverse_sprite(monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
     }
-
-    if (monster_fly.alive && monster_fly.life > 0)
-        draw_reverse_sprite(monster_fly.sprite, monster_fly.x, monster_fly.y);
-    
 }
+
 
 
 
@@ -284,31 +272,32 @@ void update_bullet_logic(bullet_node **head) {
             }
         }
     }
+    for(int i=0; i<2;i++) {
+        if (monsters_fly[i].alive) {
+            current = *head;
+            prev = NULL;
+            while (current != NULL) {
+                bool flag = check_collision(current->shot->sprite, current->shot->x, current->shot->y, monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
+                if (flag) {
+                    monsters_fly[i].life -= 3;
+                    if (monsters_fly[i].life <= 0) {
+                        monsters_fly[i].alive = false;
+                    }
+                    bullet_node *to_remove = current;
 
-    if (monster_fly.alive) {
-        current = *head;
-        prev = NULL;
-        while (current != NULL) {
-            bool flag = check_collision(current->shot->sprite, current->shot->x, current->shot->y, monster_fly.sprite, monster_fly.x, monster_fly.y);
-            if (flag) {
-                monster_fly.life -= 3;
-                if (monster_fly.life <= 0) {
-                    monster_fly.alive = false;
-                }
-                bullet_node *to_remove = current;
+                    if (prev == NULL) {
+                        *head = current->next;
+                    } else {
+                        prev->next = current->next;
+                    }
 
-                if (prev == NULL) {
-                    *head = current->next;
+                    current = current->next;
+                    destroyBulletNode(to_remove);
+                    break;
                 } else {
-                    prev->next = current->next;
+                    prev = current;
+                    current = current->next;
                 }
-
-                current = current->next;
-                destroyBulletNode(to_remove);
-                break;
-            } else {
-                prev = current;
-                current = current->next;
             }
         }
     }

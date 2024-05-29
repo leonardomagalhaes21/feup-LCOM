@@ -11,6 +11,8 @@
         "gameviewer.h": "c",
         "sprite.h": "c",
         "structs.h": "c",
-        "game_logic.h": "c"
+        "game_logic.h": "c",
+        "enemy_bullet.h": "c",
+        "stdlib.h": "c"
     }
 }
