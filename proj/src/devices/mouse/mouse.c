@@ -53,7 +53,7 @@ int (mouse_read_output)(uint8_t* output){
 }
 
 void (mouse_ih)(){
-  if(mouse_read_output(&scancode_mouse)) //pode ser só sys_inb?
+  if(mouse_read_output(&scancode_mouse)) 
     return;
 }
 

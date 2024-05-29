@@ -1,5 +1,6 @@
 #include "game_logic.h"
 #include <stdlib.h>
+#include <math.h>
 
 bool is_falling = true;
 float cuphead_offset = 0;
@@ -9,6 +10,8 @@ extern vbe_mode_info_t info;
 extern GameState currentState;
 bool facingLeft=false;
 extern int score;
+extern int counter_timer;
+
 
 
 void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y, int *unvulnerability) {
@@ -141,7 +144,8 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
             if (flag && *unvulnerability > 60) {
             player->life--;
             *unvulnerability = 0;
-            if(player->life == 0){
+            monsters[i].alive=false;
+            if(player->life <= 0){
                 currentState = SCOREBOARD;
                 //save_score(score);
                 player->life = 5;
@@ -156,7 +160,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 
 
 
-void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
+void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
     if (create_enemy) {
         for (int i = 0; i < 10; i++) {
             if (!monsters[i].alive) {
@@ -199,9 +203,24 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
             }
         }
     }
-
+    for (int i = 0; i < 2; i++) {
+        if (monsters_fly[i].alive) {
+            if (monsters_fly[i].shot == NULL) {
+                monsters_fly[i].shot = createEnemyBullet(monsters_fly[i].x, monsters_fly[i].y+200, player->x, player->y, 1, bala_inimigo);
+            } else {
+                moveEnemyBullet(monsters_fly[i].shot);
+                if (monsters_fly[i].shot->active) {
+                    draw_sprite(monsters_fly[i].shot->sprite, monsters_fly[i].shot->x, monsters_fly[i].shot->y);
+                } else {
+                    destroyEnemyBullets(monsters_fly[i].shot);
+                    monsters_fly[i].shot = NULL;
+                }
+            }
+        }
+    }
     for (int i = 0; i < 10; i++) {
         if (monsters[i].alive) {
+
             if( monsters[i].speed_x <= 0) {
                 draw_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
             }
@@ -212,9 +231,22 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
         }
     }
     for(int i=0; i<2;i++){
-        if (monsters_fly[i].alive && monsters_fly[i].life > 0)
-            draw_reverse_sprite(monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
+        if (monsters_fly[i].alive && monsters_fly[i].life > 0){
+            if(i == 0){
+                monsters_fly[i].y = FLYMONS1_Y + sin(counter_timer / 3) * 10;
+            }else{
+                monsters_fly[i].y = FLYMONS2_Y + sin(counter_timer / 3) * 10;
+            }
+            
+            if(monsters_fly[i].x > player->x){
+                draw_reverse_sprite(monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
+            }else{
+                draw_sprite(monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
+            }
+        }
+            
     }
+    check_enemy_bullet_collisions(player);
 }
 
 
@@ -297,6 +329,26 @@ void update_bullet_logic(bullet_node **head) {
                 } else {
                     prev = current;
                     current = current->next;
+                }
+            }
+
+        }
+    }
+    
+}
+void check_enemy_bullet_collisions(player *player) {
+    for (int i = 0; i < 2; i++) {
+        if (monsters_fly[i].alive && monsters_fly[i].shot != NULL && monsters_fly[i].shot->active) {
+            bool hit = check_collision(player->sprite, player->x, player->y, monsters_fly[i].shot->sprite, monsters_fly[i].shot->x, monsters_fly[i].shot->y);
+            if (hit) {
+                player->life -= monsters_fly[i].shot->damage;
+                monsters_fly[i].shot->active = false;
+                if(player->life <= 0){
+                    currentState = SCOREBOARD;
+                    //save_score(score);
+                    player->life = 5;
+                    player->x = 400;
+                    player->y = 571;
                 }
             }
         }

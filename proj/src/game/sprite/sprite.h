@@ -21,6 +21,7 @@
 #include "xpm/cuphead/cupheadstand.xpm"
 #include "xpm/bala.xpm"
 #include "xpm/font/PressStart2P-vaV7.xpm"
+#include "xpm/bala_inimigo.xpm"
 
 #include "xpm/hearth2.xpm"
 #include "xpm/mouse.xpm"
@@ -32,6 +33,7 @@
 #include "xpm/monster1.xpm"
 #include "xpm/monster2.xpm"
 #include "devices/graphics/graphics.h"
+
 
 
 
@@ -67,6 +69,7 @@ Sprite *bala;
 Sprite *font;
 Sprite *ScoreBackGrnd; 
 Sprite *LeaderBackGrnd; 
+Sprite *bala_inimigo;
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);

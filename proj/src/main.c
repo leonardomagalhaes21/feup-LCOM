@@ -13,6 +13,10 @@
 #include "game/classes/bullet.h"
 #include "game/classes/bullet_node.h"
 
+
+
+
+
 extern int hook_id_kbd;
 extern int hook_id_mouse;
 extern int hook_id_timer;
@@ -106,9 +110,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
   }
 
   extern enemy monsters_fly[2];
-    monsters_fly[0] = *createEnemy(6, 5, 800, 100, 3, 3, monster2, true);
+    monsters_fly[0] = *createEnemy(6, 5, FLYMONS1_X, FLYMONS1_Y, 3, 3, monster2, true);
 
-    monsters_fly[1] = *createEnemy(6,5, 100, 300, 3, 3, monster2, true);
+    monsters_fly[1] = *createEnemy(6,5, FLYMONS2_X, FLYMONS2_Y, 3, 3, monster2, true);
 
   int bullet_cooldown=0;
   bool key_a_pressed = false;
@@ -154,7 +158,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 }
               }
               
-              update_enemy_logic(mouse, create_enemy);
+              update_enemy_logic(mouse, create_enemy,player);
               create_enemy = false;
             }
             else if (currentState == LEADERBOARD) {

@@ -16,9 +16,12 @@ typedef struct
     float dx;
     float dy;
     Sprite *sprite;
+    bool active;
+
 } enemy_bullet;
 
 enemy_bullet *createEnemyBullet( int x, int y,int playerX, int playerY,int damage,Sprite *sp);
+
 void destroyEnemyBullets(enemy_bullet *p);
 void moveEnemyBullet(enemy_bullet *p);
 #endif

@@ -10,13 +10,11 @@
 
 
 Sprite *create_sprite(xpm_map_t pic) {
-    //allocate space for the "object"
     Sprite *sp = (Sprite *) malloc ( sizeof(Sprite));
     xpm_image_t img;
     
     if( sp == NULL )
     return NULL;
-    // read the sprite pixmap
     sp->map = (uint32_t *) xpm_load(pic, XPM_8_8_8_8, &img);
     if( sp->map == NULL ) {
         free(sp);
@@ -90,6 +88,7 @@ void loadAllSprites(){
     monster1 = create_sprite((xpm_map_t) monster_1);
     monster2 = create_sprite((xpm_map_t) monster_2);
     bala = create_sprite((xpm_map_t) bala1);
+    bala_inimigo= create_sprite((xpm_map_t)bala2);
 }
 
 int clean_img(uint16_t x, uint16_t y, uint16_t width) {

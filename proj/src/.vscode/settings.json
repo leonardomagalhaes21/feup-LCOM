@@ -7,9 +7,13 @@
   "editor.wordWrap": "bounded",
   "editor.wordWrapColumn": 100,
   "files.associations": {
+    "*.embeddedhtml": "html",
     "stdint.h": "c",
     "sprite.h": "c",
     "save_score.h": "c",
-    "game_logic.h": "c"
+    "game_logic.h": "c",
+    "rtc.h": "c",
+    "bullet_node.h": "c",
+    "bullet.h": "c"
   },
 }
