@@ -61,7 +61,7 @@ int draw_reverse_sprite(Sprite *sp, int x, int y) {
     return 0; 
 }
 
-void loadAllSprites(){
+void loadAllSprites(uint16_t mode){
     cuphead1 = create_sprite((xpm_map_t) cuphead_1);
     cuphead2 = create_sprite((xpm_map_t) cuphead_2);
     cuphead3 = create_sprite((xpm_map_t) cuphead_3);
@@ -79,17 +79,55 @@ void loadAllSprites(){
     cuphead15 = create_sprite((xpm_map_t) cuphead_15);
     cuphead16 = create_sprite((xpm_map_t) cuphead_16);
     cupheadstand = create_sprite((xpm_map_t) cuphead_stand);
-    hearthLife = create_sprite((xpm_map_t) hearth2);
-    font = create_sprite((xpm_map_t) startFont);
-    ScoreBackGrnd = create_sprite((xpm_map_t) ScoreBrdBackgrnd);
-    LeaderBackGrnd = create_sprite((xpm_map_t) LeaderbrdBckgrnd);
-
-    mouse_cursor= create_sprite((xpm_map_t) square);
-    menu_full = create_sprite((xpm_map_t) full_Menu);
-    background = create_sprite((xpm_map_t) back_ground);
-    monster1 = create_sprite((xpm_map_t) monster_1);
-    monster2 = create_sprite((xpm_map_t) monster_2);
-    bala = create_sprite((xpm_map_t) bala1);
+    if(mode==0x14C) {
+        hearthLife = create_sprite((xpm_map_t) hearth2);
+        font = create_sprite((xpm_map_t) startFont);
+        ScoreBackGrnd = create_sprite((xpm_map_t) ScoreBrdBackgrnd);
+        LeaderBackGrnd = create_sprite((xpm_map_t) LeaderbrdBckgrnd);
+        mouse_cursor= create_sprite((xpm_map_t) square);
+        menu_full = create_sprite((xpm_map_t) full_Menu);
+        background = create_sprite((xpm_map_t) back_ground);
+        monster1 = create_sprite((xpm_map_t) monster_1);
+        monster2 = create_sprite((xpm_map_t) monster_2);
+        bala = create_sprite((xpm_map_t) bala1);
+    }
+    else if (mode==0x11A) {
+        hearthLife = create_sprite((xpm_map_t) hearth2_11A);
+        font = create_sprite((xpm_map_t) startFont);
+        ScoreBackGrnd = create_sprite((xpm_map_t) ScoreBoardBackgrd11A);
+        LeaderBackGrnd = create_sprite((xpm_map_t) LeaderboardMenu11A);
+        mouse_cursor= create_sprite((xpm_map_t) square11A);
+        menu_full = create_sprite((xpm_map_t) full_Menu11A);
+        background = create_sprite((xpm_map_t) background11A);
+        monster1 = create_sprite((xpm_map_t) monster1_11A);
+        monster2 = create_sprite((xpm_map_t) monster2_11A);
+        bala = create_sprite((xpm_map_t) bala11A);
+    }
+    else if (mode==0x115) {
+        hearthLife = create_sprite((xpm_map_t) hearth2_115);
+        font = create_sprite((xpm_map_t) startFont);
+        ScoreBackGrnd = create_sprite((xpm_map_t) ScoreBoardBackgrd_115);
+        LeaderBackGrnd = create_sprite((xpm_map_t) LeaderboardMenu_115);
+        mouse_cursor= create_sprite((xpm_map_t) square_115);
+        menu_full = create_sprite((xpm_map_t) full_Menu_115);
+        background = create_sprite((xpm_map_t) background_115);
+        monster1 = create_sprite((xpm_map_t) monster1_115);
+        monster2 = create_sprite((xpm_map_t) monster2_115);
+        bala = create_sprite((xpm_map_t) bala_115);
+    }
+    else if (mode==0x110) {
+        hearthLife = create_sprite((xpm_map_t) hearth2_110);
+        font = create_sprite((xpm_map_t) startFont);
+        ScoreBackGrnd = create_sprite((xpm_map_t) ScoreBoardBackgrd_110);
+        LeaderBackGrnd = create_sprite((xpm_map_t) LeaderboardMenu_110);
+        mouse_cursor= create_sprite((xpm_map_t) square_110);
+        menu_full = create_sprite((xpm_map_t) full_Menu_110);
+        background = create_sprite((xpm_map_t) background_110);
+        monster1 = create_sprite((xpm_map_t) monster1_110);
+        monster2 = create_sprite((xpm_map_t) monster2_110);
+        bala = create_sprite((xpm_map_t) bala_110);
+    }
+    
 }
 
 int clean_img(uint16_t x, uint16_t y, uint16_t width) {

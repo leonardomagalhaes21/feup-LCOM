@@ -19,22 +19,53 @@
 #include "xpm/cuphead/cuphead15.xpm"
 #include "xpm/cuphead/cuphead16.xpm"
 #include "xpm/cuphead/cupheadstand.xpm"
-#include "xpm/bala.xpm"
+
 #include "xpm/font/PressStart2P-vaV7.xpm"
 
-#include "xpm/hearth2.xpm"
-#include "xpm/mouse.xpm"
-#include "xpm/square.xpm"
-#include "xpm/full_Menu.xpm"
-#include "xpm/background.xpm"
-#include "xpm/ScoreBoardBackgrd.xpm"
-#include "xpm/LeaderboardMenu.xpm"
-#include "xpm/monster1.xpm"
-#include "xpm/monster2.xpm"
+#include "xpm/resolutionModes/14C/hearth2.xpm"
+#include "xpm/resolutionModes/14C/mouse.xpm"
+#include "xpm/resolutionModes/14C/square.xpm"
+#include "xpm/resolutionModes/14C/backgrounds/full_Menu.xpm"
+#include "xpm/resolutionModes/14C/backgrounds/background.xpm"
+#include "xpm/resolutionModes/14C/backgrounds/ScoreBoardBackgrd.xpm"
+#include "xpm/resolutionModes/14C/backgrounds/LeaderboardMenu.xpm"
+#include "xpm/resolutionModes/14C/monster1.xpm"
+#include "xpm/resolutionModes/14C/monster2.xpm"
+#include "xpm/resolutionModes/14C/bala.xpm"
+
+
+#include "xpm/resolutionModes/11A/hearth2_11A.xpm"
+#include "xpm/resolutionModes/11A/square11A.xpm"
+#include "xpm/resolutionModes/11A/backgrounds/full_Menu11A.xpm"
+#include "xpm/resolutionModes/11A/backgrounds/background11A.xpm"
+#include "xpm/resolutionModes/11A/backgrounds/ScoreBoardBackgrd11A.xpm"
+#include "xpm/resolutionModes/11A/backgrounds/LeaderboardMenu11A.xpm"
+#include "xpm/resolutionModes/11A/monster1_11A.xpm"
+#include "xpm/resolutionModes/11A/monster2_11A.xpm"
+#include "xpm/resolutionModes/11A/bala11A.xpm"
+
+#include "xpm/resolutionModes/110/hearth2_110.xpm"
+#include "xpm/resolutionModes/110/square_110.xpm"
+#include "xpm/resolutionModes/110/backgrounds/full_Menu_110.xpm"
+#include "xpm/resolutionModes/110/backgrounds/background_110.xpm"
+#include "xpm/resolutionModes/110/backgrounds/ScoreBoardBackgrd_110.xpm"
+#include "xpm/resolutionModes/110/backgrounds/LeaderboardMenu_110.xpm"
+#include "xpm/resolutionModes/110/monster1_110.xpm"
+#include "xpm/resolutionModes/110/monster2_110.xpm"
+#include "xpm/resolutionModes/110/bala_110.xpm"
+
+#include "xpm/resolutionModes/115/hearth2_115.xpm"
+#include "xpm/resolutionModes/115/square_115.xpm"
+#include "xpm/resolutionModes/115/backgrounds/full_Menu_115.xpm"
+#include "xpm/resolutionModes/115/backgrounds/background_115.xpm"
+#include "xpm/resolutionModes/115/backgrounds/ScoreBoardBackgrd_115.xpm"
+#include "xpm/resolutionModes/115/backgrounds/LeaderboardMenu_115.xpm"
+#include "xpm/resolutionModes/115/monster1_115.xpm"
+#include "xpm/resolutionModes/115/monster2_115.xpm"
+#include "xpm/resolutionModes/115/bala_115.xpm"
+
+
 #include "devices/graphics/graphics.h"
-
-
-
 typedef struct {
     int width, height;
     uint32_t *map;
@@ -73,7 +104,7 @@ void destroy_sprite(Sprite *sp);
 int move_sprite(Sprite *sp);
 int draw_sprite(Sprite *sp, int x, int y);
 int draw_reverse_sprite(Sprite *sp, int x, int y);
-void loadAllSprites();
+void loadAllSprites(uint16_t mode);
 int clean_img(uint16_t x, uint16_t y, uint16_t width);
 int drawChar(char c, uint16_t x, uint16_t y);
 int drawNum(int c, uint16_t x, uint16_t y);

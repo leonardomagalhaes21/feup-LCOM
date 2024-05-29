@@ -91,7 +91,9 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
     unsigned bpp = (info.BitsPerPixel + 7) / 8;
 
     unsigned int idx = (info.XResolution * y + x) * bpp;
-    memcpy(&write_buffer[idx], &color, bpp);
+    uint32_t new_color;
+    fix_color(color, &new_color);
+    memcpy(&write_buffer[idx], &new_color, bpp);
 
     return 0;
 
@@ -99,13 +101,45 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
 
 
 
-void (fix_color)(uint32_t color, uint32_t *new_color){
-  if (info.BitsPerPixel == 32) {
-    *new_color = color;
-  } else {
-    *new_color = color & (BIT(info.BitsPerPixel) - 1);
-  }
-  
+void (fix_color)(uint32_t color, uint32_t *normalized_color){
+    uint8_t red, green, blue;
+    uint32_t new_color = 0;
+
+    
+    red = (color >> 16) & 0xFF;
+    green = (color >> 8) & 0xFF;
+    blue = color & 0xFF;
+
+    switch (info.BitsPerPixel) {
+        // case 8:
+        //     // Indexed color mode (8 bits per pixel)
+        //     // Assuming a grayscale approximation for simplicity
+        //     new_color = (red + green + blue) / 3;
+        //     break;
+        case 15:
+            // 15 bits per pixel (1 unused bit : 5 red : 5 green : 5 blue)
+            new_color = ((red >> 3) << 10) | ((green >> 3) << 5) | (blue >> 3);
+            break;
+        case 16:
+            // 16 bits per pixel (5 red : 6 green : 5 blue)
+            new_color = ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
+            break;
+        case 24:
+            // 24 bits per pixel (8 red : 8 green : 8 blue)
+            new_color = (red << 16) | (green << 8) | blue;
+            break;
+        case 32:
+            // 32 bits per pixel (8 alpha : 8 red : 8 green : 8 blue)
+            // Assuming the alpha channel is unused here
+            new_color = (red << 16) | (green << 8) | blue;
+            break;
+        default:
+            // Unsupported bpp, just set to black
+            new_color = 0;
+            break;
+    }
+
+    *normalized_color = new_color;
 }
 
 

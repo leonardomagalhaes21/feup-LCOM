@@ -84,7 +84,7 @@ int close_devices() {
 
 int(proj_main_loop)(int argc, char *argv[]) {
 
-  loadAllSprites();
+  loadAllSprites(mode);
   int ipc_status;
   message msg;
 
