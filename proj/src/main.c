@@ -95,9 +95,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
     return 1;
 
   player *player;
-  player = createPlayer(5, 5, 400, 571, cuphead1);
+  player = createPlayer(5, 5, 400*info.XResolution/1152, 571*info.YResolution/864, cuphead1);
   MouseCursor *mouse;
-  mouse = createMouseCursor(400, 350, mouse_cursor);
+  mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
   bullet_node *bullets = NULL;
   extern enemy monsters[10];
   int v = 10;
@@ -106,7 +106,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
   }
 
   extern enemy monster_fly;
-  monster_fly = *createEnemy(6, 5, 800, 100, 3, 3, monster2, true);
+  monster_fly = *createEnemy(6, 5, 800*info.XResolution/1152, 100*info.YResolution/864, 3, 3, monster2, true);
 
   int bullet_cooldown=0;
   bool key_a_pressed = false;

@@ -101,8 +101,8 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 
     player->y += *speed_y;
 
-    if (player->y >= 570) {
-        player->y = 570;
+    if (player->y >= 570*info.YResolution/864) {
+        player->y = 570*info.YResolution/864;
         *speed_y = 0;
         is_falling = false;
     }
@@ -120,11 +120,11 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
         is_falling = true;
         *speed_y = jump_force; 
     }
-    if(player->x < -30){
-        player->x = -30;
+    if(player->x < -30 *info.XResolution/1152){
+        player->x = -30 *info.XResolution/1152;
     }
-    if(player->x > 1045){
-        player->x = 1045;
+    if(player->x > 1045 *info.XResolution/1152){
+        player->x = 1045 *info.XResolution/1152;
     }
     
     if (key_a_pressed || facingLeft) {
@@ -145,8 +145,8 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
                 currentState = SCOREBOARD;
                 //save_score(score);
                 player->life = 5;
-                player->x = 400;
-                player->y = 571;
+                player->x = 400*info.XResolution/1152;
+                player->y = 571*info.YResolution/864;
             }
             }
         }
@@ -170,7 +170,7 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
                     spawn_x = info.XResolution;
                     monsters[i].speed_x = -2;
                 }
-                reviveEnemy(&monsters[i], spawn_x, 650);
+                reviveEnemy(&monsters[i], spawn_x, 650*info.YResolution/864);
                 monsters[i].speed_y = 0; 
                 break;
             }
@@ -184,8 +184,8 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
             monsters[i].y += monsters[i].speed_y;
             monsters[i].speed_y += gravity;
 
-            if (monsters[i].y >= 600) {
-                monsters[i].y = 600;
+            if (monsters[i].y >= 600*info.YResolution/864) {
+                monsters[i].y = 600*info.YResolution/864;
                 monsters[i].speed_y = 0;
             }
 
@@ -201,8 +201,8 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
             monsters[i].y += monsters[i].speed_y;
             monsters[i].speed_y += gravity;
 
-            if (monsters[i].y >= 600) {
-                monsters[i].y = 600;
+            if (monsters[i].y >= 600*info.YResolution/864) {
+                monsters[i].y = 600*info.YResolution/864;
                 monsters[i].speed_y = 0;
             }
 

@@ -3,6 +3,7 @@
 extern uint8_t scancode;
 extern struct packet mouse_packet;
 GameState currentState = MENU; 
+extern vbe_mode_info_t info;
 
 char name[10];
 uint8_t indexName=0;
@@ -135,7 +136,7 @@ void setMenuState(){
     
 }
 int playButton(int x, int y){
-    if(440 < x && 710> x && 360 < y && 430 > y){
+    if(440*info.XResolution/1152 < x && 710*info.XResolution/1152> x && 360*info.YResolution/864 < y && 430*info.YResolution/864 > y){
         if(mouse_packet.lb){
             currentState = GAME;
         }
@@ -143,21 +144,21 @@ int playButton(int x, int y){
     return 0;
 }
 int leaderboardButton(int x, int y){
-    if(440 < x && 710> x && 450 < y && 520 > y){
+    if(440*info.XResolution/1152 < x && 710*info.XResolution/1152> x && 450*info.YResolution/864 < y && 520*info.YResolution/864 > y){
         if(mouse_packet.lb)
             currentState = LEADERBOARD;
         }
     return 0;
 }
 int exitButton(int x, int y){
-    if(440 < x && 710> x && 540 < y && 610 > y){
+    if(440*info.XResolution/1152 < x && 710*info.XResolution/1152> x && 540*info.YResolution/864 < y && 610*info.YResolution/864 > y){
         if(mouse_packet.lb)
             currentState = EXIT;
         }
     return 0;
 }
 int menuButton(int x, int y, int *score, double *multiplier){
-    if(335 < x && 800> x && 455 < y && 600 > y){
+    if(335*info.XResolution/1152 < x && 800*info.XResolution/1152> x && 455*info.YResolution/864 < y && 600*info.YResolution/864 > y){
         if(mouse_packet.lb) {
           currentState = MENU;
             save_name_score(name, *score);
@@ -190,16 +191,16 @@ int drawLeaderBoard(){
       if (strcmp(names[i], "default") == 0) {
           return 0;
       }
-      drawTxt(names[i],270,260+30*i);
-      drawTxt(dates[i],270+18*10,260+30*i);
-      drawScore(scores[i],850,260+30*i);
+      drawTxt(names[i],270*info.XResolution/1152,(260+30*i)*info.YResolution/864);
+      drawTxt(dates[i],(270+18*10)*info.XResolution/1152,(260+30*i)*info.YResolution/864);
+      drawScore(scores[i],850*info.XResolution/1152,(260+30*i)*info.YResolution/864);
     }
     
     return 0;
 }
 
 int menuButtonLeader(int x, int y) {
-  if(270 < x && 890> x &&  600 < y && 740 > y){
+  if(270*info.XResolution/1152 < x && 890*info.XResolution/1152> x &&  600*info.YResolution/864 < y && 740*info.YResolution/864 > y){
         if(mouse_packet.lb)
             currentState = MENU;
         }
@@ -213,21 +214,20 @@ int drawGame(player *player, int score){
    draw_sprite(background, 0, 0);
     uint16_t xpos=5;
     for(uint8_t i = 0; i<player->life;i++) {
-        draw_sprite(hearthLife, xpos,5);
+        draw_sprite(hearthLife, xpos*info.XResolution/1152,5*info.YResolution/864);
         xpos+=25;
     }
-    drawScore(score, 1100, 38);
+    drawScore(score, 1100*info.XResolution/1152, 38*info.YResolution/864);
     
     return 0;
 }
 
 int drawScoreBoard(int score) {
     if(draw_sprite(ScoreBackGrnd, 0, 0)) {return 1;}
-    if(drawTxt("your score:", 470, 290)) {return 1;}
-    if(drawScore(score, 585, 330)) {return 1;}
-    if(drawTxt("name:", 470, 360)) {return 1;}
-    //processScanCode(scancode);
-    if(drawTxt(name,470+6*18, 360)) {return 1;}
+    if(drawTxt("your score:", 470*info.XResolution/1152, 290*info.YResolution/864)) {return 1;}
+    if(drawScore(score, 585*info.XResolution/1152, 330*info.YResolution/864)) {return 1;}
+    if(drawTxt("name:", 470*info.XResolution/1152, 360*info.YResolution/864)) {return 1;}
+    if(drawTxt(name,(470+6*18)*info.XResolution/1152, 360*info.YResolution/864)) {return 1;}
     return 0;
 }
 
