@@ -88,7 +88,7 @@ int close_devices() {
 
 int(proj_main_loop)(int argc, char *argv[]) {
 
-  loadAllSprites();
+  loadAllSprites(mode);
   int ipc_status;
   message msg;
 
@@ -99,9 +99,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
     return 1;
 
   player *player;
-  player = createPlayer(5, 5, 400, 571, cuphead1);
+  player = createPlayer(5, 5, 400*info.XResolution/1152, 571*info.YResolution/864, cuphead1);
   MouseCursor *mouse;
-  mouse = createMouseCursor(400, 350, mouse_cursor);
+  mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
   bullet_node *bullets = NULL;
   extern enemy monsters[10];
   int v = 10;
