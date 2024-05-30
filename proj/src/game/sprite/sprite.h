@@ -65,7 +65,7 @@
 #include "xpm/resolutionModes/11A/cuphead/cuphead15_11A.xpm"
 #include "xpm/resolutionModes/11A/cuphead/cuphead16_11A.xpm"
 #include "xpm/resolutionModes/11A/cuphead/cupheadstand_11A.xpm"
-
+#include "xpm/resolutionModes/11A/bala_inimigo_11A.xpm"
 
 #include "xpm/resolutionModes/110/hearth2_110.xpm"
 #include "xpm/resolutionModes/110/square_110.xpm"
@@ -76,6 +76,7 @@
 #include "xpm/resolutionModes/110/monster1_110.xpm"
 #include "xpm/resolutionModes/110/monster2_110.xpm"
 #include "xpm/resolutionModes/110/bala_110.xpm"
+#include "xpm/resolutionModes/110/bala_inimigo_110.xpm"
 
 #include "xpm/resolutionModes/110/cuphead/cuphead1_110.xpm"
 #include "xpm/resolutionModes/110/cuphead/cuphead2_110.xpm"
@@ -105,6 +106,7 @@
 #include "xpm/resolutionModes/115/monster1_115.xpm"
 #include "xpm/resolutionModes/115/monster2_115.xpm"
 #include "xpm/resolutionModes/115/bala_115.xpm"
+#include "xpm/resolutionModes/115/bala_inimigo_115.xpm"
 
 #include "xpm/resolutionModes/115/cuphead/cuphead1_115.xpm"
 #include "xpm/resolutionModes/115/cuphead/cuphead2_115.xpm"
@@ -124,7 +126,7 @@
 #include "xpm/resolutionModes/115/cuphead/cuphead16_115.xpm"
 #include "xpm/resolutionModes/115/cuphead/cupheadstand_115.xpm"
 
-#include "xpm/bala_inimigo.xpm"
+#include "xpm/resolutionModes/14C/bala_inimigo.xpm"
 
 #include "xpm/resolutionModes/110/backgrounds/ResChoose110.xpm"
 

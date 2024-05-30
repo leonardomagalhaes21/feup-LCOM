@@ -85,7 +85,7 @@ void (switch_buffers)(){
 int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
     if(x > info.XResolution || y > info.YResolution ||y<0 ||x <0) 
         return 0;
-    if(color==0xAFFFFF)
+    if(color==0xAFFFFF || color==0xB1FFFF || color==0XB9FBFB || color==0x9ADDDD  || color==0x080707 || color == 0x282727 || color==0xA6F1F1 || color==0xA3ECEC)
         return 0;
   
     unsigned bpp = (info.BitsPerPixel + 7) / 8;

@@ -4,6 +4,7 @@
 #include "sprite.h"
 
 extern vbe_mode_info_t info;
+extern uint16_t mode;
 
 
 
@@ -74,7 +75,7 @@ void freeInitialSprites(){
 
 void loadAllSprites(uint16_t mode){
 
-    bala_inimigo = create_sprite((xpm_map_t) bala2);
+    
     
     if(mode==0x14C) {
         cuphead1 = create_sprite((xpm_map_t) cuphead_1);
@@ -104,6 +105,7 @@ void loadAllSprites(uint16_t mode){
         monster1 = create_sprite((xpm_map_t) monster_1);
         monster2 = create_sprite((xpm_map_t) monster_2);
         bala = create_sprite((xpm_map_t) bala1);
+        bala_inimigo = create_sprite((xpm_map_t) bala2);
     }
     else if (mode==0x11A) {
         cuphead1 = create_sprite((xpm_map_t) cuphead1_11A);
@@ -134,6 +136,7 @@ void loadAllSprites(uint16_t mode){
         monster1 = create_sprite((xpm_map_t) monster1_11A);
         monster2 = create_sprite((xpm_map_t) monster2_11A);
         bala = create_sprite((xpm_map_t) bala11A);
+        bala_inimigo = create_sprite((xpm_map_t) bala_inimigo_11A);
     }
     else if (mode==0x115) {
         cuphead1 = create_sprite((xpm_map_t) cuphead1_115);
@@ -164,6 +167,7 @@ void loadAllSprites(uint16_t mode){
         monster1 = create_sprite((xpm_map_t) monster1_115);
         monster2 = create_sprite((xpm_map_t) monster2_115);
         bala = create_sprite((xpm_map_t) bala_115);
+        bala_inimigo = create_sprite((xpm_map_t) bala_inimigo_115);
     }
     else if (mode==0x110) {
         cuphead1 = create_sprite((xpm_map_t) cuphead1_110);
@@ -194,6 +198,7 @@ void loadAllSprites(uint16_t mode){
         monster1 = create_sprite((xpm_map_t) monster1_110);
         monster2 = create_sprite((xpm_map_t) monster2_110);
         bala = create_sprite((xpm_map_t) bala_110);
+        bala_inimigo = create_sprite((xpm_map_t) bala_inimigo_110);
     }
     
 }
@@ -228,243 +233,84 @@ bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2,  int y2) 
 }
 
 int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16 on 0x14C mode
-    uint16_t xMap, yMap;
-    switch (c)
-    {
-    case 'a':
-        xMap =9; 
-        yMap =1;
-        break;
-    case 'b':
-        xMap =9+18; 
-        yMap =1;
-        break;
-    case 'c':
-        xMap =9+2*18; 
-        yMap =1;
-        break;
-    case 'd':
-        xMap =9+3*18; 
-        yMap =1;
-        break;
-    case 'e':
-        xMap =9+4*18; 
-        yMap =1;
-        break;
-    case 'f':
-        xMap =9+5*18; 
-        yMap =1;
-        break;
-    case 'g':
-        xMap =9+6*18; 
-        yMap =1;
-        break;
-    case 'h':
-        xMap =9+7*18; 
-        yMap =1;
-        break;
-    case 'i':
-        xMap =9+8*18; 
-        yMap =1;
-        break;
-    case 'j':
-        xMap =9+9*18; 
-        yMap =1;
-        break;
-    case 'k':
-        xMap =9+10*18; 
-        yMap =1;
-        break;
-    case 'l':
-        xMap =9+11*18; 
-        yMap =1;
-        break;
-    case 'm':
-        xMap =9+12*18; 
-        yMap =1;
-        break;
-    case 'n':
-        xMap =9+13*18; 
-        yMap =1;
-        break;
-    case 'o':
-        xMap =9+14*18; 
-        yMap =1;
-        break;
-    case 'p':
-        xMap =9+15*18; 
-        yMap =1;
-        break;
-    case 'q':
-        xMap =9+16*18; 
-        yMap =1;
-        break;
-    case 'r':
-        xMap =9+17*18; 
-        yMap =1;
-        break;
-    case 's':
-        xMap =9+18*18; 
-        yMap =1;
-        break;
-    case 't':
-        xMap =9+19*18; 
-        yMap =1;
-        break;
-    case 'u':
-        xMap =9+20*18; 
-        yMap =1;
-        break;
-    case 'v':
-        xMap =9+21*18; 
-        yMap =1;
-        break;
-    case 'w':
-        xMap =9+22*18; 
-        yMap =1;
-        break;
-    case 'x':
-        xMap =9+23*18; 
-        yMap =1;
-        break;
-    case 'y':
-        xMap =9+24*18; 
-        yMap =1;
-        break;
-    case 'z':
-        xMap =9+25*18; 
-        yMap =1;
-        break;
-    case ':':
-        xMap =9+11*18; 
-        yMap =36; 
-        break;
-
-    case '0':
-        xMap =9; 
-        yMap =36;
-        break;
-    case '1':
-        xMap =9+18; 
-        yMap =36;
-        break;
-    case '2':
-        xMap =9+2*18; 
-        yMap =36;
-        break;
-    case '3':
-        xMap =9+3*18; 
-        yMap =36;
-        break;
-    case '4':
-        xMap =9+4*18; 
-        yMap =36;
-        break;
-    case '5':
-        xMap =9+5*18; 
-        yMap =36;
-        break;
-    case '6':
-        xMap =9+6*18; 
-        yMap =36;
-        break;
-    case '7':
-        xMap =9+7*18; 
-        yMap =36;
-        break;
-    case '8':
-        xMap =9+8*18; 
-        yMap =36;
-        break;
-    case '9':
-        xMap =9+9*18; 
-        yMap =36;
-        break;
-    case '/':
-        xMap =9+30*18; 
-        yMap =36;
-        break;
-    case '-':
-        xMap =9+27*18; 
-        yMap =36;
-        break;
+    uint16_t xMap=0, yMap=0;
     
-   
-    default:
-        break;
+    if (c >= 'a' && c <= 'z') {
+        xMap = 9 + (c - 'a') * 18;
+        yMap = 1;
+    } else if (c >= '0' && c <= '9') {
+        xMap = 9 + (c - '0') * 18;
+        yMap = 36;
+    } else if (c == ':') {
+        xMap = 9 + 11 * 18;
+        yMap = 36;
+    } else if (c == '/') {
+        xMap = 9 + 30 * 18;
+        yMap = 36;
+    } else if (c == '-') {
+        xMap = 9 + 27 * 18;
+        yMap = 36;
+    } else {
+        return 1; // Unsupported character
     }
-    for (int h = 0 ; h < 18; h++) {
-        for (int w = 0 ; w < 18; w++) {
-            if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*800])) return 1;
+    
+    if (mode == 0x110) {
+        xMap = xMap*info.XResolution/1152;
+        yMap = yMap*info.YResolution/864;
+        for (int h = 0 ; h < 18*info.YResolution/864; h++) {
+            for (int w = 0 ; w < 18*info.XResolution/1152; w++) {
+                if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*443])) return 1;
+            }
+        }
+    } else if (mode == 0x14C) {
+        for (int h = 0 ; h < 18; h++) {
+            for (int w = 0 ; w < 18; w++) {
+                if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*800])) return 1;
+            }
+        }
+    } else if (mode == 0x115) {
+        xMap = xMap*info.XResolution/1152;
+        yMap = yMap*info.YResolution/864;
+        for (int h = 0 ; h < 13; h++) {
+            for (int w = 0 ; w < 13; w++) {
+                if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*555])) return 1;
+            }
+        }
+    } else if (mode == 0x11A) {
+        xMap = xMap*info.XResolution/1152;
+        yMap = yMap*info.YResolution/864;
+        for (int h = 0 ; h < 20; h++) {
+            for (int w = 0 ; w < 20; w++) {
+                if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*888])) return 1;
+            }
         }
     }
+    
     return 0;
 }
 
 int drawNum(int c, uint16_t x, uint16_t y) { 
-    uint16_t xMap, yMap;
-    switch (c)
-    {
-    case 0:
-        xMap =9; 
-        yMap =36;
-        break;
-    case 1:
-        xMap =9+18; 
-        yMap =36;
-        break;
-    case 2:
-        xMap =9+2*18; 
-        yMap =36;
-        break;
-    case 3:
-        xMap =9+3*18; 
-        yMap =36;
-        break;
-    case 4:
-        xMap =9+4*18; 
-        yMap =36;
-        break;
-    case 5:
-        xMap =9+5*18; 
-        yMap =36;
-        break;
-    case 6:
-        xMap =9+6*18; 
-        yMap =36;
-        break;
-    case 7:
-        xMap =9+7*18; 
-        yMap =36;
-        break;
-    case 8:
-        xMap =9+8*18; 
-        yMap =36;
-        break;
-    case 9:
-        xMap =9+9*18; 
-        yMap =36;
-        break;
-    
-    default:
-        return 1;
-    }
-    for (int h = 0 ; h < 18; h++) {
-        for (int w = 0 ; w < 18; w++) {
-            if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*800])) return 1;
-        }
-    }
-    return 0;
+    return drawChar('0' + c, x, y);
 }
 
 int drawTxt(char txt[], uint16_t x, uint16_t y) {
     uint8_t i=0;
+    int widthLetters=0;
+    if(mode == 0x11A) {
+        widthLetters=20;
+    } else if (mode == 0x110) {
+        widthLetters=10;
+    } else if (mode == 0x14C){
+        widthLetters = 18;
+    } else if (mode == 0x115){
+        widthLetters=12;
+    }
     while(txt[i]) {
         if(txt[i]==' ') {
             i++;
         }
         else {
-            if(drawChar(txt[i],x+(18)*i,y)) {return 1;}
+            if(drawChar(txt[i],x+(widthLetters)*i,y)) {return 1;}
             i++;
         }   
     }

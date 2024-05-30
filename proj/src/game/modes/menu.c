@@ -8,6 +8,7 @@ char dates[7][18];
 GameState currentState = RESOLUTION; 
 extern vbe_mode_info_t info;
 extern enemy monsters_fly[2];
+extern uint16_t mode;
 
 
 char name[10];
@@ -240,9 +241,19 @@ int drawScoreBoard(int score) {
 
 int drawScore(int score, uint16_t x, uint16_t y) {   
     uint16_t pos=0;
+    int widthLetters=0;
+    if(mode == 0x11A) {
+        widthLetters=20;
+    } else if (mode == 0x110) {
+        widthLetters=10;
+    } else if (mode == 0x14C){
+        widthLetters = 18;
+    } else if (mode == 0x115){
+        widthLetters=12;
+    }
     while (score>0) {
         uint8_t rem = score%10;
-        if(drawNum(rem, x-pos*21,y)) {return 1;} 
+        if(drawNum(rem, x-pos*widthLetters,y)) {return 1;} 
         pos++;
         score = score / 10;
     }
