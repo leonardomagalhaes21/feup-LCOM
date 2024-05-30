@@ -2,6 +2,9 @@
 
 extern uint8_t scancode;
 extern struct packet mouse_packet;
+char names[7][10];
+int scores[7];
+char dates[7][18];
 GameState currentState = MENU; 
 extern vbe_mode_info_t info;
 
@@ -144,9 +147,11 @@ int playButton(int x, int y){
     return 0;
 }
 int leaderboardButton(int x, int y){
-    if(440*info.XResolution/1152 < x && 710*info.XResolution/1152> x && 450*info.YResolution/864 < y && 520*info.YResolution/864 > y){
-        if(mouse_packet.lb)
+    if(440 < x && 710> x && 450 < y && 520 > y){
+        if(mouse_packet.lb){
+            read_scores(names,scores, dates,7);
             currentState = LEADERBOARD;
+        }
         }
     return 0;
 }
@@ -178,16 +183,14 @@ int drawMenu(){
 
 int drawLeaderBoard(){
     draw_sprite(LeaderBackGrnd, 0, 0);
-    int numberOfScores = 7;
-    char names[numberOfScores][10];
-    char dates[numberOfScores][18];
-    int scores[numberOfScores];
+    //int numberOfScores = 7;
+    //char names[numberOfScores][10];
+    //char dates[numberOfScores][18];
+    //int scores[numberOfScores];
     
-    for (int i = 0; i < numberOfScores; i++) {
-        strcpy(names[i], "default");
-    }
-    read_scores(names,scores, dates,numberOfScores);
-    for(int i = 0; i< numberOfScores;i++) {
+   
+    
+    for(int i = 0; i< 7;i++) {
       if (strcmp(names[i], "default") == 0) {
           return 0;
       }

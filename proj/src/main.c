@@ -13,6 +13,10 @@
 #include "game/classes/bullet.h"
 #include "game/classes/bullet_node.h"
 
+
+
+
+
 extern int hook_id_kbd;
 extern int hook_id_mouse;
 extern int hook_id_timer;
@@ -25,7 +29,7 @@ extern struct packet mouse_packet;
 extern int idx;
 extern vbe_mode_info_t info;
 extern GameState currentState;
-
+extern int renew;
 int score=0;
 double multiplier = 1.0;
 
@@ -105,8 +109,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
     monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
   }
 
-  extern enemy monster_fly;
-  monster_fly = *createEnemy(6, 5, 800*info.XResolution/1152, 100*info.YResolution/864, 3, 3, monster2, true);
+  extern enemy monsters_fly[2];
+    monsters_fly[0] = *createEnemy(6, 5, FLYMONS1_X, FLYMONS1_Y, 3, 3, monster2, true);
+
+    monsters_fly[1] = *createEnemy(6,5, FLYMONS2_X, FLYMONS2_Y, 3, 3, monster2, true);
 
   int bullet_cooldown=0;
   bool key_a_pressed = false;
@@ -132,6 +138,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
               unvulnerability++;
               bullet_cooldown++;
+              
 
               drawGame(player, score);
 
@@ -142,6 +149,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
               
               if (counter_timer % 60 == 0) {
                 create_enemy = true;
+                renew+=1;
+              }
+              if(renew>=5){
+                spawn_dead_enemies();
+                renew=0;
               }
               if (currentState == GAME) {
                 if (counter_timer % 60 == 0) {
@@ -152,7 +164,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 }
               }
               
-              update_enemy_logic(mouse, create_enemy);
+              update_enemy_logic(mouse, create_enemy,player);
               create_enemy = false;
             }
             else if (currentState == LEADERBOARD) {

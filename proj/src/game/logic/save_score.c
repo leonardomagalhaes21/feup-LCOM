@@ -1,6 +1,7 @@
 #include "save_score.h"
 #include "../../devices/rtc/rtc.h"
 
+
 struct scoreboard_entry{
     char name[10];
     int score;
@@ -79,9 +80,6 @@ void save_name_score(char *name, int score) {
     }
     fclose(file);
 }
-
-
-#include <stdio.h>
 
 void read_scores(char names[][10], int scores[], char dates[][18], int size) {
     FILE *file = fopen("/home/lcom/labs/proj/src/scoreboard.txt", "r");

@@ -1,14 +1,18 @@
 #include "game_logic.h"
 #include <stdlib.h>
+#include <math.h>
 
 bool is_falling = true;
 float cuphead_offset = 0;
 enemy monsters[10];
-enemy monster_fly;
+enemy monsters_fly[2];
 extern vbe_mode_info_t info;
 extern GameState currentState;
 bool facingLeft=false;
 extern int score;
+extern int counter_timer;
+int renew=0;
+
 
 
 void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y, int *unvulnerability) {
@@ -92,7 +96,7 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
         cuphead_offset = 0;
     }
     
-    int8_t gravity = 4;
+    int8_t gravity = 4 ;
     int8_t jump_force = -40; 
 
     if (is_falling) {
@@ -108,9 +112,9 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
     }
 
     if (key_a_pressed) {
-        *speed_x = -6; 
+        *speed_x = -8; 
     } else if (key_d_pressed) {
-        *speed_x = 6; 
+        *speed_x = 8; 
     } else {
         *speed_x = 0; 
     }
@@ -141,7 +145,8 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
             if (flag && *unvulnerability > 60) {
             player->life--;
             *unvulnerability = 0;
-            if(player->life == 0){
+            monsters[i].alive=false;
+            if(player->life <= 0){
                 currentState = SCOREBOARD;
                 //save_score(score);
                 player->life = 5;
@@ -156,19 +161,21 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 
 
 
-
-void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
+void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
     if (create_enemy) {
         for (int i = 0; i < 10; i++) {
             if (!monsters[i].alive) {
                 int spawn_side = rand() % 2; 
+                int spawn_line = rand() % 2; 
                 int spawn_x;
+                int spawn_y = (spawn_line == 0) ? 650 : 470;
+                
                 if (spawn_side == 0) {
                     spawn_x = -monsters[i].sprite->width; 
-                    monsters[i].speed_x = 2; 
+                    monsters[i].speed_x = 4; 
                 } else {
                     spawn_x = info.XResolution;
-                    monsters[i].speed_x = -2;
+                    monsters[i].speed_x = -4;
                 }
                 reviveEnemy(&monsters[i], spawn_x, 650*info.YResolution/864);
                 monsters[i].speed_y = 0; 
@@ -177,58 +184,71 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy) {
         }
     }
 
-    int8_t gravity = 4;
-
     for (int i = 0; i < 10; i++) {
         if (monsters[i].alive) {
-            monsters[i].y += monsters[i].speed_y;
-            monsters[i].speed_y += gravity;
+           
 
-            if (monsters[i].y >= 600*info.YResolution/864) {
-                monsters[i].y = 600*info.YResolution/864;
-                monsters[i].speed_y = 0;
+            if (monsters[i].y >= 600) {
+                monsters[i].y = 600;
             }
 
             monsters[i].x += monsters[i].speed_x;
-            if (monsters[i].x < -monsters[i].sprite->width || monsters[i].x >= info.XResolution) {
-                monsters[i].alive = false; 
+
+            if (monsters[i].x < 0) {
+                monsters[i].x = 0;
+                monsters[i].speed_x = abs(monsters[i].speed_x); 
+            } else if (monsters[i].x + monsters[i].sprite->width >= info.XResolution) {
+                monsters[i].x = info.XResolution - monsters[i].sprite->width; 
+                monsters[i].speed_x = -abs(monsters[i].speed_x); 
             }
         }
     }
-
+    for (int i = 0; i < 2; i++) {
+        if (monsters_fly[i].alive) {
+            if (monsters_fly[i].shot == NULL) {
+                monsters_fly[i].shot = createEnemyBullet(monsters_fly[i].x, monsters_fly[i].y+200, player->x, player->y, 1, bala_inimigo);
+            } else {
+                moveEnemyBullet(monsters_fly[i].shot);
+                if (monsters_fly[i].shot->active) {
+                    draw_sprite(monsters_fly[i].shot->sprite, monsters_fly[i].shot->x, monsters_fly[i].shot->y);
+                } else {
+                    destroyEnemyBullets(monsters_fly[i].shot);
+                    monsters_fly[i].shot = NULL;
+                }
+            }
+        }
+    }
     for (int i = 0; i < 10; i++) {
         if (monsters[i].alive) {
-            monsters[i].y += monsters[i].speed_y;
-            monsters[i].speed_y += gravity;
 
-            if (monsters[i].y >= 600*info.YResolution/864) {
-                monsters[i].y = 600*info.YResolution/864;
-                monsters[i].speed_y = 0;
+            if( monsters[i].speed_x <= 0) {
+                draw_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
             }
-
-            monsters[i].x += monsters[i].speed_x;
-            if (monsters[i].x < -monsters[i].sprite->width) {
-                monsters[i].x = -monsters[i].sprite->width;
-                monsters[i].speed_x = abs(monsters[i].speed_x); 
-            } else if (monsters[i].x >= info.XResolution) {
-                monsters[i].x = info.XResolution - 1; 
-                monsters[i].speed_x = -abs(monsters[i].speed_x); 
+            else {
+                draw_reverse_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
             }
-
-            
         
         }
     }
-    for (int i = 0; i < 10; i++) {
-        if (monsters[i].alive) {
-            draw_sprite(monsters[i].sprite, monsters[i].x, monsters[i].y);
+    for(int i=0; i<2;i++){
+        if (monsters_fly[i].alive && monsters_fly[i].life > 0){
+            if(i == 0){
+                monsters_fly[i].y = FLYMONS1_Y + sin(counter_timer / 3) * 10;
+            }else{
+                monsters_fly[i].y = FLYMONS2_Y + sin(counter_timer / 3) * 10;
+            }
+            
+            if(monsters_fly[i].x > player->x){
+                draw_reverse_sprite(monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
+            }else{
+                draw_sprite(monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
+            }
         }
+            
     }
-
-    if (monster_fly.alive && monster_fly.life > 0)
-        draw_reverse_sprite(monster_fly.sprite, monster_fly.x, monster_fly.y);
-    
+    check_enemy_bullet_collisions(player);
 }
+
 
 
 
@@ -284,32 +304,77 @@ void update_bullet_logic(bullet_node **head) {
             }
         }
     }
+    for(int i=0; i<2;i++) {
+        if (monsters_fly[i].alive) {
+            current = *head;
+            prev = NULL;
+            while (current != NULL) {
+                bool flag = check_collision(current->shot->sprite, current->shot->x, current->shot->y, monsters_fly[i].sprite, monsters_fly[i].x, monsters_fly[i].y);
+                if (flag) {
+                    monsters_fly[i].life -= 3;
+                    if (monsters_fly[i].life <= 0) {
+                        monsters_fly[i].alive = false;
+                        renew=0;
+                    }
+                    bullet_node *to_remove = current;
 
-    if (monster_fly.alive) {
-        current = *head;
-        prev = NULL;
-        while (current != NULL) {
-            bool flag = check_collision(current->shot->sprite, current->shot->x, current->shot->y, monster_fly.sprite, monster_fly.x, monster_fly.y);
-            if (flag) {
-                monster_fly.life -= 3;
-                if (monster_fly.life <= 0) {
-                    monster_fly.alive = false;
-                }
-                bullet_node *to_remove = current;
+                    if (prev == NULL) {
+                        *head = current->next;
+                    } else {
+                        prev->next = current->next;
+                    }
 
-                if (prev == NULL) {
-                    *head = current->next;
+                    current = current->next;
+                    destroyBulletNode(to_remove);
+                    break;
                 } else {
-                    prev->next = current->next;
+                    prev = current;
+                    current = current->next;
                 }
+            }
 
-                current = current->next;
-                destroyBulletNode(to_remove);
-                break;
-            } else {
-                prev = current;
-                current = current->next;
+        }
+    }
+    
+}
+void check_enemy_bullet_collisions(player *player) {
+    for (int i = 0; i < 2; i++) {
+        if (monsters_fly[i].alive && monsters_fly[i].shot != NULL && monsters_fly[i].shot->active) {
+            bool hit = check_collision(player->sprite, player->x, player->y, monsters_fly[i].shot->sprite, monsters_fly[i].shot->x, monsters_fly[i].shot->y);
+            if (hit) {
+                player->life -= monsters_fly[i].shot->damage;
+                monsters_fly[i].shot->active = false;
+                if(player->life <= 0){
+                    currentState = SCOREBOARD;
+                    //save_score(score);
+                    player->life = 5;
+                    player->x = 400;
+                    player->y = 571;
+                }
             }
         }
     }
 }
+
+
+void spawn_dead_enemies(){
+    int spawn= rand() % 2; 
+    if(monsters_fly[spawn].alive==false){
+        monsters_fly[spawn].alive=true;
+        monsters_fly[spawn].life=6;
+    }
+    else{
+        if(spawn==0 || monsters_fly[1].alive==false){
+            monsters_fly[1].alive=true;
+            monsters_fly[1].life = 6;
+        }
+        else if(spawn==1 || monsters_fly[0].alive==false){
+            monsters_fly[0].alive=true;
+            monsters_fly[0].life = 6;
+        }
+            
+    }
+
+    
+}
+

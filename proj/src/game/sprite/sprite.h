@@ -158,6 +158,7 @@ Sprite *bala;
 Sprite *font;
 Sprite *ScoreBackGrnd; 
 Sprite *LeaderBackGrnd; 
+Sprite *bala_inimigo;
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);

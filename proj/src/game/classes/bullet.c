@@ -11,26 +11,25 @@ bullet *createBullet(int x,int y, int mouseX, int mouseY,int damage,Sprite *sp){
     p->mouseY = mouseY;
     p->damage = damage;
     p->sprite = sp;
-    // Calcula o vetor de direção da bala
     p->dx = mouseX - x;
     p->dy = mouseY - y;
     
-    // Normaliza o vetor de direção
     float norm = sqrt(p->dx * p->dx + p->dy * p->dy);
-    if (norm != 0) { // Evita divisão por zero
+    if (norm != 0) { 
         p->dx = p->dx / norm;
         p->dy = p->dy / norm;
     }
 
     return p;
 }
+
 void destroyBullets(bullet *p){
     if(p->x < 0 || p->x > 1024 || p->y < 0 || p->y > 768)
         free(p);
 }
 
 void moveBullet(bullet *p){
-    int speed = 5;
+    int speed = 15;
     p->x += speed* p->dx;
     p->y += speed* p->dy;
 }

@@ -12,13 +12,11 @@ extern vbe_mode_info_t info;
 
 
 Sprite *create_sprite(xpm_map_t pic) {
-    //allocate space for the "object"
     Sprite *sp = (Sprite *) malloc ( sizeof(Sprite));
     xpm_image_t img;
     
     if( sp == NULL )
     return NULL;
-    // read the sprite pixmap
     sp->map = (uint32_t *) xpm_load(pic, XPM_8_8_8_8, &img);
     if( sp->map == NULL ) {
         free(sp);
