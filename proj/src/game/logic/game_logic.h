@@ -19,7 +19,7 @@
 void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed, bool key_d_pressed, bool key_w_pressed, int8_t *speed_x, int8_t *speed_y, int *unvulnerability);
 void update_enemy_logic(MouseCursor *mouse, bool create_enemy, player *player);
 void update_bullet_logic(bullet_node **head);
-void check_enemy_bullet_collisions(player *player);
+bool check_enemy_bullet_collisions(player *player,int *unvulnerability);
 void spawn_dead_enemies();
 
 

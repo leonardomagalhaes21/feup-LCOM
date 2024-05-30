@@ -1,8 +1,4 @@
-/** Creates a new sprite from XPM "pic", with specified
-* position (within the screen limits) and speed;
-* Does not draw the sprite on the screen
-* Returns NULL on invalid pixmap.
-*/
+
 
 #include <lcom/lcf.h>
 #include "sprite.h"
@@ -61,7 +57,24 @@ int draw_reverse_sprite(Sprite *sp, int x, int y) {
     return 0; 
 }
 
+void loadInitialSprites(){
+    mouse_cursor= create_sprite((xpm_map_t) square_110);
+    ResChooseBckgrd = create_sprite((xpm_map_t) ResChooseBckgrnd);
+
+}
+void freeInitialSprites(){
+    free(mouse_cursor->map);
+    free(mouse_cursor);
+    mouse_cursor=NULL;
+    free(ResChooseBckgrd->map);
+    free(ResChooseBckgrd);
+    ResChooseBckgrd=NULL;
+}
+
+
 void loadAllSprites(uint16_t mode){
+
+    bala_inimigo = create_sprite((xpm_map_t) bala2);
     
     if(mode==0x14C) {
         cuphead1 = create_sprite((xpm_map_t) cuphead_1);
@@ -382,13 +395,13 @@ int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16 on 0x14
     }
     for (int h = 0 ; h < 18; h++) {
         for (int w = 0 ; w < 18; w++) {
-            if (vg_draw_pixel(x + w,y + h, font->map[xMap*info.XResolution/1152 + w + (yMap*info.YResolution/864+h)*800])) return 1;
+            if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*800])) return 1;
         }
     }
     return 0;
 }
 
-int drawNum(int c, uint16_t x, uint16_t y) { //height = 17, width = 16
+int drawNum(int c, uint16_t x, uint16_t y) { 
     uint16_t xMap, yMap;
     switch (c)
     {
@@ -438,7 +451,7 @@ int drawNum(int c, uint16_t x, uint16_t y) { //height = 17, width = 16
     }
     for (int h = 0 ; h < 18; h++) {
         for (int w = 0 ; w < 18; w++) {
-            if (vg_draw_pixel(x + w,y + h, font->map[xMap*info.XResolution/1152 + w + (yMap*info.YResolution/864+h)*800])) return 1;
+            if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*800])) return 1;
         }
     }
     return 0;

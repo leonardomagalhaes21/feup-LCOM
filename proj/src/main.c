@@ -37,7 +37,7 @@ double multiplier = 1.0;
 uint8_t kbd_irq_set;
 uint8_t mouse_irq_set;
 uint8_t timer_irq_set;
-uint16_t mode = 0x14C;
+uint16_t mode = 0x110;
 
 int open_devices() {
   if (mouse_write_cmd(0xEA) != 0)
@@ -64,6 +64,7 @@ int open_devices() {
   if (set_graphic_mode(mode) != 0)
     return 1;
   return 0;
+
 }
 
 int close_devices() {
@@ -84,36 +85,139 @@ int close_devices() {
     return 1;
 
   return 0;
+
+}
+
+
+int change_mode(uint16_t new_mode){
+  mode=new_mode;
+  if (vg_exit() != 0)
+    return 1;
+ 
+  if (set_buffer(mode) != 0)
+    return 1;
+
+  if (allocate_write_buffer() != 0)
+    return 1;
+
+  if (set_graphic_mode(mode) != 0)
+    return 1;
+  freeInitialSprites();
+  loadAllSprites(mode);
+  return 0;
+  
 }
 
 int(proj_main_loop)(int argc, char *argv[]) {
 
-  loadAllSprites(mode);
+  if(open_devices()!=0)
+    return 1;
+  loadInitialSprites();
   int ipc_status;
   message msg;
+  MouseCursor *mouse;
+  mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
+  player *player;
+  bullet_node *bullets = NULL;
+  bool flag=true;
+ while (flag) {
+    if (driver_receive(ANY, &msg, &ipc_status) != 0) {
+      printf("driver_receive failed");
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) {
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:
+          if (msg.m_notify.interrupts & timer_irq_set) {
+            timer_int_handler();
+            if(currentState==RESOLUTION){
+              drawResolution();
+              
+            }
+            draw_sprite(mouse->sprite, mouse->x, mouse->y);
+            switch_buffers();
+          }
+          if (msg.m_notify.interrupts & kbd_irq_set) {
+            kbc_ih();
+          }
+          if (msg.m_notify.interrupts & mouse_irq_set) {
+            mouse_ih();
+            mouse_bytes_sync();
+
+            if (idx == 3) {
+              idx = 0;
+              mouse_generate_packet();
+              if (!((mouse_packet.delta_x + mouse->x) <= 0 || (mouse_packet.delta_x + mouse->x + 7) >= (info.XResolution) || (-mouse_packet.delta_y + mouse->y) <= 0 || (-mouse_packet.delta_y + mouse->y) > (info.YResolution))) {
+                mouse->x += mouse_packet.delta_x;
+                mouse->y -= mouse_packet.delta_y;
+              }
+            if(currentState==RESOLUTION){
+                  if(res14C(mouse->x, mouse->y)==0){
+                    change_mode(0x14C);
+                    player = createPlayer(5, 5, 400*info.XResolution/1152, 571*info.YResolution/864, cuphead1);
+                    mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
+                    extern enemy monsters[10];
+                    int v = 10;
+                    for (int i = 0; i < 10; i++) {
+                      monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
+                    }
+
+                    flag=false;
+                  }
+                  else if(res115(mouse->x, mouse->y)==0){
+
+                    change_mode(0x115);
+                    player = createPlayer(5, 5, 400*info.XResolution/1152, 571*info.YResolution/864, cuphead1);
+                    mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
+                    extern enemy monsters[10];
+                    int v = 10;
+                    for (int i = 0; i < 10; i++) {
+                      monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
+                    }
+                    flag=false;
+                  }
+                  else if(res110(mouse->x, mouse->y)==0){
+                    change_mode(0x110);
+                    
+                    player = createPlayer(5, 5, 400*info.XResolution/1152, 571*info.YResolution/864, cuphead1);
+                    
+                    mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
+                    extern enemy monsters[10];
+                    int v = 10;
+                    for (int i = 0; i < 10; i++) {
+                      monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
+                    }
+                    flag=false;
+                  }
+                  else if(res11A(mouse->x, mouse->y)==0){
+                    change_mode(0x11A);
+                    player = createPlayer(5, 5, 400*info.XResolution/1152, 571*info.YResolution/864, cuphead1);
+                    mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
+                    extern enemy monsters[10];
+                    int v = 10;
+                    for (int i = 0; i < 10; i++) {
+                      monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
+                    }
+                    flag=false;
+                  }
+
+                }
+              }
+            }
+              
+      }
+    }
+ }
+
+
+
+
+
+
 
   int8_t speed_x = 0;
   int8_t speed_y = 0;
-
-  if (open_devices() != 0)
-    return 1;
-
-  player *player;
-  player = createPlayer(5, 5, 400*info.XResolution/1152, 571*info.YResolution/864, cuphead1);
-  MouseCursor *mouse;
-  mouse = createMouseCursor(400*info.XResolution/1152, 350*info.YResolution/864, mouse_cursor);
-  bullet_node *bullets = NULL;
-  extern enemy monsters[10];
-  int v = 10;
-  for (int i = 0; i < 10; i++) {
-    monsters[i] = *createEnemy(5, 5, 5 + i + v, 5 + i + v, 3, 3, monster1, false);
-  }
-
   extern enemy monsters_fly[2];
-    monsters_fly[0] = *createEnemy(6, 5, FLYMONS1_X, FLYMONS1_Y, 3, 3, monster2, true);
-
-    monsters_fly[1] = *createEnemy(6,5, FLYMONS2_X, FLYMONS2_Y, 3, 3, monster2, true);
-
   int bullet_cooldown=0;
   bool key_a_pressed = false;
   bool key_d_pressed = false;
@@ -130,7 +234,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
         case HARDWARE:
           if (msg.m_notify.interrupts & timer_irq_set) {
             timer_int_handler();
+            
             if (currentState == MENU) {
+              
               drawMenu();
 
             }
@@ -173,6 +279,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
             else if (currentState == SCOREBOARD) {
               drawScoreBoard(score);
             }
+            
             else if (currentState == EXIT) {
               if (close_devices() != 0)
                 return 1;
@@ -243,6 +350,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                   }
                 }
               }
+
             }
           }
           break;

@@ -124,6 +124,9 @@
 #include "xpm/resolutionModes/115/cuphead/cuphead16_115.xpm"
 #include "xpm/resolutionModes/115/cuphead/cupheadstand_115.xpm"
 
+#include "xpm/bala_inimigo.xpm"
+
+#include "xpm/resolutionModes/110/backgrounds/ResChoose110.xpm"
 
 #include "devices/graphics/graphics.h"
 typedef struct {
@@ -159,6 +162,7 @@ Sprite *font;
 Sprite *ScoreBackGrnd; 
 Sprite *LeaderBackGrnd; 
 Sprite *bala_inimigo;
+Sprite *ResChooseBckgrd;
 
 Sprite *create_sprite(xpm_map_t pic); 
 void destroy_sprite(Sprite *sp);
@@ -170,6 +174,8 @@ int clean_img(uint16_t x, uint16_t y, uint16_t width);
 int drawChar(char c, uint16_t x, uint16_t y);
 int drawNum(int c, uint16_t x, uint16_t y);
 int drawTxt(char txt[], uint16_t x, uint16_t y);
+void loadInitialSprites();
+void freeInitialSprites();
 
 bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2, int y2);
 

@@ -7,6 +7,7 @@ float cuphead_offset = 0;
 enemy monsters[10];
 enemy monsters_fly[2];
 extern vbe_mode_info_t info;
+extern uint16_t mode;
 extern GameState currentState;
 bool facingLeft=false;
 extern int score;
@@ -95,10 +96,31 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
         player->sprite = cupheadstand;
         cuphead_offset = 0;
     }
-    
-    int8_t gravity = 4 ;
-    int8_t jump_force = -40; 
 
+    int8_t jump_force, gravity;
+    if(mode == 0x14C) {
+        gravity = 4 ;
+        jump_force = -40; 
+    }
+
+    else if (mode == 0x115) {
+        gravity = 4;
+        jump_force = -35; 
+    }
+
+    else if (mode == 0x11A){
+        gravity = 4 ;
+        jump_force = -40; 
+    }
+
+    else if (mode == 0x110) {
+        gravity = 4*info.YResolution/864;
+        jump_force = -40*info.YResolution/864; 
+    }
+    else {
+        return;
+    }
+    
     if (is_falling) {
         *speed_y += gravity;
     }
@@ -142,12 +164,22 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
         if (monsters[i].alive) {  
 
             bool flag = check_collision(player->sprite, player->x, player->y, monsters[i].sprite, monsters[i].x, monsters[i].y);
-            if (flag && *unvulnerability > 60) {
+            bool flag2= check_enemy_bullet_collisions(player,unvulnerability);
+
+            if ((flag || flag2) && *unvulnerability > 60) {
             player->life--;
             *unvulnerability = 0;
             monsters[i].alive=false;
             if(player->life <= 0){
                 currentState = SCOREBOARD;
+                for(int i=0;i<10;i++){
+                        monsters[i].alive=false;
+                    }
+                for (int j=0;j<2;j++){
+                    monsters_fly[j].alive=false;
+                    monsters_fly[j].shot=NULL;
+
+                }
                 //save_score(score);
                 player->life = 5;
                 player->x = 400*info.XResolution/1152;
@@ -177,7 +209,7 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
                     spawn_x = info.XResolution;
                     monsters[i].speed_x = -4;
                 }
-                reviveEnemy(&monsters[i], spawn_x, 650*info.YResolution/864);
+                reviveEnemy(&monsters[i], spawn_x, spawn_y*info.YResolution/864);
                 monsters[i].speed_y = 0; 
                 break;
             }
@@ -188,8 +220,8 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
         if (monsters[i].alive) {
            
 
-            if (monsters[i].y >= 600) {
-                monsters[i].y = 600;
+            if (monsters[i].y >= 600*info.YResolution/864) {
+                monsters[i].y = 600*info.YResolution/864;
             }
 
             monsters[i].x += monsters[i].speed_x;
@@ -233,9 +265,9 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
     for(int i=0; i<2;i++){
         if (monsters_fly[i].alive && monsters_fly[i].life > 0){
             if(i == 0){
-                monsters_fly[i].y = FLYMONS1_Y + sin(counter_timer / 3) * 10;
+                monsters_fly[i].y = FLYMONS1_Y*info.YResolution/864 + sin(counter_timer / 3) * 10;
             }else{
-                monsters_fly[i].y = FLYMONS2_Y + sin(counter_timer / 3) * 10;
+                monsters_fly[i].y = FLYMONS2_Y*info.YResolution/864 + sin(counter_timer / 3) * 10;
             }
             
             if(monsters_fly[i].x > player->x){
@@ -246,7 +278,6 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
         }
             
     }
-    check_enemy_bullet_collisions(player);
 }
 
 
@@ -337,38 +368,36 @@ void update_bullet_logic(bullet_node **head) {
     }
     
 }
-void check_enemy_bullet_collisions(player *player) {
+bool check_enemy_bullet_collisions(player *player, int *unvulnerability) {
     for (int i = 0; i < 2; i++) {
         if (monsters_fly[i].alive && monsters_fly[i].shot != NULL && monsters_fly[i].shot->active) {
             bool hit = check_collision(player->sprite, player->x, player->y, monsters_fly[i].shot->sprite, monsters_fly[i].shot->x, monsters_fly[i].shot->y);
-            if (hit) {
-                player->life -= monsters_fly[i].shot->damage;
+            if (hit && *unvulnerability > 60) {
                 monsters_fly[i].shot->active = false;
-                if(player->life <= 0){
-                    currentState = SCOREBOARD;
-                    //save_score(score);
-                    player->life = 5;
-                    player->x = 400;
-                    player->y = 571;
-                }
+                return hit;
             }
         }
     }
+    return false;
 }
 
 
 void spawn_dead_enemies(){
     int spawn= rand() % 2; 
     if(monsters_fly[spawn].alive==false){
+        monsters_fly[spawn].shot=NULL;
         monsters_fly[spawn].alive=true;
         monsters_fly[spawn].life=6;
     }
     else{
         if(spawn==0 || monsters_fly[1].alive==false){
+            monsters_fly[1].shot=NULL;
             monsters_fly[1].alive=true;
             monsters_fly[1].life = 6;
         }
         else if(spawn==1 || monsters_fly[0].alive==false){
+            monsters_fly[0].shot=NULL;
+
             monsters_fly[0].alive=true;
             monsters_fly[0].life = 6;
         }

@@ -14,10 +14,10 @@
 typedef enum {
   MENU,
   GAME,
-  PAUSE,
   SCOREBOARD,
   LEADERBOARD,
   EXIT,
+  RESOLUTION,
 } GameState;
 extern GameState currentState;
 
@@ -33,6 +33,11 @@ int drawScoreBoard(int score);
 int drawScore(int score, uint16_t x, uint16_t y);
 int processScanCode(uint8_t scancodewrite);
 int drawLeaderBoard();
+int drawResolution();
+int res14C(int x, int y);
+int res110(int x, int y);
+int res11A(int x, int y);
+int res115(int x, int y);
 
 #endif
 
