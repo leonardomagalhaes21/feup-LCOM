@@ -15,7 +15,7 @@
 
 #define KBC_OBF BIT(0)
 #define KBC_IBF BIT(1)
-#define KBC_AUX BIT(5) // 0 TECLADO, 1 RATO
+#define KBC_AUX BIT(5) 
 #define KBC_TIMEOUT BIT(6)
 #define KBC_PARITY BIT(7)
 

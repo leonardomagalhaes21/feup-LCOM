@@ -17,25 +17,6 @@ int (set_graphic_mode)(uint16_t mode) {
     return 0;
 }
 
-/*
-typedef struct {
-    uint16_t ModeAttributes;
-    [...]
-    uint16_t XResolution;
-    uint16_t YResolution;
-    [...]
-    uint8_t BitsPerPixel;
-    [...]
-    uint8_t RedMaskSize;
-    uint8_t RedFieldPosition;
-    [...]
-    uint8_t RsvdMaskSize;
-    uint8_t RsvdFieldPosition;
-    [...]
-    uint32_t PhysBasePtr;
-    [...]
-} vbe_mode_info_t;
-*/
 
 int (set_buffer)(uint16_t mode) {
 
@@ -47,7 +28,7 @@ int (set_buffer)(uint16_t mode) {
     int r;
     struct minix_mem_range mr;
     unsigned int vram_base = info.PhysBasePtr;
-    unsigned int vram_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8; //adicinar 7 (arredondamento para int)       
+    unsigned int vram_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8;
 
     mr.mr_base = (phys_bytes) vram_base;
     mr.mr_limit = mr.mr_base + vram_size;
@@ -85,13 +66,15 @@ void (switch_buffers)(){
 int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
     if(x > info.XResolution || y > info.YResolution ||y<0 ||x <0) 
         return 0;
-    if(color==0xAFFFFF)
+    if(color==0xAFFFFF || color==0xB1FFFF || color==0XB9FBFB || color==0x9ADDDD  || color==0x080707 || color == 0x282727 || color==0xA6F1F1 || color==0xA3ECEC)
         return 0;
   
     unsigned bpp = (info.BitsPerPixel + 7) / 8;
 
     unsigned int idx = (info.XResolution * y + x) * bpp;
-    memcpy(&write_buffer[idx], &color, bpp);
+    uint32_t new_color;
+    fix_color(color, &new_color);
+    memcpy(&write_buffer[idx], &new_color, bpp);
 
     return 0;
 
@@ -99,13 +82,34 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color){
 
 
 
-void (fix_color)(uint32_t color, uint32_t *new_color){
-  if (info.BitsPerPixel == 32) {
-    *new_color = color;
-  } else {
-    *new_color = color & (BIT(info.BitsPerPixel) - 1);
-  }
-  
+void (fix_color)(uint32_t color, uint32_t *normalized_color){
+    uint8_t red, green, blue;
+    uint32_t new_color = 0;
+
+    
+    red = (color >> 16) & 0xFF;
+    green = (color >> 8) & 0xFF;
+    blue = color & 0xFF;
+
+    switch (info.BitsPerPixel) {
+        case 15:
+            new_color = ((red >> 3) << 10) | ((green >> 3) << 5) | (blue >> 3);
+            break;
+        case 16:
+            new_color = ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
+            break;
+        case 24:
+            new_color = (red << 16) | (green << 8) | blue;
+            break;
+        case 32:
+            new_color = (red << 16) | (green << 8) | blue;
+            break;
+        default:
+            new_color = 0;
+            break;
+    }
+
+    *normalized_color = new_color;
 }
 
 
