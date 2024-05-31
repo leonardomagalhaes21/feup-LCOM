@@ -4,11 +4,9 @@
 #include "game/classes/enemy.h"
 #include "game/classes/mouse_cursor.h"
 #include "game/classes/player.h"
-#include "game/controller/gameController.h"
 #include "game/logic/game_logic.h"
-#include "game/modes/menu.h"
+#include "game/menu/menu.h"
 #include "game/sprite/sprite.h"
-#include "game/viewer/gameViewer.h"
 #include "lcom/timer.h"
 #include "game/classes/bullet.h"
 #include "game/classes/bullet_node.h"
@@ -45,13 +43,16 @@ int open_devices() {
   if (mouse_write_cmd(MOUSE_ENABLE_DATA_REPORTING) != 0)
     return 1;
 
+
+  if (timer_set_frequency(0, 30) != 0)
+    return 1;
+
   if (keyboard_subscribe_int(&kbd_irq_set) != 0)
     return 1;
   if (mouse_subscribe_int(&mouse_irq_set) != 0)
     return 1;
 
-  if (timer_set_frequency(0, 30) != 0)
-    return 1;
+  
   if (timer_subscribe_int(&timer_irq_set) != 0)
     return 1;
 
@@ -68,6 +69,7 @@ int open_devices() {
 }
 
 int close_devices() {
+  freeAllSprites();
   if (keyboard_unsubscribe_int() != 0)
     return 1;
   if (mouse_unsubscribe_int() != 0)
@@ -91,9 +93,11 @@ int close_devices() {
 
 int change_mode(uint16_t new_mode){
   mode=new_mode;
+  
   if (vg_exit() != 0)
     return 1;
- 
+  
+  
   if (set_buffer(mode) != 0)
     return 1;
 
@@ -104,6 +108,7 @@ int change_mode(uint16_t new_mode){
     return 1;
   freeInitialSprites();
   loadAllSprites(mode);
+  
   return 0;
   
 }
@@ -212,7 +217,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
 
 
-
+  draw_sprite(instructions, 0, 0);
+  switch_buffers();
+  sleep(3);
 
 
   int8_t speed_x = 0;

@@ -1,39 +1,39 @@
 #include "type.h"
 
 int processScanCode(uint8_t scancode) {
-  if (scancode == 0x1E) { // a
+  if (scancode == 0x1E) { 
     name[indexName] = "a";
     indexName++;
   }
-  else if (scancode == 0x30) { // b
+  else if (scancode == 0x30) { 
     name[indexName] = "b";
     indexName++;
   }
-  else if (scancode == 0x2E) { // c
+  else if (scancode == 0x2E) { 
     name[indexName] = "c";
     indexName++;
   }
-  else if (scancode == 0x20) { // d
+  else if (scancode == 0x20) { 
     name[indexName] = "d";
     indexName++;
   }
-  else if (scancode == 0x12) { // e
+  else if (scancode == 0x12) { 
     name[indexName] = "e";
     indexName++;
   }
-  else if (scancode == 0x21) { // f
+  else if (scancode == 0x21) { 
     name[indexName] = "f";
     indexName++;
   }
-  else if (scancode == 0x22) { // g
+  else if (scancode == 0x22) { 
     name[indexName] = "g";
     indexName++;
   }
-  else if (scancode == 0x23) { // h
+  else if (scancode == 0x23) { 
     name[indexName] = "h";
     indexName++;
   }
-  else if (scancode == 0x17) { // i
+  else if (scancode == 0x17) { 
     name[indexName] = "i";
     indexName++;
   }

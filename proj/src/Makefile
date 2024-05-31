@@ -9,10 +9,9 @@ PROG=proj
 
 .PATH: ${.CURDIR}/controllers/serialPort
 .PATH: ${.CURDIR}/game
-.PATH: ${.CURDIR}/game/modes
+.PATH: ${.CURDIR}/game/menu
 .PATH: ${.CURDIR}/game/sprite
 .PATH: ${.CURDIR}/game/classes
-.PATH: ${.CURDIR}/game/modes
 .PATH: ${.CURDIR}/game/logic
 .PATH: ${.CURDIR}/game/classes
 .PATH: ${.CURDIR}/game/classes

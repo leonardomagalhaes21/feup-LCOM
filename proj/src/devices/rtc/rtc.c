@@ -34,7 +34,6 @@ uint8_t to_binary(uint8_t bcd_value) {
 }
 
 int read_rtc_time(){
-    //get functioning type
     int is_binary = is_rtc_binary();
 
     if(is_rtc_updating()){

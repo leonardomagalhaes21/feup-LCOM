@@ -32,10 +32,9 @@ void destroy_sprite(Sprite *sp) {
     free(sp);
     sp = NULL; 
 }
-int move_sprite(Sprite *sp) {
-    return 1;
-}
-/* Some useful non-visible functions */
+
+
+
 int draw_sprite(Sprite *sp, int x, int y) {
     uint16_t width = sp->width;
     uint16_t height = sp->height;
@@ -64,12 +63,8 @@ void loadInitialSprites(){
 
 }
 void freeInitialSprites(){
-    free(mouse_cursor->map);
-    free(mouse_cursor);
-    mouse_cursor=NULL;
-    free(ResChooseBckgrd->map);
-    free(ResChooseBckgrd);
-    ResChooseBckgrd=NULL;
+    destroy_sprite(mouse_cursor);
+    destroy_sprite(ResChooseBckgrd);
 }
 
 
@@ -106,6 +101,7 @@ void loadAllSprites(uint16_t mode){
         monster2 = create_sprite((xpm_map_t) monster_2);
         bala = create_sprite((xpm_map_t) bala1);
         bala_inimigo = create_sprite((xpm_map_t) bala2);
+        instructions = create_sprite((xpm_map_t) instructions_14c);
     }
     else if (mode==0x11A) {
         cuphead1 = create_sprite((xpm_map_t) cuphead1_11A);
@@ -137,6 +133,7 @@ void loadAllSprites(uint16_t mode){
         monster2 = create_sprite((xpm_map_t) monster2_11A);
         bala = create_sprite((xpm_map_t) bala11A);
         bala_inimigo = create_sprite((xpm_map_t) bala_inimigo_11A);
+        instructions = create_sprite((xpm_map_t) instructions_11a);
     }
     else if (mode==0x115) {
         cuphead1 = create_sprite((xpm_map_t) cuphead1_115);
@@ -168,6 +165,7 @@ void loadAllSprites(uint16_t mode){
         monster2 = create_sprite((xpm_map_t) monster2_115);
         bala = create_sprite((xpm_map_t) bala_115);
         bala_inimigo = create_sprite((xpm_map_t) bala_inimigo_115);
+        instructions = create_sprite((xpm_map_t) instructions_115);
     }
     else if (mode==0x110) {
         cuphead1 = create_sprite((xpm_map_t) cuphead1_110);
@@ -199,6 +197,7 @@ void loadAllSprites(uint16_t mode){
         monster2 = create_sprite((xpm_map_t) monster2_110);
         bala = create_sprite((xpm_map_t) bala_110);
         bala_inimigo = create_sprite((xpm_map_t) bala_inimigo_110);
+        instructions = create_sprite((xpm_map_t) instructions_110);
     }
     
 }
@@ -211,11 +210,39 @@ int clean_img(uint16_t x, uint16_t y, uint16_t width) {
     }
     return 0; 
 }
-/*
-void freeAllSprites(){
 
+void freeAllSprites(){
+    destroy_sprite(cuphead1);
+    destroy_sprite(cuphead2);
+    destroy_sprite(cuphead3);
+    destroy_sprite(cuphead4);
+    destroy_sprite(cuphead5);
+    destroy_sprite(cuphead6);
+    destroy_sprite(cuphead7);
+    destroy_sprite(cuphead8);
+    destroy_sprite(cuphead9);
+    destroy_sprite(cuphead10);
+    destroy_sprite(cuphead11);
+    destroy_sprite(cuphead12);
+    destroy_sprite(cuphead13);
+    destroy_sprite(cuphead14);
+    destroy_sprite(cuphead15);
+    destroy_sprite(cuphead16);
+    destroy_sprite(cupheadstand);
+    destroy_sprite(hearthLife);
+    destroy_sprite(font);
+    destroy_sprite(ScoreBackGrnd);
+    destroy_sprite(LeaderBackGrnd);
+    destroy_sprite(mouse_cursor);
+    destroy_sprite(menu_full);
+    destroy_sprite(background);
+    destroy_sprite(monster1);
+    destroy_sprite(monster2);
+    destroy_sprite(bala);
+    destroy_sprite(bala_inimigo);
+    destroy_sprite(instructions);
 }
-*/
+
 
 bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2,  int y2) {
     if (sp1 == NULL || sp2 == NULL) return false;
@@ -232,7 +259,7 @@ bool check_collision(Sprite *sp1, int x1, int y1, Sprite *sp2, int x2,  int y2) 
     
 }
 
-int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16 on 0x14C mode
+int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16 - 0x14C
     uint16_t xMap=0, yMap=0;
     
     if (c >= 'a' && c <= 'z') {
@@ -251,7 +278,7 @@ int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16 on 0x14
         xMap = 9 + 27 * 18;
         yMap = 36;
     } else {
-        return 1; // Unsupported character
+        return 1;
     }
     
     if (mode == 0x110) {

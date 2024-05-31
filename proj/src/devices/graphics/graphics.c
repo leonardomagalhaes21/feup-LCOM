@@ -17,25 +17,6 @@ int (set_graphic_mode)(uint16_t mode) {
     return 0;
 }
 
-/*
-typedef struct {
-    uint16_t ModeAttributes;
-    [...]
-    uint16_t XResolution;
-    uint16_t YResolution;
-    [...]
-    uint8_t BitsPerPixel;
-    [...]
-    uint8_t RedMaskSize;
-    uint8_t RedFieldPosition;
-    [...]
-    uint8_t RsvdMaskSize;
-    uint8_t RsvdFieldPosition;
-    [...]
-    uint32_t PhysBasePtr;
-    [...]
-} vbe_mode_info_t;
-*/
 
 int (set_buffer)(uint16_t mode) {
 
@@ -47,7 +28,7 @@ int (set_buffer)(uint16_t mode) {
     int r;
     struct minix_mem_range mr;
     unsigned int vram_base = info.PhysBasePtr;
-    unsigned int vram_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8; //adicinar 7 (arredondamento para int)       
+    unsigned int vram_size = info.XResolution * info.YResolution * (info.BitsPerPixel + 7) / 8;
 
     mr.mr_base = (phys_bytes) vram_base;
     mr.mr_limit = mr.mr_base + vram_size;
@@ -111,30 +92,19 @@ void (fix_color)(uint32_t color, uint32_t *normalized_color){
     blue = color & 0xFF;
 
     switch (info.BitsPerPixel) {
-        // case 8:
-        //     // Indexed color mode (8 bits per pixel)
-        //     // Assuming a grayscale approximation for simplicity
-        //     new_color = (red + green + blue) / 3;
-        //     break;
         case 15:
-            // 15 bits per pixel (1 unused bit : 5 red : 5 green : 5 blue)
             new_color = ((red >> 3) << 10) | ((green >> 3) << 5) | (blue >> 3);
             break;
         case 16:
-            // 16 bits per pixel (5 red : 6 green : 5 blue)
             new_color = ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
             break;
         case 24:
-            // 24 bits per pixel (8 red : 8 green : 8 blue)
             new_color = (red << 16) | (green << 8) | blue;
             break;
         case 32:
-            // 32 bits per pixel (8 alpha : 8 red : 8 green : 8 blue)
-            // Assuming the alpha channel is unused here
             new_color = (red << 16) | (green << 8) | blue;
             break;
         default:
-            // Unsupported bpp, just set to black
             new_color = 0;
             break;
     }

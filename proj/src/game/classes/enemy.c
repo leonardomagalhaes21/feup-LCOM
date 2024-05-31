@@ -21,9 +21,7 @@ enemy *createEnemyWithDefaultShot(int life, int damage, int x, int y, int speed_
     return createEnemy(life, damage, x, y, speed_x, speed_y, sp, alive);
 }
 
-void addbullet(enemy_bullet *shot, enemy *p){
-    p->shot= shot;
-}
+
 
 void destroyEnemy(enemy *p) {
     free(p);

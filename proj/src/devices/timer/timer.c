@@ -1,3 +1,8 @@
+/**
+ * @file timer.c
+ * @brief Contains functions for handling timer operations and interactions.
+ */
+
 #include <lcom/lcf.h>
 #include <lcom/timer.h>
 
@@ -9,6 +14,13 @@ int hook_id_timer = 0;
 int counter_timer = 0;
 
 
+/**
+ * @brief Sets the frequency of the specified timer.
+ *
+ * @param timer The timer to set the frequency for.
+ * @param freq The desired frequency.
+ * @return 0 on success, 1 on failure.
+ */
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   uint32_t MIN_FREQ = TIMER_FREQ / 65535;
   if (freq <= MIN_FREQ || freq > TIMER_FREQ) return 1;
@@ -45,6 +57,12 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   return 0;
 }
 
+/**
+ * @brief Subscribes to timer interrupts.
+ *
+ * @param bit_no Pointer to the variable that will store the interrupt bit number.
+ * @return 0 on success, 1 on failure.
+ */
 int (timer_subscribe_int)(uint8_t *bit_no) {
   if (bit_no == NULL) return 1;
   *bit_no = BIT(hook_id_timer);
@@ -53,16 +71,34 @@ int (timer_subscribe_int)(uint8_t *bit_no) {
   return flag;
 }
 
+
+/**
+ * @brief Unsubscribes from timer interrupts.
+ *
+ * @return 0 on success, 1 on failure.
+ */
 int (timer_unsubscribe_int)() {
   int flag = sys_irqrmpolicy(&hook_id_timer);
 
   return flag;
 }
 
+
+/**
+ * @brief Timer interrupt handler that increments the counter.
+ */
 void (timer_int_handler)() {
   counter_timer++;
 }
 
+
+/**
+ * @brief Gets the configuration of the specified timer.
+ *
+ * @param timer The timer to get the configuration of.
+ * @param st Pointer to the variable that will store the status.
+ * @return 0 on success, 1 on failure.
+ */
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
   if (st == NULL) return 1;
   if (timer > 2 || timer < 0) return 1;
@@ -74,6 +110,15 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
   return 0;
 }
 
+
+/**
+ * @brief Displays the configuration of the specified timer.
+ *
+ * @param timer The timer to display the configuration of.
+ * @param st The status byte of the timer.
+ * @param field The field of the timer status to display.
+ * @return 0 on success, 1 on failure.
+ */
 int (timer_display_conf)(uint8_t timer, uint8_t st,
                         enum timer_status_field field) {
   

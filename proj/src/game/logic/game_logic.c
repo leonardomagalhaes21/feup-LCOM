@@ -368,6 +368,9 @@ void update_bullet_logic(bullet_node **head) {
     }
     
 }
+
+
+
 bool check_enemy_bullet_collisions(player *player, int *unvulnerability) {
     for (int i = 0; i < 2; i++) {
         if (monsters_fly[i].alive && monsters_fly[i].shot != NULL && monsters_fly[i].shot->active) {
@@ -380,6 +383,7 @@ bool check_enemy_bullet_collisions(player *player, int *unvulnerability) {
     }
     return false;
 }
+
 
 
 void spawn_dead_enemies(){
