@@ -1,0 +1,4 @@
+<map id="leaderboardButton" name="leaderboardButton">
+<area shape="rect" id="node1" title="Handles button click events for the &quot;Leaderboard&quot; button in the menu." alt="" coords="5,5,148,32"/>
+<area shape="rect" id="node2" href="$save__score_8c.html#acf86cdef386fd9dc7cbb5edf09c4887a" title="Reads the scores and associated information from the scoreboard file." alt="" coords="196,5,296,32"/>
+</map>

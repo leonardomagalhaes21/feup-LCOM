@@ -1,0 +1,6 @@
+<map id="kbc_ih" name="kbc_ih">
+<area shape="rect" id="node1" title="Interrupt handler for keyboard controller." alt="" coords="5,31,69,57"/>
+<area shape="rect" id="node2" href="$keyboard_8c.html#a39ecd0cea18fbd23200ceab1c6137d93" title="Reads the output from the keyboard controller." alt="" coords="117,31,284,57"/>
+<area shape="rect" id="node3" href="$keyboard_8c.html#a7dd87a90b331308aa0b32fa27d98e0b5" title="Gets the status from the keyboard controller." alt="" coords="332,5,489,32"/>
+<area shape="rect" id="node4" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads a byte from the specified port." alt="" coords="537,31,636,57"/>
+</map>

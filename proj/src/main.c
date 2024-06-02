@@ -301,7 +301,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
               
               if (counter_timer % 60 == 0) {
                 create_enemy = true;
-                renew+=1;
+              }
+              if (counter_timer % 30 == 0) {
+                renew++;
               }
               if(renew>=5){
                 spawn_dead_enemies();

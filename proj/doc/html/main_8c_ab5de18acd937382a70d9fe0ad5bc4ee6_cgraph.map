@@ -1,0 +1,10 @@
+<map id="change_mode" name="change_mode">
+<area shape="rect" id="node1" title="Changes the graphics mode." alt="" coords="5,107,119,133"/>
+<area shape="rect" id="node2" href="$graphics_8c.html#a4895bff824fc08162af04181fa07988c" title="Allocates a write buffer." alt="" coords="167,5,325,32"/>
+<area shape="rect" id="node3" href="$sprite_8c.html#a570b29911792131c7bc9886244e83982" title="Libera a memória dos sprites iniciais." alt="" coords="181,56,311,83"/>
+<area shape="rect" id="node5" href="$sprite_8c.html#a78490273cd8a527917b1cab1c850438b" title="Carrega todos os sprites necessários de acordo com o modo de vídeo especificado." alt="" coords="190,107,302,133"/>
+<area shape="rect" id="node7" href="$graphics_8c.html#a8aaf96e68301083c006636c806b2e254" title="Sets up the video buffer for a specified mode." alt="" coords="203,157,289,184"/>
+<area shape="rect" id="node8" href="$graphics_8c.html#aa2ac3ebc7870950bab4c0fc90f113155" title="Sets the graphic mode." alt="" coords="175,208,317,235"/>
+<area shape="rect" id="node4" href="$sprite_8c.html#af16c6befaac9ffb673b9e3c798d542ed" title="Libera a memória alocada para um sprite." alt="" coords="373,56,488,83"/>
+<area shape="rect" id="node6" href="$sprite_8c.html#a5da2876739bf61eed63959e9e144c376" title="Cria um sprite a partir de um arquivo xpm." alt="" coords="377,107,484,133"/>
+</map>

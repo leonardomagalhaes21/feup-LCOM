@@ -1,0 +1,7 @@
+<map id="keyboard_restore_int" name="keyboard_restore_int">
+<area shape="rect" id="node1" title="Writes a command to the specified port of the keyboard controller." alt="" coords="5,31,164,57"/>
+<area shape="rect" id="node2" href="$keyboard_8c.html#a39ecd0cea18fbd23200ceab1c6137d93" title="Reads the output from the keyboard controller." alt="" coords="212,56,379,83"/>
+<area shape="rect" id="node5" href="$keyboard_8c.html#a1f13027a24dc288ef7970db334a2f258" title="Restores the default interrupt settings of the keyboard controller." alt="" coords="217,5,374,32"/>
+<area shape="rect" id="node3" href="$keyboard_8c.html#a7dd87a90b331308aa0b32fa27d98e0b5" title="Gets the status from the keyboard controller." alt="" coords="427,5,584,32"/>
+<area shape="rect" id="node4" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads a byte from the specified port." alt="" coords="632,31,731,57"/>
+</map>

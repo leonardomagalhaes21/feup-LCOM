@@ -1,0 +1,9 @@
+<map id="save_name_score" name="save_name_score">
+<area shape="rect" id="node1" title="Saves the player&#39;s name and score to the scoreboard file." alt="" coords="5,81,144,108"/>
+<area shape="rect" id="node2" href="$rtc_8c.html#a435277052f13e8ec947667505e48f776" title="Reads the current time from the RTC and stores it in the rtc_info structure." alt="" coords="192,81,304,108"/>
+<area shape="rect" id="node3" href="$rtc_8c.html#a2bccb45fe57bd2fdceef07ab2a16637f" title="Checks if the RTC is in binary mode." alt="" coords="360,5,465,32"/>
+<area shape="rect" id="node4" href="$rtc_8c.html#aa911f1e40016efcd03231661c8271a3f" title="Reads the output from the RTC." alt="" coords="521,56,645,83"/>
+<area shape="rect" id="node6" href="$rtc_8c.html#ac025b447cdbbafb83530a7c6166834f2" title="Checks if the RTC is currently updating." alt="" coords="352,107,473,133"/>
+<area shape="rect" id="node7" href="$rtc_8c.html#a63f73d705c154489db235595b8126dbc" title="Converts a BCD value to binary." alt="" coords="371,157,454,184"/>
+<area shape="rect" id="node5" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads a byte from the specified port." alt="" coords="693,56,792,83"/>
+</map>

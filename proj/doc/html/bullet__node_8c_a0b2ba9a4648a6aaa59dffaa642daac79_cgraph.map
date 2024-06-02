@@ -1,0 +1,5 @@
+<map id="destroyAllBullets" name="destroyAllBullets">
+<area shape="rect" id="node1" title="Destroys all bullet nodes in a linked list." alt="" coords="5,5,139,32"/>
+<area shape="rect" id="node2" href="$bullet__node_8c.html#a66f9c91a8b7d0fa3dc7a1913902be081" title="Destroys a bullet node and releases associated memory." alt="" coords="187,5,329,32"/>
+<area shape="rect" id="node3" href="$bullet_8c.html#ae76fdd4757c24e11cd617e7fa2cbddc6" title="Destroys a bullet if it is out of bounds." alt="" coords="377,5,493,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="playButton" name="playButton">
+<area shape="rect" id="node1" title="Handles button click events for the &quot;Play&quot; button in the menu." alt="" coords="5,5,99,32"/>
+<area shape="rect" id="node2" href="$enemy_8c.html#a2de28c161e250b1938cddba490eec420" title="Creates a new enemy." alt="" coords="147,5,255,32"/>
+</map>
