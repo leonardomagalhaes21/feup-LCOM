@@ -17,7 +17,7 @@ char name[10];
 uint8_t indexName=0;
 
 int processScanCode(uint8_t scancode) {
-  if(indexName<10) {
+  if(indexName<9) {
     if (scancode == SCAN_CODE_A) { 
       name[indexName] = 'a';
       indexName++;
