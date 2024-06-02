@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['save_5fname_5fscore_225',['save_name_score',['../save__score_8h.html#add858c35b2477eb8ffce79d458e0651b',1,'save_name_score(char *name, int score):&#160;save_score.c'],['../save__score_8c.html#add858c35b2477eb8ffce79d458e0651b',1,'save_name_score(char *name, int score):&#160;save_score.c']]],
+  ['save_5fscore_2ec_226',['save_score.c',['../save__score_8c.html',1,'']]],
+  ['save_5fscore_2eh_227',['save_score.h',['../save__score_8h.html',1,'']]],
+  ['scancode_228',['scancode',['../keyboard_8c.html#aa1de7a5557e9d96b83cf03f73c92163f',1,'scancode():&#160;keyboard.c'],['../menu_8c.html#aa1de7a5557e9d96b83cf03f73c92163f',1,'scancode():&#160;keyboard.c'],['../main_8c.html#aa1de7a5557e9d96b83cf03f73c92163f',1,'scancode():&#160;keyboard.c']]],
+  ['scancode_5fmouse_229',['scancode_mouse',['../mouse_8c.html#a8d862bd4157e165623c5d64808874cdf',1,'scancode_mouse():&#160;mouse.c'],['../main_8c.html#a8d862bd4157e165623c5d64808874cdf',1,'scancode_mouse():&#160;mouse.c']]],
+  ['score_230',['score',['../structscoreboard__entry.html#aef160b7437d94056f1dc59646cd5b87d',1,'scoreboard_entry::score()'],['../main_8c.html#aef160b7437d94056f1dc59646cd5b87d',1,'score():&#160;main.c'],['../game__logic_8c.html#aef160b7437d94056f1dc59646cd5b87d',1,'score():&#160;main.c']]],
+  ['scorebackgrnd_231',['ScoreBackGrnd',['../sprite_8h.html#a36a17cede0b379cacad8a1950af75405',1,'sprite.h']]],
+  ['scoreboard_232',['SCOREBOARD',['../menu_8h.html#a7899b65f1ea0f655e4bbf8d2a5714285aedb8021c05603471ad7d382d8288223b',1,'menu.h']]],
+  ['scoreboard_5fentry_233',['scoreboard_entry',['../structscoreboard__entry.html',1,'']]],
+  ['scores_234',['scores',['../menu_8c.html#a9691628a1f88d9a081ee5f50cdbd4da9',1,'menu.c']]],
+  ['seconds_235',['seconds',['../structscoreboard__entry.html#a46729a903be1a03cdb248fb48d84d4f5',1,'scoreboard_entry::seconds()'],['../structreal__time__clock__info.html#a46729a903be1a03cdb248fb48d84d4f5',1,'real_time_clock_info::seconds()']]],
+  ['set_5fbuffer_236',['set_buffer',['../graphics_8h.html#a8aaf96e68301083c006636c806b2e254',1,'set_buffer(uint16_t mode):&#160;graphics.c'],['../graphics_8c.html#a8aaf96e68301083c006636c806b2e254',1,'set_buffer(uint16_t mode):&#160;graphics.c']]],
+  ['set_5fgraphic_5fmode_237',['set_graphic_mode',['../graphics_8c.html#aa2ac3ebc7870950bab4c0fc90f113155',1,'set_graphic_mode(uint16_t mode):&#160;graphics.c'],['../graphics_8h.html#a967432a6c8128a907b937b0f3f4b4472',1,'set_graphic_mode(uint16_t submode):&#160;graphics.c']]],
+  ['setmenustate_238',['setMenuState',['../menu_8c.html#aa63902eecd2cda40f121cc40c6b30ebf',1,'setMenuState():&#160;menu.c'],['../menu_8h.html#aa63902eecd2cda40f121cc40c6b30ebf',1,'setMenuState():&#160;menu.c']]],
+  ['shot_239',['shot',['../structenemy.html#aac977d3abfb355486ba4bbbbf5040b0d',1,'enemy::shot()'],['../structbullet__node.html#aab62c0960fb805083b220cdd2a8be7c1',1,'bullet_node::shot()']]],
+  ['spawn_5fdead_5fenemies_240',['spawn_dead_enemies',['../game__logic_8c.html#ad10645ee219aac1be22fa54c73f8dcc5',1,'spawn_dead_enemies():&#160;game_logic.c'],['../game__logic_8h.html#ad10645ee219aac1be22fa54c73f8dcc5',1,'spawn_dead_enemies():&#160;game_logic.c']]],
+  ['speaker_5fctrl_241',['SPEAKER_CTRL',['../group__i8254.html#ga51b3a5e3d4811ca063fe25e35560ab40',1,'i8254.h']]],
+  ['speed_5fx_242',['speed_x',['../structenemy.html#a20fcaf3d7d5effa75ca571510f53a6cc',1,'enemy']]],
+  ['speed_5fy_243',['speed_y',['../structenemy.html#a3abd5cb27c81871612651aee8a0476ba',1,'enemy']]],
+  ['sprite_244',['Sprite',['../struct_sprite.html',1,'']]],
+  ['sprite_245',['sprite',['../structplayer.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'player::sprite()'],['../struct_mouse_cursor.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'MouseCursor::sprite()'],['../structenemy__bullet.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'enemy_bullet::sprite()'],['../structenemy.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'enemy::sprite()'],['../structbullet.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'bullet::sprite()']]],
+  ['sprite_2ec_246',['sprite.c',['../sprite_8c.html',1,'']]],
+  ['sprite_2eh_247',['sprite.h',['../sprite_8h.html',1,'']]],
+  ['switch_5fbuffers_248',['switch_buffers',['../graphics_8c.html#a32702996c787ca41c04459926ac8b081',1,'switch_buffers():&#160;graphics.c'],['../graphics_8h.html#a32702996c787ca41c04459926ac8b081',1,'switch_buffers():&#160;graphics.c']]]
+];

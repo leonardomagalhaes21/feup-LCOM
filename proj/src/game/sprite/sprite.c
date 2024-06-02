@@ -282,10 +282,10 @@ int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16 - 0x14C
     }
     
     if (mode == 0x110) {
-        xMap = xMap*info.XResolution/1152;
-        yMap = yMap*info.YResolution/864;
-        for (int h = 0 ; h < 18*info.YResolution/864; h++) {
-            for (int w = 0 ; w < 18*info.XResolution/1152; w++) {
+        xMap = xMap*info.XResolution/DEFAULT_X_RESOLUTION_14C;
+        yMap = yMap*info.YResolution/DEFAULT_Y_RESOLUTION_14C;
+        for (int h = 0 ; h < 18*info.YResolution/DEFAULT_Y_RESOLUTION_14C; h++) {
+            for (int w = 0 ; w < 18*info.XResolution/DEFAULT_X_RESOLUTION_14C; w++) {
                 if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*443])) return 1;
             }
         }
@@ -296,16 +296,16 @@ int drawChar(char c, uint16_t x, uint16_t y) { //height = 17, width = 16 - 0x14C
             }
         }
     } else if (mode == 0x115) {
-        xMap = xMap*info.XResolution/1152;
-        yMap = yMap*info.YResolution/864;
+        xMap = xMap*info.XResolution/DEFAULT_X_RESOLUTION_14C;
+        yMap = yMap*info.YResolution/DEFAULT_Y_RESOLUTION_14C;
         for (int h = 0 ; h < 13; h++) {
             for (int w = 0 ; w < 13; w++) {
                 if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*555])) return 1;
             }
         }
     } else if (mode == 0x11A) {
-        xMap = xMap*info.XResolution/1152;
-        yMap = yMap*info.YResolution/864;
+        xMap = xMap*info.XResolution/DEFAULT_X_RESOLUTION_14C;
+        yMap = yMap*info.YResolution/DEFAULT_Y_RESOLUTION_14C;
         for (int h = 0 ; h < 20; h++) {
             for (int w = 0 ; w < 20; w++) {
                 if (vg_draw_pixel(x + w,y + h, font->map[xMap + w + (yMap+h)*888])) return 1;

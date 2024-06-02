@@ -1,0 +1,11 @@
+<map id="update_enemy_logic" name="update_enemy_logic">
+<area shape="rect" id="node1" title="Updates enemy logic based on game conditions." alt="" coords="5,132,163,159"/>
+<area shape="rect" id="node2" href="$enemy__bullet_8c.html#a93c8c36b9874d7b3034c51247b5583bf" title="Creates a new enemy bullet." alt="" coords="218,5,365,32"/>
+<area shape="rect" id="node3" href="$enemy__bullet_8c.html#a3b64c42db677f9e9bc3438d8195dba98" title="Destroys an enemy bullet." alt="" coords="211,56,372,83"/>
+<area shape="rect" id="node4" href="$sprite_8c.html#afd883cb17e6b161c877b854d6778d6cc" title="Desenha um sprite invertido na tela (horizontalmente)." alt="" coords="214,107,369,133"/>
+<area shape="rect" id="node7" href="$sprite_8c.html#a600044d4fb3e3f4c81c7c6b95f90b883" title="Desenha um sprite na tela." alt="" coords="242,157,341,184"/>
+<area shape="rect" id="node8" href="$enemy__bullet_8c.html#aa57a2a8ff900efab781b5658202e3dab" title="Moves an enemy bullet based on its velocity." alt="" coords="220,208,363,235"/>
+<area shape="rect" id="node9" href="$enemy_8c.html#aaa57f22595a148824f1da2c99e025ccb" title="Revives an enemy at the specified position." alt="" coords="237,259,345,285"/>
+<area shape="rect" id="node5" href="$graphics_8c.html#a08c498ffeb0a3962e3b7711b57397741" title="Draws a pixel at the specified coordinates with the specified color." alt="" coords="420,132,535,159"/>
+<area shape="rect" id="node6" href="$graphics_8c.html#a46ed05d41a8eab0eedc4dbea55b4fb25" title="Normalizes the color according to the current bits per pixel setting." alt="" coords="583,132,660,159"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="menuButton" name="menuButton">
+<area shape="rect" id="node1" title="Handles button click events for the &quot;Menu&quot; button in the game." alt="" coords="5,81,108,108"/>
+<area shape="rect" id="node2" href="$save__score_8c.html#add858c35b2477eb8ffce79d458e0651b" title="Saves the player&#39;s name and score to the scoreboard file." alt="" coords="156,81,295,108"/>
+<area shape="rect" id="node3" href="$rtc_8c.html#a435277052f13e8ec947667505e48f776" title="Reads the current time from the RTC and stores it in the rtc_info structure." alt="" coords="343,81,455,108"/>
+<area shape="rect" id="node4" href="$rtc_8c.html#a2bccb45fe57bd2fdceef07ab2a16637f" title="Checks if the RTC is in binary mode." alt="" coords="511,5,616,32"/>
+<area shape="rect" id="node5" href="$rtc_8c.html#aa911f1e40016efcd03231661c8271a3f" title="Reads the output from the RTC." alt="" coords="672,56,796,83"/>
+<area shape="rect" id="node7" href="$rtc_8c.html#ac025b447cdbbafb83530a7c6166834f2" title="Checks if the RTC is currently updating." alt="" coords="503,107,624,133"/>
+<area shape="rect" id="node8" href="$rtc_8c.html#a63f73d705c154489db235595b8126dbc" title="Converts a BCD value to binary." alt="" coords="522,157,605,184"/>
+<area shape="rect" id="node6" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads a byte from the specified port." alt="" coords="844,56,943,83"/>
+</map>

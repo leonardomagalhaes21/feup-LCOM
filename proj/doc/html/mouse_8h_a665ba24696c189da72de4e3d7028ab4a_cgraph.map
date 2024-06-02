@@ -1,0 +1,5 @@
+<map id="mouse_read_output" name="mouse_read_output">
+<area shape="rect" id="node1" title="Reads the output from the keyboard controller." alt="" coords="5,31,156,57"/>
+<area shape="rect" id="node2" href="$mouse_8c.html#a4d3ed90d7f95cca46176b86a7e59c444" title="Gets the status from the keyboard controller." alt="" coords="204,5,345,32"/>
+<area shape="rect" id="node3" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads a byte from the specified port." alt="" coords="393,31,492,57"/>
+</map>

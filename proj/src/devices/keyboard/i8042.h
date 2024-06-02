@@ -21,7 +21,7 @@
 
 
 
-#define MAX_ATTEMPTS 10
+#define ATTEMPTS 10
 #define DELAY_US 20000
 
 #endif /* _LCOM_I8042_H */

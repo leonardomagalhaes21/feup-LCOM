@@ -1,0 +1,4 @@
+<map id="createEnemyWithDefaultShot" name="createEnemyWithDefaultShot">
+<area shape="rect" id="node1" title="Creates a new enemy with a default bullet." alt="" coords="5,5,220,32"/>
+<area shape="rect" id="node2" href="$enemy_8c.html#a2de28c161e250b1938cddba490eec420" title="Creates a new enemy." alt="" coords="268,5,376,32"/>
+</map>

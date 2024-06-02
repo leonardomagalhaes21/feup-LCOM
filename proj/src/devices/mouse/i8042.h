@@ -32,6 +32,7 @@
 #define MOUSE_WRITE_BYTE 0xD4
 #define MOUSE_ENABLE_DATA_REPORTING 0xF4
 #define MOUSE_DISABLE_DATA_REPORTING 0xF5
+#define MOUSE_ENABLE_STREAM_MODE 0xEA
 
 
 #define ACK 0xFA    
@@ -39,7 +40,7 @@
 #define ERROR 0xFC
 
 
-#define MAX_ATTEMPTS 10
+#define ATTEMPTS 10
 #define DELAY_US 20000
 
 #endif /* _LCOM_I8042_H */

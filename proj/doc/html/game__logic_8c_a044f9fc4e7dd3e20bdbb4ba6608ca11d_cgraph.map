@@ -1,0 +1,10 @@
+<map id="update_bullet_logic" name="update_bullet_logic">
+<area shape="rect" id="node1" title="Updates bullet logic based on game conditions." alt="" coords="5,81,155,108"/>
+<area shape="rect" id="node2" href="$sprite_8c.html#ab27ad4c14ed7c6047a67a4b8aae71d7e" title=" " alt="" coords="213,5,335,32"/>
+<area shape="rect" id="node3" href="$bullet__node_8c.html#a66f9c91a8b7d0fa3dc7a1913902be081" title="Destroys a bullet node and releases associated memory." alt="" coords="203,56,345,83"/>
+<area shape="rect" id="node5" href="$sprite_8c.html#a600044d4fb3e3f4c81c7c6b95f90b883" title="Desenha um sprite na tela." alt="" coords="225,107,323,133"/>
+<area shape="rect" id="node8" href="$bullet_8c.html#a219fa0502255eb80142503b8ff5279d8" title="Moves a bullet based on its velocity." alt="" coords="225,157,323,184"/>
+<area shape="rect" id="node4" href="$bullet_8c.html#ae76fdd4757c24e11cd617e7fa2cbddc6" title="Destroys a bullet if it is out of bounds." alt="" coords="393,56,509,83"/>
+<area shape="rect" id="node6" href="$graphics_8c.html#a08c498ffeb0a3962e3b7711b57397741" title="Draws a pixel at the specified coordinates with the specified color." alt="" coords="394,107,509,133"/>
+<area shape="rect" id="node7" href="$graphics_8c.html#a46ed05d41a8eab0eedc4dbea55b4fb25" title="Normalizes the color according to the current bits per pixel setting." alt="" coords="557,107,635,133"/>
+</map>

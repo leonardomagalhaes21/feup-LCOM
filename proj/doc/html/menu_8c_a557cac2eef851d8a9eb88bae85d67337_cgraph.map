@@ -1,0 +1,9 @@
+<map id="drawGame" name="drawGame">
+<area shape="rect" id="node1" title="Draws the game over screen." alt="" coords="5,31,99,57"/>
+<area shape="rect" id="node2" href="$sprite_8c.html#a600044d4fb3e3f4c81c7c6b95f90b883" title="Desenha um sprite na tela." alt="" coords="285,5,384,32"/>
+<area shape="rect" id="node5" href="$menu_8c.html#a8c27c5a731f023b904065c4d831786ce" title="Draws the player&#39;s score." alt="" coords="147,56,237,83"/>
+<area shape="rect" id="node3" href="$graphics_8c.html#a08c498ffeb0a3962e3b7711b57397741" title="Draws a pixel at the specified coordinates with the specified color." alt="" coords="564,31,679,57"/>
+<area shape="rect" id="node4" href="$graphics_8c.html#a46ed05d41a8eab0eedc4dbea55b4fb25" title="Normalizes the color according to the current bits per pixel setting." alt="" coords="727,31,804,57"/>
+<area shape="rect" id="node6" href="$sprite_8c.html#aa92b1cbd3a4e0dfc989515ea66d5be49" title="Desenha um número na tela." alt="" coords="292,56,377,83"/>
+<area shape="rect" id="node7" href="$sprite_8c.html#a918586bbf682b55c11683b7c542a0eff" title="Desenha um caractere na tela." alt="" coords="432,56,516,83"/>
+</map>

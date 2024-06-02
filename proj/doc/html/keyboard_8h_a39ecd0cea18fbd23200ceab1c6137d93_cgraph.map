@@ -1,0 +1,5 @@
+<map id="keyboard_read_output" name="keyboard_read_output">
+<area shape="rect" id="node1" title="Reads the output from the keyboard controller." alt="" coords="5,31,172,57"/>
+<area shape="rect" id="node2" href="$keyboard_8c.html#a7dd87a90b331308aa0b32fa27d98e0b5" title="Gets the status from the keyboard controller." alt="" coords="220,5,377,32"/>
+<area shape="rect" id="node3" href="$utils_8c.html#a79a031a8611f5b2d6afa4158e92b0fb4" title="Reads a byte from the specified port." alt="" coords="425,31,524,57"/>
+</map>

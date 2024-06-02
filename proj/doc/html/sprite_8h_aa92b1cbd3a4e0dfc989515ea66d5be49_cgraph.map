@@ -1,0 +1,6 @@
+<map id="drawNum" name="drawNum">
+<area shape="rect" id="node1" title="Desenha um número na tela." alt="" coords="5,5,91,32"/>
+<area shape="rect" id="node2" href="$sprite_8c.html#a918586bbf682b55c11683b7c542a0eff" title="Desenha um caractere na tela." alt="" coords="139,5,223,32"/>
+<area shape="rect" id="node3" href="$graphics_8c.html#a08c498ffeb0a3962e3b7711b57397741" title="Draws a pixel at the specified coordinates with the specified color." alt="" coords="271,5,385,32"/>
+<area shape="rect" id="node4" href="$graphics_8c.html#a46ed05d41a8eab0eedc4dbea55b4fb25" title="Normalizes the color according to the current bits per pixel setting." alt="" coords="433,5,511,32"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="drawTxt" name="drawTxt">
+<area shape="rect" id="node1" title="Desenha um texto na tela." alt="" coords="5,5,80,32"/>
+<area shape="rect" id="node2" href="$sprite_8c.html#a918586bbf682b55c11683b7c542a0eff" title="Desenha um caractere na tela." alt="" coords="128,5,212,32"/>
+<area shape="rect" id="node3" href="$graphics_8c.html#a08c498ffeb0a3962e3b7711b57397741" title="Draws a pixel at the specified coordinates with the specified color." alt="" coords="260,5,375,32"/>
+<area shape="rect" id="node4" href="$graphics_8c.html#a46ed05d41a8eab0eedc4dbea55b4fb25" title="Normalizes the color according to the current bits per pixel setting." alt="" coords="423,5,500,32"/>
+</map>

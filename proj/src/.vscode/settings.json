@@ -16,6 +16,11 @@
     "bullet_node.h": "c",
     "bullet.h": "c",
     "serialport.h": "c",
-    "*.xpm": "c"
+    "*.xpm": "c",
+    "graphics.h": "c",
+    "player.h": "c",
+    "menu.h": "c",
+    "mouse_cursor.h": "c",
+    "enemy.h": "c"
   },
 }

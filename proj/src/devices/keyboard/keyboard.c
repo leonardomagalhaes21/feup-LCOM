@@ -29,8 +29,8 @@ int (keyboard_get_status)(uint8_t* status){
 }
 
 int (keyboard_read_output)(uint8_t* output){
-  int attempts = MAX_ATTEMPTS;
-  while(attempts > 0){
+  int a = ATTEMPTS;
+  while(a > 0){
     uint8_t status;
     if(keyboard_get_status(&status)) 
       return 1;
@@ -44,7 +44,7 @@ int (keyboard_read_output)(uint8_t* output){
       return 0;
     }
     tickdelay(micros_to_ticks(DELAY_US));
-    attempts--;
+    a--;
   }
 
   return 1;
@@ -56,8 +56,8 @@ void (kbc_ih)(){
 }
 
 int (keyboard_write_cmd)(uint8_t port ,uint8_t cmd){
-  int attempts = MAX_ATTEMPTS;
-  while(attempts > 0){
+  int a = ATTEMPTS;
+  while(a > 0){
     uint8_t status;
     if(keyboard_get_status(&status)) 
       return 1;
@@ -68,7 +68,7 @@ int (keyboard_write_cmd)(uint8_t port ,uint8_t cmd){
       return 0;
     }
     tickdelay(micros_to_ticks(DELAY_US));
-    attempts--;
+    a--;
   }
 
   return 1;
@@ -76,7 +76,6 @@ int (keyboard_write_cmd)(uint8_t port ,uint8_t cmd){
 
 int (keyboard_restore_int)(){
   uint8_t cmd;
-
   if (keyboard_write_cmd(KBC_CMD_REG, KBC_READ_CMD))
     return 1;
   if (keyboard_read_output(&cmd))
