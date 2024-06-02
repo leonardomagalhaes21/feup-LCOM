@@ -30,7 +30,7 @@ int (mouse_get_status)(uint8_t* status){
 }
 
 int (mouse_read_output)(uint8_t* output){
-  int attempts = MAX_ATTEMPTS;
+  int attempts = ATTEMPTS;
 
   while(attempts > 0){
     uint8_t status;
@@ -58,7 +58,7 @@ void (mouse_ih)(){
 }
 
 int (kbc_write_cmd)(uint8_t port ,uint8_t cmd){
-  int attempts = MAX_ATTEMPTS;
+  int attempts = ATTEMPTS;
   while(attempts > 0){
     uint8_t status;
     if(mouse_get_status(&status)) 
@@ -77,7 +77,7 @@ int (kbc_write_cmd)(uint8_t port ,uint8_t cmd){
 }
 
 int (mouse_write_cmd)(uint8_t cmd){
-  int attempts = MAX_ATTEMPTS;
+  int attempts = ATTEMPTS;
   uint8_t acknowledgment_byte;
 
   while(attempts > 0 && acknowledgment_byte != ACK){

@@ -9,6 +9,8 @@ GameState currentState = RESOLUTION;
 extern vbe_mode_info_t info;
 extern enemy monsters_fly[2];
 extern uint16_t mode;
+extern int score;
+extern double multiplier;
 
 
 char name[10];
@@ -16,120 +18,122 @@ uint8_t indexName=0;
 
 int processScanCode(uint8_t scancode) {
   if(indexName<10) {
-  if (scancode == 0x1E) { 
-    name[indexName] = 'a';
-    indexName++;
-  }
-  else if (scancode == 0x30) { 
-    name[indexName] = 'b';
-    indexName++;
-  }
-  else if (scancode == 0x2E) { 
-    name[indexName] = 'c';
-    indexName++;
-  }
-  else if (scancode == 0x20) { 
-    name[indexName] = 'd';
-    indexName++;
-  }
-  else if (scancode == 0x12) { 
-    name[indexName] = 'e';
-    indexName++;
-  }
-  else if (scancode == 0x21) { 
-    name[indexName] = 'f';
-    indexName++;
-  }
-  else if (scancode == 0x22) { 
-    name[indexName] = 'g';
-    indexName++;
-  }
-  else if (scancode == 0x23) { 
-    name[indexName] = 'h';
-    indexName++;
-  }
-  else if (scancode == 0x17) { 
-    name[indexName] = 'i';
-    indexName++;
-  }
-  else if (scancode == 0x24) {
-    name[indexName] = 'j';
-    indexName++;
-  }
-  else if (scancode == 0x25) {
-    name[indexName] = 'k';
-    indexName++;
-  }
-  else if (scancode == 0x26) {
-    name[indexName] = 'l';
-    indexName++;
-  }
-  else if (scancode == 0x32) {
-    name[indexName] = 'm';
-    indexName++;
-  }
-  else if (scancode == 0x31) {
-    name[indexName] = 'n';
-    indexName++;
-  }
-  else if (scancode == 0x18) {
-    name[indexName] = 'o';
-    indexName++;
-  }
-  else if (scancode == 0x19) {
-    name[indexName] = 'p';
-    indexName++;
-  }
-  else if (scancode == 0x10) {
-    name[indexName] = 'q';
-    indexName++;
-  }
-  else if (scancode == 0x13) {
-    name[indexName] = 'r';
-    indexName++;
-  }
-  else if (scancode == 0x1F) {
-    name[indexName] = 's';
-    indexName++;
-  }
-  else if (scancode == 0x14) {
-    name[indexName] = 't';
-    indexName++;
-  }
-  else if (scancode == 0x16) {
-    name[indexName] = 'u';
-    indexName++;
-  }
-  else if (scancode == 0x2F) {
-    name[indexName] = 'v';
-    indexName++;
-  }
-  else if (scancode == 0x11) {
-    name[indexName] = 'w';
-    indexName++;
-  }
-  else if (scancode == 0x2D) {
-    name[indexName] = 'x';
-    indexName++;
-  }
-  else if (scancode == 0x15) {
-    name[indexName] = 'y';
-    indexName++;
-  }
-  else if (scancode == 0x2C) {
-    name[indexName] = 'z';
-    indexName++;
-  }
-  else if (scancode == 0x39) {
-    name[indexName] = ' '; 
-    indexName++;
+    if (scancode == SCAN_CODE_A) { 
+      name[indexName] = 'a';
+      indexName++;
     }
-    else if (scancode == 0x27) {
+    else if (scancode == SCAN_CODE_B) { 
+      name[indexName] = 'b';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_C) { 
+      name[indexName] = 'c';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_D) { 
+      name[indexName] = 'd';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_E) { 
+      name[indexName] = 'e';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_F) { 
+      name[indexName] = 'f';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_G) { 
+      name[indexName] = 'g';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_H) { 
+      name[indexName] = 'h';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_I) { 
+      name[indexName] = 'i';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_J) {
+      name[indexName] = 'j';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_K) {
+      name[indexName] = 'k';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_L) {
+      name[indexName] = 'l';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_M) {
+      name[indexName] = 'm';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_N) {
+      name[indexName] = 'n';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_O) {
+      name[indexName] = 'o';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_P) {
+      name[indexName] = 'p';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_Q) {
+      name[indexName] = 'q';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_R) {
+      name[indexName] = 'r';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_S) {
+      name[indexName] = 's';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_T) {
+      name[indexName] = 't';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_U) {
+      name[indexName] = 'u';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_V) {
+      name[indexName] = 'v';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_W) {
+      name[indexName] = 'w';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_X) {
+      name[indexName] = 'x';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_Y) {
+      name[indexName] = 'y';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_Z) {
+      name[indexName] = 'z';
+      indexName++;
+    }
+    else if (scancode == SCAN_CODE_COLON) {
         name[indexName] = ':'; 
         indexName++;
     }
   }
-  if (scancode == 0x0E) {
+  if(scancode==SCAN_CODE_ENTER){
+    currentState = MENU;
+    save_name_score(name, score);
+    score=0;
+    multiplier=1.1;
+  }
+  if (scancode == SCAN_CODE_BACKSPACE) {
     if(indexName>0)
         indexName--;
     name[indexName] = '\0';
@@ -142,17 +146,17 @@ void setMenuState(){
     
 }
 int playButton(int x, int y){
-    if(440*info.XResolution/1152 < x && 710*info.XResolution/1152> x && 360*info.YResolution/864 < y && 430*info.YResolution/864 > y){
+    if(440*info.XResolution/DEFAULT_X_RESOLUTION_14C < x && 710*info.XResolution/DEFAULT_X_RESOLUTION_14C> x && 360*info.YResolution/DEFAULT_Y_RESOLUTION_14C < y && 430*info.YResolution/DEFAULT_Y_RESOLUTION_14C > y){
         if(mouse_packet.lb){
             currentState = GAME;
-            monsters_fly[0] = *createEnemy(6, 5, FLYMONS1_X*info.XResolution/1152, FLYMONS1_Y*info.YResolution/864, 3, 3, monster2, true);
-            monsters_fly[1] = *createEnemy(6,5, FLYMONS2_X*info.XResolution/1152, FLYMONS2_Y*info.YResolution/864, 3, 3, monster2, true);
+            monsters_fly[0] = *createEnemy(6, 5, FLYMONS1_X*info.XResolution/DEFAULT_X_RESOLUTION_14C, FLYMONS1_Y*info.YResolution/DEFAULT_Y_RESOLUTION_14C, 3, 3, monster2, true);
+            monsters_fly[1] = *createEnemy(6,5, FLYMONS2_X*info.XResolution/DEFAULT_X_RESOLUTION_14C, FLYMONS2_Y*info.YResolution/DEFAULT_Y_RESOLUTION_14C, 3, 3, monster2, true);
         }
     }
     return 0;
 }
 int leaderboardButton(int x, int y){
-    if(440*info.XResolution/1152 < x && 710*info.XResolution/1152> x && 450*info.YResolution/864 < y && 520*info.YResolution/864 > y){
+    if(440*info.XResolution/DEFAULT_X_RESOLUTION_14C < x && 710*info.XResolution/DEFAULT_X_RESOLUTION_14C> x && 450*info.YResolution/DEFAULT_Y_RESOLUTION_14C < y && 520*info.YResolution/DEFAULT_Y_RESOLUTION_14C > y){
         if(mouse_packet.lb){
             read_scores(names,scores, dates,7);
             currentState = LEADERBOARD;
@@ -161,14 +165,14 @@ int leaderboardButton(int x, int y){
     return 0;
 }
 int exitButton(int x, int y){
-    if(440*info.XResolution/1152 < x && 710*info.XResolution/1152> x && 540*info.YResolution/864 < y && 610*info.YResolution/864 > y){
+    if(440*info.XResolution/DEFAULT_X_RESOLUTION_14C < x && 710*info.XResolution/DEFAULT_X_RESOLUTION_14C> x && 540*info.YResolution/DEFAULT_Y_RESOLUTION_14C < y && 610*info.YResolution/DEFAULT_Y_RESOLUTION_14C > y){
         if(mouse_packet.lb)
             currentState = EXIT;
         }
     return 0;
 }
 int menuButton(int x, int y, int *score, double *multiplier){
-    if(335*info.XResolution/1152 < x && 800*info.XResolution/1152> x && 455*info.YResolution/864 < y && 600*info.YResolution/864 > y){
+    if(335*info.XResolution/DEFAULT_X_RESOLUTION_14C < x && 800*info.XResolution/DEFAULT_X_RESOLUTION_14C> x && 455*info.YResolution/DEFAULT_Y_RESOLUTION_14C < y && 600*info.YResolution/DEFAULT_Y_RESOLUTION_14C > y){
         if(mouse_packet.lb) {
           currentState = MENU;
             save_name_score(name, *score);
@@ -180,6 +184,7 @@ int menuButton(int x, int y, int *score, double *multiplier){
     
     return 0;
 }
+
 
 int drawMenu(){
     draw_sprite(menu_full, 0, 0);
@@ -199,16 +204,16 @@ int drawLeaderBoard(){
       if (strcmp(names[i], "default") == 0) {
           return 0;
       }
-      drawTxt(names[i],270*info.XResolution/1152,(260+30*i)*info.YResolution/864);
-      drawTxt(dates[i],(270+18*10)*info.XResolution/1152,(260+30*i)*info.YResolution/864);
-      drawScore(scores[i],850*info.XResolution/1152,(260+30*i)*info.YResolution/864);
+      drawTxt(names[i],270*info.XResolution/DEFAULT_X_RESOLUTION_14C,(260+30*i)*info.YResolution/DEFAULT_Y_RESOLUTION_14C);
+      drawTxt(dates[i],(270+18*10)*info.XResolution/DEFAULT_X_RESOLUTION_14C,(260+30*i)*info.YResolution/DEFAULT_Y_RESOLUTION_14C);
+      drawScore(scores[i],850*info.XResolution/DEFAULT_X_RESOLUTION_14C,(260+30*i)*info.YResolution/DEFAULT_Y_RESOLUTION_14C);
     }
     
     return 0;
 }
 
 int menuButtonLeader(int x, int y) {
-  if(270*info.XResolution/1152 < x && 890*info.XResolution/1152> x &&  600*info.YResolution/864 < y && 740*info.YResolution/864 > y){
+  if(270*info.XResolution/DEFAULT_X_RESOLUTION_14C < x && 890*info.XResolution/DEFAULT_X_RESOLUTION_14C> x &&  600*info.YResolution/DEFAULT_Y_RESOLUTION_14C < y && 740*info.YResolution/DEFAULT_Y_RESOLUTION_14C > y){
         if(mouse_packet.lb)
             currentState = MENU;
         }
@@ -222,20 +227,22 @@ int drawGame(player *player, int score){
    draw_sprite(background, 0, 0);
     uint16_t xpos=5;
     for(uint8_t i = 0; i<player->life;i++) {
-        draw_sprite(hearthLife, xpos*info.XResolution/1152,5*info.YResolution/864);
+        draw_sprite(hearthLife, xpos*info.XResolution/DEFAULT_X_RESOLUTION_14C,5*info.YResolution/DEFAULT_Y_RESOLUTION_14C);
         xpos+=25;
     }
-    drawScore(score, 1100*info.XResolution/1152, 38*info.YResolution/864);
+    drawScore(score, 1100*info.XResolution/DEFAULT_X_RESOLUTION_14C, 38*info.YResolution/DEFAULT_Y_RESOLUTION_14C);
     
     return 0;
 }
 
 int drawScoreBoard(int score) {
     if(draw_sprite(ScoreBackGrnd, 0, 0)) {return 1;}
-    if(drawTxt("your score:", 470*info.XResolution/1152, 290*info.YResolution/864)) {return 1;}
-    if(drawScore(score, 585*info.XResolution/1152, 330*info.YResolution/864)) {return 1;}
-    if(drawTxt("name:", 470*info.XResolution/1152, 360*info.YResolution/864)) {return 1;}
-    if(drawTxt(name,(470+6*18)*info.XResolution/1152, 360*info.YResolution/864)) {return 1;}
+    if(drawTxt("your score:", 470*info.XResolution/DEFAULT_X_RESOLUTION_14C, 290*info.YResolution/DEFAULT_Y_RESOLUTION_14C)) {return 1;}
+    if(drawScore(score, 585*info.XResolution/DEFAULT_X_RESOLUTION_14C, 330*info.YResolution/DEFAULT_Y_RESOLUTION_14C)) {return 1;}
+    if(drawTxt("name:", 470*info.XResolution/DEFAULT_X_RESOLUTION_14C, 360*info.YResolution/DEFAULT_Y_RESOLUTION_14C)) {return 1;}
+    if(drawTxt(name,(470+6*18)*info.XResolution/DEFAULT_X_RESOLUTION_14C, 360*info.YResolution/DEFAULT_Y_RESOLUTION_14C)) {return 1;}
+
+
     return 0;
 }
 

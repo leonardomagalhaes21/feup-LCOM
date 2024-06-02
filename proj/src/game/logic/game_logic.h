@@ -21,7 +21,10 @@
 #include "game/menu/menu.h"
 #include "game/logic/save_score.h"
 
-
+#define DEFAULT_X_RESOLUTION_14C 1152
+#define DEFAULT_Y_RESOLUTION_14C 864
+#define FIRST_LINE_Y 650
+#define SECOND_LINE_Y 470
 /**
  * @brief Updates player logic based on keyboard and mouse inputs.
  * 

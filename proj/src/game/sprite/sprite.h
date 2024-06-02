@@ -143,6 +143,10 @@
 #include "devices/graphics/graphics.h"
 
 
+#define DEFAULT_X_RESOLUTION_14C 1152
+#define DEFAULT_Y_RESOLUTION_14C 864
+
+
 /**
  * @brief Struct that represents a sprite.
  * 

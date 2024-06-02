@@ -114,8 +114,8 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
     }
 
     else if (mode == 0x110) {
-        gravity = 4*info.YResolution/864;
-        jump_force = -40*info.YResolution/864; 
+        gravity = 4*info.YResolution/DEFAULT_Y_RESOLUTION_14C;
+        jump_force = -40*info.YResolution/DEFAULT_Y_RESOLUTION_14C; 
     }
     else {
         return;
@@ -127,8 +127,8 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
 
     player->y += *speed_y;
 
-    if (player->y >= 570*info.YResolution/864) {
-        player->y = 570*info.YResolution/864;
+    if (player->y >= 570*info.YResolution/DEFAULT_Y_RESOLUTION_14C) {
+        player->y = 570*info.YResolution/DEFAULT_Y_RESOLUTION_14C;
         *speed_y = 0;
         is_falling = false;
     }
@@ -146,11 +146,11 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
         is_falling = true;
         *speed_y = jump_force; 
     }
-    if(player->x < -30 *info.XResolution/1152){
-        player->x = -30 *info.XResolution/1152;
+    if(player->x < -30 *info.XResolution/DEFAULT_X_RESOLUTION_14C){
+        player->x = -30 *info.XResolution/DEFAULT_X_RESOLUTION_14C;
     }
-    if(player->x > 1045 *info.XResolution/1152){
-        player->x = 1045 *info.XResolution/1152;
+    if(player->x > 1045 *info.XResolution/DEFAULT_X_RESOLUTION_14C){
+        player->x = 1045 *info.XResolution/DEFAULT_X_RESOLUTION_14C;
     }
     
     if (key_a_pressed || facingLeft) {
@@ -182,8 +182,8 @@ void update_player_logic(player *player, MouseCursor *mouse, bool key_a_pressed,
                 }
                 //save_score(score);
                 player->life = 5;
-                player->x = 400*info.XResolution/1152;
-                player->y = 571*info.YResolution/864;
+                player->x = 400*info.XResolution/DEFAULT_X_RESOLUTION_14C;
+                player->y = 571*info.YResolution/DEFAULT_Y_RESOLUTION_14C;
             }
             }
         }
@@ -200,7 +200,7 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
                 int spawn_side = rand() % 2; 
                 int spawn_line = rand() % 2; 
                 int spawn_x;
-                int spawn_y = (spawn_line == 0) ? 650 : 470;
+                int spawn_y = (spawn_line == 0) ? FIRST_LINE_Y : SECOND_LINE_Y;
                 
                 if (spawn_side == 0) {
                     spawn_x = -monsters[i].sprite->width; 
@@ -209,7 +209,7 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
                     spawn_x = info.XResolution;
                     monsters[i].speed_x = -4;
                 }
-                reviveEnemy(&monsters[i], spawn_x, spawn_y*info.YResolution/864);
+                reviveEnemy(&monsters[i], spawn_x, spawn_y*info.YResolution/DEFAULT_Y_RESOLUTION_14C);
                 monsters[i].speed_y = 0; 
                 break;
             }
@@ -220,8 +220,8 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
         if (monsters[i].alive) {
            
 
-            if (monsters[i].y >= 600*info.YResolution/864) {
-                monsters[i].y = 600*info.YResolution/864;
+            if (monsters[i].y >= 600*info.YResolution/DEFAULT_Y_RESOLUTION_14C) {
+                monsters[i].y = 600*info.YResolution/DEFAULT_Y_RESOLUTION_14C;
             }
 
             monsters[i].x += monsters[i].speed_x;
@@ -265,9 +265,9 @@ void update_enemy_logic(MouseCursor *mouse, bool create_enemy,player *player) {
     for(int i=0; i<2;i++){
         if (monsters_fly[i].alive && monsters_fly[i].life > 0){
             if(i == 0){
-                monsters_fly[i].y = FLYMONS1_Y*info.YResolution/864 + sin(counter_timer / 3) * 10;
+                monsters_fly[i].y = FLYMONS1_Y*info.YResolution/DEFAULT_Y_RESOLUTION_14C + sin(counter_timer / 3) * 10;
             }else{
-                monsters_fly[i].y = FLYMONS2_Y*info.YResolution/864 + sin(counter_timer / 3) * 10;
+                monsters_fly[i].y = FLYMONS2_Y*info.YResolution/DEFAULT_Y_RESOLUTION_14C + sin(counter_timer / 3) * 10;
             }
             
             if(monsters_fly[i].x > player->x){

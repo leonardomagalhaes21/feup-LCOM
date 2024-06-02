@@ -7,7 +7,10 @@ void save_name_score(char *name, int score) {
     scoreboard_entry scores[10];
     scoreboard_entry temp_score;
     scoreboard_entry new_score;
-
+    
+    if (name[0] == '\0') {
+        strcpy(name, "user");
+    }
     while (read_rtc_time()) {
         ;
     }
