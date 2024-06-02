@@ -1,3 +1,9 @@
+/**
+ * @file main.c
+ * @brief Main file for the project
+ */
+
+
 #include "devices/graphics/graphics.h"
 #include "devices/keyboard/keyboard.h"
 #include "devices/mouse/mouse.h"
@@ -37,6 +43,13 @@ uint8_t mouse_irq_set;
 uint8_t timer_irq_set;
 uint16_t mode = 0x110;
 
+/**
+ * @brief Opens and initializes necessary devices for the game.
+ *
+ * Initializes the mouse, keyboard, timer, and graphics mode.
+ *
+ * @return Returns 0 if all devices are successfully opened, 1 otherwise.
+ */
 int open_devices() {
   if (mouse_write_cmd(0xEA) != 0)
     return 1;
@@ -68,6 +81,13 @@ int open_devices() {
 
 }
 
+/**
+ * @brief Closes and cleans up necessary devices for the game.
+ *
+ * Frees all sprites, unsubscribes from interrupts, and exits graphics mode.
+ *
+ * @return Returns 0 if all devices are successfully closed, 1 otherwise.
+ */
 int close_devices() {
   freeAllSprites();
   if (keyboard_unsubscribe_int() != 0)
@@ -90,7 +110,15 @@ int close_devices() {
 
 }
 
-
+/**
+ * @brief Changes the graphics mode.
+ *
+ * Exits the current graphics mode, sets up the buffer and new graphics mode, and reloads sprites.
+ *
+ * @param new_mode The new graphics mode to be set.
+ *
+ * @return Returns 0 if the mode is successfully changed, 1 otherwise.
+ */
 int change_mode(uint16_t new_mode){
   mode=new_mode;
   
@@ -113,6 +141,17 @@ int change_mode(uint16_t new_mode){
   
 }
 
+/**
+ * @brief Main loop of the project.
+ *
+ * This function represents the main loop of the project. It initializes necessary components, such as devices and sprites,
+ * and enters a loop where it continuously processes hardware interrupts and updates the game state accordingly.
+ * 
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * 
+ * @return Returns 0 upon successful execution, non-zero otherwise.
+ */
 int(proj_main_loop)(int argc, char *argv[]) {
 
   if(open_devices()!=0)
@@ -373,6 +412,17 @@ int(proj_main_loop)(int argc, char *argv[]) {
   return 0;
 }
 
+
+/**
+ * @brief Main function of the project.
+ *
+ * Sets up language and logging, then hands control to LCF.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ *
+ * @return Returns 0 upon successful execution, non-zero otherwise.
+ */
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
