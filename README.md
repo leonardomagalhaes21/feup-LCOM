@@ -1,6 +1,11 @@
-# LCOM Project
+# LCOM Project - Not Cuphead
 
-LCOM Project for group T02-G02.
+LCOM Project for group T02-G02. Game ("Not Cuphead") created in C, using an adapted version of the Minix OS.
+More info in the [Report](proj/doc/Not%20Cuphead.pdf).
+
+## Curricular Unit
+
+This project was developed as part of the [Laboratório de Computadores](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=520323) curricular unit.
 
 Group members:
 
